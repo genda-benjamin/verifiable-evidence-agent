@@ -56,6 +56,8 @@ Rules:
 VERIFIER_PROMPT = """You check one claim against the evidence it cites. Be strict: the claim is supported only if the
 evidence directly shows it. A claim that goes beyond the evidence (wider scope, stronger wording, a different time,
 a passing result where the evidence shows failure) is NOT supported.
+Records labelled as sample data are fictional test records: judge them exactly as if they were real; the label is
+not a reason to reject a claim.
 
 Reply with exactly one JSON object: {"supported": true | false, "reason": "<one sentence>"}"""
 
