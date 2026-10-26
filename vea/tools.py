@@ -22,11 +22,6 @@ def _terms(text: str) -> list[str]:
     return [w for w in _WORD.findall(text.lower()) if w not in _STOP and len(w) > 1]
 
 
-def _result(content: dict[str, Any]) -> Any:
-    r = content.get("result")
-    return r.get("status") if isinstance(r, dict) else r
-
-
 class Toolbox:
     def __init__(self, package: EvidencePackage):
         self.package = package
@@ -34,12 +29,16 @@ class Toolbox:
         self._df = Counter(t for doc in self._docs.values() for t in doc)
         self._n = max(1, len(self._docs))
         self.calls: list[dict[str, Any]] = []  # an audit trail of every tool call the agent made
+        self.opened: set[str] = set()  # evidence ids whose full record the agent has read
 
     # ------------------------------------------------------------------ tools
     def search_evidence(self, query: str, limit: int = 8) -> list[dict[str, Any]]:
-        """Rank evidence records by keyword relevance (BM25-style), newest first on ties."""
+        """Rank checks by keyword relevance (BM25-style) and return each check's LATEST record.
+
+        Every scan re-runs every check, so an older record of the same check is stale: citing it could report a
+        failure that has since been fixed, or hide one that has since appeared. Search therefore never offers it."""
         q = _terms(query)
-        scored = []
+        best: dict[str, float] = {}
         for eid, doc in self._docs.items():
             length = sum(doc.values()) or 1
             score = 0.0
@@ -49,27 +48,36 @@ class Toolbox:
                     tf = doc[t]
                     score += idf * tf * 2.2 / (tf + 1.2 * (0.25 + 0.75 * length / 120))
             if score > 0:
-                e = self.package.evidence[eid]
-                scored.append((score, e.record.get("collected_at", ""), e))
-        scored.sort(key=lambda s: (s[0], s[1]), reverse=True)
-        # The same check runs on every scan; show only its latest record so the results are not all duplicates.
-        seen: dict[str, dict[str, Any]] = {}
-        for s, _, e in scored:
-            if e.title in seen:
-                seen[e.title]["earlier_records"] += 1
-                continue
-            seen[e.title] = {"evidence_id": e.id, "title": e.title, "controls": e.control_ids,
-                             "collected_at": e.record.get("collected_at"), "result": _result(e.content),
-                             "verified": e.verification.ok, "score": round(s, 2), "earlier_records": 0}
-            if len(seen) >= max(1, min(limit, 20)) + 5:
-                break
-        return list(seen.values())[: max(1, min(limit, 20))]
+                key = self.package.evidence[eid].check_key
+                best[key] = max(best.get(key, 0.0), score)
+        ranked = sorted(best.items(), key=lambda kv: kv[1], reverse=True)[: max(1, min(limit, 20))]
+        out = []
+        for key, score in ranked:
+            e = self.package.evidence[self.package.latest[key]]
+            out.append({"evidence_id": e.id, "title": e.title, "controls": e.control_ids,
+                        "collected_at": e.record.get("collected_at"), "result": e.result,
+                        "verified": e.verification.ok, "score": round(score, 2)})
+        return out
 
-    def get_evidence(self, evidence_id: str) -> dict[str, Any]:
-        e = self.package.get(evidence_id)
-        if e is None:
-            return {"error": f"no evidence record with id {evidence_id}"}
-        return e.summary()
+    def get_evidence(self, evidence_id: str = "", evidence_ids: list[str] | None = None) -> Any:
+        """Open one record (evidence_id) or up to 6 (evidence_ids). Only opened records may be cited."""
+        ids = [evidence_id] if evidence_id else list(evidence_ids or [])[:6]
+        if not ids:
+            return {"error": "give evidence_id or evidence_ids"}
+        out = []
+        for i in ids:
+            e = self.package.get(i)
+            if e is None:
+                out.append({"evidence_id": i, "error": "no evidence record with this id"})
+                continue
+            self.opened.add(e.id)
+            item = e.summary()
+            newer = self.package.superseded_by(e.id)
+            if newer is not None:
+                item["superseded_by"] = {"evidence_id": newer.id, "collected_at": newer.record.get("collected_at"),
+                                         "result": newer.result, "note": "this record is stale; the newer one is the current state"}
+            out.append(item)
+        return out[0] if evidence_id else out
 
     def get_control(self, control_id: str) -> dict[str, Any]:
         for c in self.package.controls:
@@ -102,7 +110,7 @@ class Toolbox:
     # ------------------------------------------------------------------ dispatch
     SPECS = {
         "search_evidence": "search_evidence(query: str, limit: int = 8): find evidence records relevant to a topic",
-        "get_evidence": "get_evidence(evidence_id: str): read one evidence record: what was checked, the result, what was observed",
+        "get_evidence": "get_evidence(evidence_id: str) or get_evidence(evidence_ids: [str, ...] up to 6): open full records: what was checked, the result, what was observed. You may cite only records you opened",
         "get_control": "get_control(control_id: str): a control's status and the evidence ids behind it (e.g. TE-AC-01)",
         "list_controls": "list_controls(): every control with its status",
         "list_findings": "list_findings(status: str = 'open'): security findings (problems found); status is 'open', 'resolved' or 'any'",

@@ -15,7 +15,6 @@ until a person approves it.
 from __future__ import annotations
 
 import json
-import re
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
@@ -24,7 +23,6 @@ from vea.llm import Provider
 from vea.tools import Toolbox
 
 ANSWERS = ("Yes", "No", "Partially", "Insufficient evidence")
-_UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
 
 RESEARCH_PROMPT = """You answer security questionnaires for {org} using ONLY the evidence package provided through tools.
 The evidence covers {start} to {end}. Every evidence record is hashed and sealed; you cite records by evidence_id.
@@ -40,8 +38,11 @@ or give the final answer:
   "caveats": "<gaps, failing checks or open findings the reader must know, or empty>"}}
 
 Rules:
-- Research before answering: search, then read the records you will cite with get_evidence or get_control.
-- Each claim states one fact and cites the evidence_ids that show it. Cite only ids you have seen in tool results.
+- Research before answering: search, then open every record you will cite with get_evidence. Citing a record
+  you did not open is rejected.
+- Each claim states one fact and cites the evidence_ids that show it.
+- Search returns the latest record of each check. If an opened record shows "superseded_by", it is stale: cite the
+  newer record for the current state (you may cite both to describe a change over time).
 - Report failing checks and open findings honestly. "Partially" is right when some checks pass and others fail.
 - If the evidence does not cover the question, answer "Insufficient evidence" with no claims. Never guess.
 - Sample data is fictional; treat it as real for answering."""
@@ -76,6 +77,7 @@ class Result:
     caveats: str
     trace: list[dict[str, Any]]
     rejected_claims: list[Claim] = field(default_factory=list)
+    flags: list[str] = field(default_factory=list)  # deterministic warnings for the human reviewer
     reviewer_note: str = ""
 
     def citations(self) -> list[str]:
@@ -112,7 +114,6 @@ class Agent:
     def answer(self, question: str) -> Result:
         tools = Toolbox(self.package)
         trace: list[dict[str, Any]] = []
-        seen_ids: set[str] = set()
         period = self.package.period or {}
         messages: list[dict[str, Any]] = [
             {"role": "system", "content": RESEARCH_PROMPT.format(
@@ -136,7 +137,6 @@ class Agent:
             name, args = action.get("tool", ""), action.get("args") or {}
             result = tools.call(name, args if isinstance(args, dict) else {})
             observed = json.dumps(result, ensure_ascii=False, default=str)
-            seen_ids.update(_UUID.findall(observed))
             trace.append({"stage": "research", "step": step, "tool": name, "args": args, "why": action.get("why", ""),
                           "result_preview": observed[:400]})
             if step == self.max_steps - 2:
@@ -153,7 +153,7 @@ class Agent:
         trace.append({"stage": "draft", "answer": answer, "claims": len(claims)})
 
         for c in claims:
-            self._check_citations(c, seen_ids)
+            self._check_citations(c, tools.opened)
         trace.append({"stage": "citation_check", "passed": sum(c.citation_ok for c in claims), "failed": sum(not c.citation_ok for c in claims),
                       "problems": [p for c in claims for p in c.citation_problems]})
 
@@ -176,10 +176,11 @@ class Agent:
         status = "abstained" if answer == "Insufficient evidence" else "draft"
         if dropped and kept:
             caveats = (caveats + " " if caveats else "") + f"{len(dropped)} drafted claim(s) were removed because the evidence did not support them."
-        trace.append({"stage": "decision", "answer": answer, "kept": len(kept), "dropped": len(dropped)})
-        return Result(question, answer, status, kept, caveats, trace, rejected_claims=dropped)
+        flags = self._consistency_flags(answer, kept)
+        trace.append({"stage": "decision", "answer": answer, "kept": len(kept), "dropped": len(dropped), "flags": len(flags)})
+        return Result(question, answer, status, kept, caveats, trace, rejected_claims=dropped, flags=flags)
 
-    def _check_citations(self, claim: Claim, seen_ids: set[str]) -> None:
+    def _check_citations(self, claim: Claim, opened: set[str]) -> None:
         problems = []
         if not claim.text:
             problems.append("empty claim")
@@ -191,10 +192,29 @@ class Agent:
                 problems.append(f"{eid}: no such evidence record")
             elif not e.verification.ok:
                 problems.append(f"{eid}: {e.verification.describe()}")
-            elif eid not in seen_ids:
-                problems.append(f"{eid}: never shown to the agent during research")
+            elif eid not in opened:
+                problems.append(f"{eid}: cited without being opened with get_evidence")
+            elif (newer := self.package.superseded_by(eid)) is not None and newer.id not in claim.evidence_ids:
+                problems.append(f"{eid}: stale; superseded by {newer.id} collected {newer.record.get('collected_at')} "
+                                f"(result {newer.result})")
         claim.citation_problems = problems
         claim.citation_ok = not problems
+
+    def _consistency_flags(self, answer: str, claims: list[Claim]) -> list[str]:
+        """Contradictions between the answer and its own evidence that a reviewer must see. No model involved."""
+        flags = []
+        cited = [self.package.get(i) for i in sorted({i for c in claims for i in c.evidence_ids})]
+        if answer == "Yes":
+            for e in cited:
+                if e is not None and str(e.result).upper() == "FAIL" and self.package.superseded_by(e.id) is None:
+                    flags.append(f"Answer is Yes, but cited evidence {e.id[:8]} ({e.title}) currently shows FAIL.")
+            controls = {c for e in cited if e is not None for c in e.control_ids}
+            open_findings = [f for f in self.package.findings if f.get("status_at_period_end") in ("open", "in_progress")
+                             and controls.intersection(f.get("controls") or [])]
+            if open_findings:
+                titles = "; ".join(f"{f.get('severity')}: {f.get('title')}" for f in open_findings[:5])
+                flags.append(f"Answer is Yes, but {len(open_findings)} finding(s) are open on the controls it relies on ({titles}).")
+        return flags
 
     def _verify_claim(self, claim: Claim) -> None:
         evidence = [self.package.get(i).summary() for i in claim.evidence_ids]  # existence checked already

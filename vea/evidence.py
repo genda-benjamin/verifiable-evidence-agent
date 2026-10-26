@@ -84,6 +84,20 @@ class Evidence:
         return list(self.record.get("control_ids") or [])
 
     @property
+    def check_key(self) -> str:
+        """What this record is evidence *of*: the same check on the same account, re-run on every scan."""
+        r = self.record
+        if r.get("check_id"):
+            scope = r.get("account_scope") or {}
+            return f"{r['check_id']}@{scope.get('provider', '')}:{scope.get('account', '')}" if isinstance(scope, dict) else r["check_id"]
+        return f"{r.get('source_type')}:{self.title}"
+
+    @property
+    def result(self) -> Any:
+        r = self.content.get("result")
+        return r.get("status") if isinstance(r, dict) else r
+
+    @property
     def short_hash(self) -> str:
         return self.record.get("content_sha256", "")[:12]
 
@@ -95,7 +109,7 @@ class Evidence:
                                "content_sha256": r.get("content_sha256"), "verification": self.verification.describe()}
         if "check" in c:
             out["check"] = {"title": c["check"].get("title"), "expected": c["check"].get("expected")}
-            out["result"] = c.get("result")
+            out["result"] = self.result
             out["resources"] = [{"id": x.get("id"), "status": x.get("status"), "observed": x.get("observed")}
                                 for x in (c.get("resources") or [])[:12]]
         else:  # human review or uploaded document
@@ -118,6 +132,16 @@ class EvidencePackage:
     findings: list[dict[str, Any]]
     manifest_ok: bool
     manifest_problems: list[str] = field(default_factory=list)
+    latest: dict[str, str] = field(default_factory=dict)  # check_key -> id of the newest record of that check
+
+    def __post_init__(self) -> None:
+        newest: dict[str, Evidence] = {}
+        for e in self.evidence.values():
+            cur = newest.get(e.check_key)
+            if cur is None or (e.record.get("collected_at", ""), e.record.get("sequence", 0)) > (
+                    cur.record.get("collected_at", ""), cur.record.get("sequence", 0)):
+                newest[e.check_key] = e
+        self.latest = {k: e.id for k, e in newest.items()}
 
     @property
     def verified_count(self) -> int:
@@ -125,6 +149,14 @@ class EvidencePackage:
 
     def get(self, evidence_id: str) -> Evidence | None:
         return self.evidence.get(evidence_id)
+
+    def superseded_by(self, evidence_id: str) -> Evidence | None:
+        """The newer record of the same check, if this one is not the latest; otherwise None."""
+        e = self.get(evidence_id)
+        if e is None:
+            return None
+        newest = self.latest.get(e.check_key)
+        return self.get(newest) if newest and newest != evidence_id else None
 
 
 def load(path: str | Path) -> EvidencePackage:

@@ -45,6 +45,8 @@ def cmd_answer(args) -> int:
             print(f"       - {c.text}  ({', '.join(i[:8] for i in c.evidence_ids)})")
         if r.caveats:
             print(f"       caveats: {r.caveats}")
+        for f in r.flags:
+            print(f"       REVIEW: {f}")
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     usage = {"answering": vars(provider.usage), **({"verifier": vars(verifier.usage)} if verifier is not provider else {})}
