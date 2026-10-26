@@ -71,8 +71,9 @@ python -m vea check out/proof-pack.zip                            # what the cus
 ## Status
 
 Under active development during the hackathon. Built so far: package verification, agent tools, the research loop,
-the citation check, the verifier, the contradiction flags, human review and the proof pack, with tests. Next: an
-evaluation set, the first runs on Meta models, questionnaire intake from PDFs and screenshots, and a web UI.
+the citation check, the verifier, the contradiction flags, human review, the proof pack and an
+evaluation harness ([evals/](evals/README.md): 32 labelled questions with traps, plus a basic-RAG baseline), with
+tests. Next: the first runs on Meta models, questionnaire intake from PDFs and screenshots, and a web UI.
 
 The proof pack's trust anchor is the sealed batch root. The sample package's batches are unsigned, so a recipient
 must confirm the root with the company; packs from signed batches carry the signature, but the bundled verifier

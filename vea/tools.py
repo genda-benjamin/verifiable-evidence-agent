@@ -18,8 +18,20 @@ _STOP = set("a an and are as at be by do does for from has have how in is it of 
             "which with you your yes no all any our we us please describe provide".split())
 
 
+_SUFFIXES = ("ations", "ation", "ions", "ion", "ings", "ing", "ed", "es", "s")
+
+
+def _stem(word: str) -> str:
+    """Light suffix stripping so 'rotated', 'rotation' and 'rotate' all match 'rotat'."""
+    for suf in _SUFFIXES:
+        if word.endswith(suf) and len(word) - len(suf) >= 4 and not (suf == "s" and word.endswith("ss")):
+            word = word[: -len(suf)]
+            break
+    return word[:-1] if word.endswith("e") and len(word) > 4 else word
+
+
 def _terms(text: str) -> list[str]:
-    return [w for w in _WORD.findall(text.lower()) if w not in _STOP and len(w) > 1]
+    return [_stem(w) for w in _WORD.findall(text.lower()) if w not in _STOP and len(w) > 1]
 
 
 class Toolbox:

@@ -11,9 +11,10 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 
-from vea import evidence, llm, proofcheck, proofpack, questionnaire
+from vea import evaluate, evidence, llm, proofcheck, proofpack, questionnaire
 from vea.agent import Agent
 
 
@@ -106,6 +107,29 @@ def cmd_check(args) -> int:
     return proofcheck.main([args.pack])
 
 
+def cmd_eval(args) -> int:
+    doc = evaluate.load_items(args.evalset)
+    package = evidence.load(args.package or doc["package"])
+    if args.mode == "retrieval":  # no model needed
+        r = evaluate.retrieval_recall(package, doc)
+        for k, v in r.items():
+            if k.startswith("recall_at_"):
+                print(f"{k.replace('_', ' ').replace('at ', '@')}: {v['found']}/{r['groups']} ({v['pct']}%)", *v["missed"], sep="\n    ")
+        return 0
+    provider = llm.from_env(args.provider)
+    verifier = llm.from_env(args.verifier) if args.verifier else None
+    only = set(args.only.split(",")) if args.only else None
+    report = evaluate.run(package, doc, args.mode, provider, verifier, only, progress=print)
+    stamp = time.strftime("%Y%m%d-%H%M%S")
+    out = Path(args.out_dir) / f"{stamp}-{args.provider}-{args.mode}"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.with_suffix(".json").write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
+    md = evaluate.markdown(report)
+    out.with_suffix(".md").write_text(md, encoding="utf-8")
+    print("\n" + md + f"\nwrote {out}.json and .md")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="vea", description="Verifiable Evidence Agent")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -133,6 +157,15 @@ def main(argv: list[str] | None = None) -> int:
     c = sub.add_parser("check", help="verify a proof pack (the same check as its verify_pack.py)")
     c.add_argument("pack")
     c.set_defaults(fn=cmd_check)
+    ev = sub.add_parser("eval", help="score an answering mode against a labelled question set")
+    ev.add_argument("evalset", nargs="?", default="evals/sample-co.json")
+    ev.add_argument("--package", help="the evidence package (default: the one named in the eval set)")
+    ev.add_argument("--mode", default="agent", choices=("agent", "no-verify", "rag", "retrieval"))
+    ev.add_argument("--provider", default="meta", choices=sorted(llm.PRESETS))
+    ev.add_argument("--verifier", choices=sorted(llm.PRESETS), help="a different provider for the verifier pass")
+    ev.add_argument("--only", help="comma-separated item ids")
+    ev.add_argument("--out-dir", default="evals/results")
+    ev.set_defaults(fn=cmd_eval)
     args = ap.parse_args(argv)
     try:
         return args.fn(args)
