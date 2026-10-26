@@ -61,7 +61,7 @@ mistake fails the build.
   existed (light stemming fixed one miss), so its numbers are a development score. `vsaq.json` is the held-out check:
   its questions were written by Google, and the search was not changed after seeing them. Its labels were still
   written by this project's developer, against this one package.
-- **One fictional company, 32 items.** Differences of one or two items between modes are noise.
+- **One fictional company, 61 items across the two sets.** Differences of one or two items between modes are noise.
 - **Labels are one reviewer's judgement.** Where reasonable reviewers differ, `accept` lists both answers.
 
 ## Results
