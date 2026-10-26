@@ -22,13 +22,18 @@ For each question in a customer's questionnaire, the agent:
    its check. A stale record can only be cited next to the newer one.
 4. **Verifies** each surviving claim with a separate model call that sees only the claim and the evidence it cites,
    and drops claims the evidence does not support.
-5. **Abstains** ("Insufficient evidence") when no claim survives, instead of guessing.
+5. **Abstains** ("Insufficient evidence") when no claim survives, instead of guessing, and **names what is missing**:
+   the model says what evidence would settle the question, and controls with no current evidence (not tested, needs
+   review, expired review) are listed from the package itself.
 6. **Flags contradictions** for the reviewer, also in code: a "Yes" whose cited check currently fails, or with open
    findings on the controls it relies on.
-7. Waits for **human approval** of every answer.
+7. Waits for **human approval** of every answer, **recorded in an append-only, hash-chained audit log**. Each
+   approval stores a fingerprint of the exact answer approved, so an answer edited afterwards no longer matches and
+   cannot be exported; when the agent runs inside TrustEvidence, these events go to TrustEvidence's audit log.
 8. Exports a **proof pack**: the approved answers plus exactly the evidence records they cite, with their Merkle
    proofs. The customer opens `answers.html`, which re-verifies every citation in their browser, offline, or runs the
-   bundled `verify_pack.py` (standard library only). They see only the evidence behind the answers, nothing else.
+   bundled `verify_pack.py` (standard library only). They see only the evidence behind the answers, nothing else,
+   plus who approved each answer and when, checked against the answer they are reading.
 
 ## What existed before the hackathon, and what is new
 
@@ -63,8 +68,8 @@ python -m vea answer samples/sample-co-evidence-package.zip samples/questionnair
 `python -m vea answer --help` lists the providers; each reads its key from an environment variable. Then:
 
 ```bash
-python -m vea review out/answers.json                             # approve or reject each answer
-python -m vea export out/answers.json --out out/proof-pack.zip   # build the pack for the customer
+python -m vea review out/answers.json --reviewer "you@company.com"   # approve or reject; recorded in the audit log
+python -m vea export out/answers.json --by "you@company.com" --out out/proof-pack.zip   # build the pack
 python -m vea check out/proof-pack.zip                            # what the customer runs
 ```
 

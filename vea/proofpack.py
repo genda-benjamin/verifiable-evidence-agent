@@ -23,6 +23,7 @@ from typing import Any
 
 from vea import __version__
 from vea.evidence import EvidencePackage
+from vea.audit import AuditLog
 from vea.proofcheck import sha256
 
 FORMAT = "vea.proof-pack.v1"
@@ -33,7 +34,8 @@ class PackError(ValueError):
     pass
 
 
-def _answers_doc(package: EvidencePackage, results: list[dict[str, Any]], allow_drafts: bool) -> tuple[dict[str, Any], list[str]]:
+def _answers_doc(package: EvidencePackage, results: list[dict[str, Any]], allow_drafts: bool,
+                 log: AuditLog) -> tuple[dict[str, Any], list[str]]:
     unreviewed = [r.get("id", "?") for r in results if r.get("status") not in ("approved", "rejected")]
     if unreviewed and not allow_drafts:
         raise PackError(f"{len(unreviewed)} answer(s) are not reviewed yet ({', '.join(unreviewed[:8])}). "
@@ -60,6 +62,7 @@ def _answers_doc(package: EvidencePackage, results: list[dict[str, Any]], allow_
                   "status": r.get("status") if r.get("status") == "approved" else "draft",
                   "caveats": r.get("caveats") or "", "flags": r.get("flags") or [], "missing": r.get("missing") or [],
                   "reviewer_note": r.get("reviewer_note") or "",
+                  **({"approval": log.latest_decision(r["id"])} if r.get("status") == "approved" else {}),
                   "claims": [{"text": c.get("text"), "evidence_ids": c.get("evidence_ids"),
                               "verifier_reason": c.get("verifier_reason", "")} for c in r.get("claims") or []]}
                  for r in shipped]
@@ -100,9 +103,16 @@ Answers marked DRAFT were not approved by a person before export.
 """
 
 
-def build(package: EvidencePackage, results: list[dict[str, Any]], out: str | Path, *, allow_drafts: bool = False) -> dict[str, Any]:
-    """Write the proof pack zip to `out`; return its answers document."""
-    doc, cited = _answers_doc(package, results, allow_drafts)
+def build(package: EvidencePackage, results: list[dict[str, Any]], out: str | Path, *, log: AuditLog, actor: str,
+          allow_drafts: bool = False) -> dict[str, Any]:
+    """Write the proof pack zip to `out`, record the export in the audit log, and return the answers document.
+
+    Refuses when the audit log is broken, or when an answer marked approved has no matching approval in it (including
+    an answer edited after it was approved)."""
+    problems = log.approval_problems([r for r in results if r.get("status") != "rejected"])
+    if problems:
+        raise PackError("the audit log does not back these answers: " + "; ".join(problems[:5]))
+    doc, cited = _answers_doc(package, results, allow_drafts, log)
     files: dict[str, bytes] = {}
     for eid in cited:
         e = package.get(eid)
@@ -135,4 +145,5 @@ def build(package: EvidencePackage, results: list[dict[str, Any]], out: str | Pa
         for name in sorted(files):
             z.writestr(name, files[name])
     out.write_bytes(buf.getvalue())
+    log.exported(actor, sha256(buf.getvalue()), [q["id"] for q in doc["questions"]])
     return doc

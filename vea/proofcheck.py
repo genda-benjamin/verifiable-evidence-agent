@@ -12,7 +12,8 @@ For each cited evidence record it checks:
 * inclusion: the leaf SHA-256(0x00 || SHA-256(record.json)) is in the sealed batch's RFC 9162 Merkle tree,
              whose root is in the batch statement;
 
-and that every claim cites only records in the pack, and every file matches the pack manifest.
+and that every claim cites only records in the pack, every file matches the pack manifest, and every approved answer
+carries an approval record whose fingerprint matches the answer exactly (so it was not edited after approval).
 What it cannot check on its own: that the batch root is the one the company really sealed. That needs the batch
 signature (when present) or the root obtained from the company through a channel you trust.
 """
@@ -68,6 +69,26 @@ def batch_roots(batches: list[dict[str, Any]]) -> dict[int, tuple[bytes, int]]:
     return roots
 
 
+def canonical(obj: Any) -> bytes:
+    """The exact bytes that get hashed: sorted keys, no spaces, UTF-8."""
+    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+
+
+def answer_digest(answer: dict[str, Any]) -> str:
+    """Fingerprint of what a reviewer approves: the question, the answer, every claim with its citations, the caveats
+    and what is missing. Changing any of it after approval changes the digest."""
+    return sha256(canonical({
+        "question": answer.get("question"), "answer": answer.get("answer"),
+        "claims": [{"text": c.get("text"), "evidence_ids": list(c.get("evidence_ids") or [])} for c in answer.get("claims") or []],
+        "caveats": answer.get("caveats") or "", "missing": list(answer.get("missing") or []),
+    }))
+
+
+def entry_hash(entry: dict[str, Any]) -> str:
+    """Hash of an audit-log entry over every field except the hash itself (so it covers the link to the previous one)."""
+    return sha256(canonical({k: v for k, v in entry.items() if k != "hash"}))
+
+
 def check_record(record_bytes: bytes, content_bytes: bytes, proof: dict[str, Any] | None,
                  roots: dict[int, tuple[bytes, int]]) -> tuple[bool, bool, bool]:
     """(content ok, chain ok, inclusion ok) for one evidence record."""
@@ -119,15 +140,26 @@ def verify_pack(path: str | Path) -> dict[str, Any]:
             if not ok:
                 problems.append(f"{ev['evidence_id']}: {label} check FAILED")
 
-    claims = 0
+    claims = approved = 0
     for q in answers.get("questions") or []:
         for claim in q.get("claims") or []:
             claims += 1
             for eid in claim.get("evidence_ids") or []:
                 if eid not in records:
                     problems.append(f"{q.get('id')}: claim cites {eid}, which is not in the pack")
+        if q.get("status") == "approved":
+            entry = q.get("approval") or {}
+            if not entry:
+                problems.append(f"{q.get('id')}: marked approved but carries no approval record")
+            elif entry.get("hash") != entry_hash(entry) or entry.get("action") != "approved" or entry.get("subject") != q.get("id"):
+                problems.append(f"{q.get('id')}: approval record is altered or does not belong to this answer")
+            elif (entry.get("details") or {}).get("digest") != answer_digest(q):
+                problems.append(f"{q.get('id')}: answer changed after it was approved")
+            else:
+                approved += 1
     signed = [b for b in answers.get("batches") or [] if b.get("signature")]
     return {"ok": not problems, "problems": problems, "questions": len(answers.get("questions") or []), "claims": claims,
+            "approvals_verified": approved,
             "records": len(records), "records_verified": sum(r["ok"] for r in records.values()),
             "batch_roots": {i: r.hex() for i, (r, _) in roots.items()},
             "signatures": f"{len(signed)} of {len(roots)} batches signed (signature checking is not done by this script)"
@@ -140,7 +172,8 @@ def main(argv: list[str]) -> int:
         return 2
     report = verify_pack(argv[0])
     print(f"questions: {report['questions']}   claims: {report['claims']}   "
-          f"evidence records: {report['records_verified']} of {report['records']} verified")
+          f"evidence records: {report['records_verified']} of {report['records']} verified   "
+          f"approvals bound to their answers: {report['approvals_verified']}")
     for i, root in report["batch_roots"].items():
         print(f"batch {i} root: {root}")
     print(f"trust anchor: {report['signatures']}")

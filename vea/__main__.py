@@ -2,8 +2,8 @@
 
     python -m vea verify samples/sample-co-evidence-package.zip
     python -m vea answer samples/sample-co-evidence-package.zip samples/questionnaire.csv --provider meta
-    python -m vea review out/answers.json
-    python -m vea export out/answers.json --out out/proof-pack.zip
+    python -m vea review out/answers.json --reviewer "Jane Doe <jane@example.com>"
+    python -m vea export out/answers.json --by "Jane Doe <jane@example.com>" --out out/proof-pack.zip
     python -m vea check out/proof-pack.zip
 """
 from __future__ import annotations
@@ -15,6 +15,7 @@ import time
 from pathlib import Path
 
 from vea import evaluate, evidence, llm, proofcheck, proofpack, questionnaire
+from vea.audit import AuditLog
 from vea.agent import Agent
 
 
@@ -40,10 +41,13 @@ def cmd_answer(args) -> int:
     questions = questionnaire.load(args.questionnaire)
     if args.only:
         questions = [q for q in questions if q.id in set(args.only.split(","))]
+    out = Path(args.out)
+    log = AuditLog(out.with_suffix(".audit.jsonl"))
     results = []
     for q in questions:
         r = agent.answer(q.text)
         results.append({"id": q.id, **r.to_dict()})
+        log.drafted(f"agent ({provider.name}: {provider.model})", results[-1])
         print(f"\n{q.id}  {q.text}\n    -> {r.answer}  [{r.status}]")
         for c in r.claims:
             print(f"       - {c.text}  ({', '.join(i[:8] for i in c.evidence_ids)})")
@@ -53,11 +57,10 @@ def cmd_answer(args) -> int:
             print(f"       missing: {m}")
         for f in r.flags:
             print(f"       REVIEW: {f}")
-    out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     usage = {"answering": vars(provider.usage), **({"verifier": vars(verifier.usage)} if verifier is not provider else {})}
     out.write_text(json.dumps({"package": str(args.package), "organization": p.organization, "usage": usage,
-                               "results": results}, indent=2, default=str), encoding="utf-8")
+                               "audit_log": str(log.path), "results": results}, indent=2, default=str), encoding="utf-8")
     print(f"\nmodel calls: {provider.usage.calls}, tokens in/out: {provider.usage.prompt_tokens}/{provider.usage.completion_tokens}")
     print(f"wrote {out}")
     return 0
@@ -67,6 +70,7 @@ def cmd_review(args) -> int:
     """Approve or reject each unreviewed answer in the terminal. The web UI does the same with more context."""
     path = Path(args.answers)
     doc = json.loads(path.read_text(encoding="utf-8"))
+    log = AuditLog(doc.get("audit_log") or path.with_suffix(".audit.jsonl"))
     pending = [r for r in doc["results"] if r.get("status") not in ("approved", "rejected")]
     print(f"{len(pending)} answer(s) to review. a = approve, r = reject, s = skip, q = save and quit.")
     for r in pending:
@@ -85,6 +89,7 @@ def cmd_review(args) -> int:
         if choice in ("a", "r"):
             r["status"] = "approved" if choice == "a" else "rejected"
             r["reviewer_note"] = input("    note (optional): ").strip()
+            log.decided(args.reviewer, r, choice == "a", r["reviewer_note"])
     path.write_text(json.dumps(doc, indent=2, default=str), encoding="utf-8")
     left = sum(r.get("status") not in ("approved", "rejected") for r in doc["results"])
     print(f"saved {path}; {left} still unreviewed")
@@ -94,8 +99,9 @@ def cmd_review(args) -> int:
 def cmd_export(args) -> int:
     doc = json.loads(Path(args.answers).read_text(encoding="utf-8"))
     package = evidence.load(args.package or doc["package"])
+    log = AuditLog(doc.get("audit_log") or Path(args.answers).with_suffix(".audit.jsonl"))
     try:
-        pack = proofpack.build(package, doc["results"], args.out, allow_drafts=args.allow_drafts)
+        pack = proofpack.build(package, doc["results"], args.out, log=log, actor=args.by, allow_drafts=args.allow_drafts)
     except proofpack.PackError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
@@ -151,11 +157,13 @@ def main(argv: list[str] | None = None) -> int:
     a.set_defaults(fn=cmd_answer)
     r = sub.add_parser("review", help="approve or reject drafted answers")
     r.add_argument("answers")
+    r.add_argument("--reviewer", required=True, help="who is reviewing (name or email); recorded in the audit log")
     r.set_defaults(fn=cmd_review)
     e = sub.add_parser("export", help="build a proof pack the customer can verify offline")
     e.add_argument("answers")
     e.add_argument("--package", help="the evidence package (default: the one recorded in the answers file)")
     e.add_argument("--out", default="out/proof-pack.zip")
+    e.add_argument("--by", required=True, help="who is exporting (name or email); recorded in the audit log")
     e.add_argument("--allow-drafts", action="store_true", help="include unreviewed answers, marked DRAFT")
     e.set_defaults(fn=cmd_export)
     c = sub.add_parser("check", help="verify a proof pack (the same check as its verify_pack.py)")

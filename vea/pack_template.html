@@ -57,6 +57,8 @@ button.cite .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 .note.caveat { background: var(--chip); }
 .note.flag { background: var(--warn-bg); color: var(--warn); }
 .empty { color: var(--muted); margin-top: 10px; font-size: 14px; }
+.approval { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+.approval.bad { color: var(--bad); font-weight: 600; }
 ul.missing { margin: 4px 0 0; padding-left: 20px; }
 .tools { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
 .tools h2, dialog h2 { font-size: 16px; margin: 0 0 6px; }
@@ -109,6 +111,7 @@ h3 { font-size: 14px; margin: 16px 0 4px; }
     <div class="btns">
       <button class="btn" id="t1">Edit a record's content</button>
       <button class="btn" id="t2">Edit it and recompute its hashes</button>
+      <button class="btn" id="t3">Change an approved answer</button>
       <button class="btn" id="t0">Restore the original</button>
     </div>
     <div id="tamper-msg"></div>
@@ -196,6 +199,27 @@ const original = {};
 for (const e of A.evidence) original[e.evidence_id] = { record: b64(DATA.files[e.path + "/record.json"]), content: b64(DATA.files[e.path + "/content.json"]) };
 let bytes = structuredClone(original);
 let results = {};
+let approvals = {};
+const originalQuestions = structuredClone(A.questions);
+
+// Approval records: the same canonical JSON and fingerprint as verify_pack.py (sorted keys, no spaces, UTF-8).
+function canonical(v) {
+  if (v === null || typeof v !== "object") return JSON.stringify(v);
+  if (Array.isArray(v)) return "[" + v.map(canonical).join(",") + "]";
+  return "{" + Object.keys(v).sort().map((k) => JSON.stringify(k) + ":" + canonical(v[k])).join(",") + "}";
+}
+const hashText = async (s) => hex(await sha(utf8.encode(s)));
+const answerDigest = (q) => hashText(canonical({ question: q.question, answer: q.answer,
+  claims: q.claims.map((c) => ({ text: c.text, evidence_ids: c.evidence_ids || [] })), caveats: q.caveats || "", missing: q.missing || [] }));
+async function checkApproval(q) {
+  const e = q.approval;
+  if (!e) return { ok: false, why: "marked approved, but no approval record is attached" };
+  const { hash, ...rest } = e;
+  if (hash !== await hashText(canonical(rest)) || e.action !== "approved" || e.subject !== q.id)
+    return { ok: false, why: "the approval record was altered or belongs to another answer" };
+  if ((e.details || {}).digest !== await answerDigest(q)) return { ok: false, why: "the answer was changed after it was approved" };
+  return { ok: true, by: e.actor, at: e.at };
+}
 
 async function checkRecord(ev) {
   const { record: rb, content: cb } = bytes[ev.evidence_id];
@@ -266,6 +290,9 @@ function render() {
     for (const f of q.flags) card.append(el("div", { class: "note flag" }, "Review: " + f));
     if (q.caveats) card.append(el("div", { class: "note caveat" }, q.caveats));
     if (q.reviewer_note) card.append(el("div", { class: "note caveat" }, "Reviewer: " + q.reviewer_note));
+    const ap = approvals[q.id];
+    if (ap) card.append(el("div", { class: `approval ${ap.ok ? "ok" : "bad"}` }, el("span", { class: `mark ${ap.ok ? "ok" : "bad"}` }, ap.ok ? "✓ " : "✗ "),
+      ap.ok ? `Approved by ${ap.by} on ${ap.at.slice(0, 10)}. The approval matches this exact answer.` : `Approval check failed: ${ap.why}.`));
     qs.append(card);
   }
 }
@@ -274,18 +301,24 @@ function renderVerdict() {
   const all = A.evidence.map((e) => results[e.evidence_id]);
   const missing = A.questions.flatMap((q) => q.claims.flatMap((c) => c.evidence_ids)).filter((id) => !evidence[id]);
   const bad = all.filter((r) => r && !r.ok).length + missing.length;
+  const badApprovals = Object.values(approvals).filter((a) => !a.ok).length;
   const v = $("verdict");
-  v.className = "verdict " + (bad ? "bad" : "ok");
-  v.replaceChildren(el("span", {}, bad
-    ? `${bad} citation${bad === 1 ? "" : "s"} FAILED verification`
-    : `All ${A.evidence.length} cited evidence records verified in your browser`,
-    el("small", {}, bad ? "Do not rely on answers that cite a failed record." :
-      "Each record's content hash, hash-chain link and Merkle proof to the sealed batch root checked out.")));
+  v.className = "verdict " + (bad || badApprovals ? "bad" : "ok");
+  const parts = [];
+  if (bad) parts.push(`${bad} citation${bad === 1 ? "" : "s"} FAILED verification`);
+  if (badApprovals) parts.push(`${badApprovals} approval${badApprovals === 1 ? "" : "s"} FAILED`);
+  const approved = Object.keys(approvals).length;
+  v.replaceChildren(el("span", {}, parts.length ? parts.join(" · ")
+    : `All ${A.evidence.length} cited evidence records and ${approved} approval${approved === 1 ? "" : "s"} verified in your browser`,
+    el("small", {}, parts.length ? "Do not rely on the answers marked with ✗." :
+      "Each record's content hash, hash-chain link and Merkle proof to the sealed batch root checked out, and each approval matches its answer exactly.")));
 }
 
 async function verifyAll() {
   results = {};
   for (const ev of A.evidence) results[ev.evidence_id] = await checkRecord(ev);
+  approvals = {};
+  for (const q of A.questions) if (q.status === "approved") approvals[q.id] = await checkApproval(q);
   render(); renderVerdict();
 }
 
@@ -350,7 +383,7 @@ function tamperTarget() {
 async function tamper(fixHashes) {
   const t = tamperTarget();
   if (!t) return;
-  bytes = structuredClone(original);
+  bytes = structuredClone(original); A.questions = structuredClone(originalQuestions);
   const id = t.ev.evidence_id;
   const text = fromUtf8.decode(original[id].content);
   const forged = utf8.encode(text.includes(t.from) ? text.replace(t.from, t.to) : text + " ");
@@ -372,7 +405,18 @@ async function tamper(fixHashes) {
 }
 $("t1").addEventListener("click", () => tamper(false));
 $("t2").addEventListener("click", () => tamper(true));
-$("t0").addEventListener("click", async () => { bytes = structuredClone(original); await verifyAll(); $("tamper-msg").replaceChildren(); });
+$("t3").addEventListener("click", async () => {
+  bytes = structuredClone(original); A.questions = structuredClone(originalQuestions);
+  const q = A.questions.find((x) => x.status === "approved" && x.claims.length);
+  if (!q) return;
+  const before = q.claims[0].text;
+  q.claims[0].text = before.replace(/\.$/, "") + ", across every account and region.";
+  await verifyAll();
+  $("tamper-msg").replaceChildren(el("div", { class: "note flag" },
+    `Simulated: after approval, ${q.id}'s first claim was widened to "${q.claims[0].text}" The evidence still verifies, ` +
+    `but the approval no longer matches the answer (${approvals[q.id].ok ? "unexpectedly passed" : "failed"}), so nobody approved what you are reading.`));
+});
+$("t0").addEventListener("click", async () => { bytes = structuredClone(original); A.questions = structuredClone(originalQuestions); await verifyAll(); $("tamper-msg").replaceChildren(); });
 
 render();
 verifyAll().catch((e) => { $("verdict").className = "verdict bad"; $("verdict").textContent = "Verification could not run: " + e.message; });
