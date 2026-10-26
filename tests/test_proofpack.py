@@ -208,3 +208,21 @@ def test_audit_log_detects_edited_removed_and_reordered_entries(results, log):
 
     with pytest.raises(ValueError):
         log.append("  ", "approved", "Q1")
+
+
+def test_host_audit_log_approvals_build_a_verifiable_pack(package, results, tmp_path):
+    """A host application (TrustEvidence) keeps approvals in its own audit log and hands them over as entries."""
+    from vea.audit import RecordedApprovals, approval_entry
+    exports = []
+    entries = {r["id"]: approval_entry("owner@sample-co.example", r["id"], r, at="2026-10-27T09:00:00+00:00",
+                                       ref=f"host-audit:{n}") for n, r in enumerate(results)}
+    approvals = RecordedApprovals(entries, on_export=lambda actor, sha, ids: exports.append((actor, sha, ids)))
+    data, doc = proofpack.build_bytes(evidence.load(SAMPLE.read_bytes()), results, log=approvals, actor="owner")
+    out = tmp_path / "pack.zip"
+    out.write_bytes(data)
+    report = proofcheck.verify_pack(out)
+    assert report["ok"] and report["approvals_verified"] == 3
+    assert exports == [("owner", proofcheck.sha256(data), ["Q1", "Q2", "Q3"])]
+    results[1]["caveats"] = "edited later"
+    with pytest.raises(proofpack.PackError, match="changed after it was approved"):
+        proofpack.build_bytes(package, results, log=approvals, actor="owner")

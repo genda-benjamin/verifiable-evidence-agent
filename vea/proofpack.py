@@ -23,7 +23,7 @@ from typing import Any
 
 from vea import __version__
 from vea.evidence import EvidencePackage
-from vea.audit import AuditLog
+from vea.audit import Approvals
 from vea.proofcheck import sha256
 
 FORMAT = "vea.proof-pack.v1"
@@ -35,7 +35,7 @@ class PackError(ValueError):
 
 
 def _answers_doc(package: EvidencePackage, results: list[dict[str, Any]], allow_drafts: bool,
-                 log: AuditLog) -> tuple[dict[str, Any], list[str]]:
+                 log: Approvals) -> tuple[dict[str, Any], list[str]]:
     unreviewed = [r.get("id", "?") for r in results if r.get("status") not in ("approved", "rejected")]
     if unreviewed and not allow_drafts:
         raise PackError(f"{len(unreviewed)} answer(s) are not reviewed yet ({', '.join(unreviewed[:8])}). "
@@ -103,12 +103,23 @@ Answers marked DRAFT were not approved by a person before export.
 """
 
 
-def build(package: EvidencePackage, results: list[dict[str, Any]], out: str | Path, *, log: AuditLog, actor: str,
+def build(package: EvidencePackage, results: list[dict[str, Any]], out: str | Path, *, log: Approvals, actor: str,
           allow_drafts: bool = False) -> dict[str, Any]:
-    """Write the proof pack zip to `out`, record the export in the audit log, and return the answers document.
+    """Write the proof pack zip to `out`, record the export in the audit log, and return the answers document."""
+    data, doc = build_bytes(package, results, log=log, actor=actor, allow_drafts=allow_drafts)
+    out = Path(out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(data)
+    return doc
 
-    Refuses when the audit log is broken, or when an answer marked approved has no matching approval in it (including
-    an answer edited after it was approved)."""
+
+def build_bytes(package: EvidencePackage, results: list[dict[str, Any]], *, log: Approvals, actor: str,
+                allow_drafts: bool = False) -> tuple[bytes, dict[str, Any]]:
+    """Build the proof pack in memory and record the export; returns the zip and its answers document.
+
+    `log` is where approvals live: the standalone AuditLog, or a host application's audit log (RecordedApprovals).
+    Refuses when the log is broken, or when an answer marked approved has no matching approval in it (including an
+    answer edited after it was approved)."""
     problems = log.approval_problems([r for r in results if r.get("status") != "rejected"])
     if problems:
         raise PackError("the audit log does not back these answers: " + "; ".join(problems[:5]))
@@ -138,12 +149,9 @@ def build(package: EvidencePackage, results: list[dict[str, Any]], out: str | Pa
     files["manifest.json"] = json.dumps({"format": FORMAT, "hash_algorithm": "SHA-256",
                                          "files": {k: sha256(v) for k, v in sorted(files.items())}}, indent=2).encode("utf-8")
 
-    out = Path(out)
-    out.parent.mkdir(parents=True, exist_ok=True)
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
         for name in sorted(files):
             z.writestr(name, files[name])
-    out.write_bytes(buf.getvalue())
     log.exported(actor, sha256(buf.getvalue()), [q["id"] for q in doc["questions"]])
-    return doc
+    return buf.getvalue(), doc

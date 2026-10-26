@@ -14,6 +14,7 @@ records that pass all four.
 """
 from __future__ import annotations
 
+import io
 import json
 import zipfile
 from dataclasses import dataclass, field
@@ -137,9 +138,9 @@ class EvidencePackage:
         return self.get(newest) if newest and newest != evidence_id else None
 
 
-def load(path: str | Path) -> EvidencePackage:
+def load(path: str | Path | bytes) -> EvidencePackage:
     """Read and verify an evidence package zip. Never raises on tampered content: problems are reported."""
-    with zipfile.ZipFile(path) as z:
+    with zipfile.ZipFile(io.BytesIO(path) if isinstance(path, bytes) else path) as z:
         names = set(z.namelist())
         raw = {n: z.read(n) for n in names}
 

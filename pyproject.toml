@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "verifiable-evidence-agent"
+version = "0.1.0"
+description = "Answers security questionnaires only with cryptographically cited evidence."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = []  # standard library only
+
+[project.urls]
+Source = "https://github.com/genda-benjamin/verifiable-evidence-agent"
+
+[tool.setuptools]
+packages = ["vea"]
+
+[tool.setuptools.package-data]
+vea = ["pack_template.html"]

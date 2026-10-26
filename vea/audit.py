@@ -15,11 +15,19 @@ from __future__ import annotations
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, Protocol
 
 from vea.proofcheck import answer_digest, entry_hash
 
 GENESIS = "GENESIS"
+
+
+class Approvals(Protocol):
+    """Where approvals are recorded. The proof pack needs only these three things from it."""
+
+    def approval_problems(self, results: list[dict[str, Any]]) -> list[str]: ...
+    def latest_decision(self, subject: str) -> dict[str, Any] | None: ...
+    def exported(self, actor: str, pack_sha256: str, question_ids: list[str]) -> Any: ...
 
 
 class AuditLog:
@@ -89,3 +97,43 @@ class AuditLog:
             elif d["details"].get("digest") != answer_digest(r):
                 problems.append(f"{r['id']}: the answer changed after it was approved; review it again")
         return problems
+
+
+def approval_entry(actor: str, subject: str, answer: dict[str, Any], *, at: str, ref: str, note: str = "") -> dict[str, Any]:
+    """An approval in the proof-pack format, for a host application that keeps approvals in its own audit log.
+
+    `ref` names the host's own record of the approval (for example "trustevidence-audit:<event id>"), and stands where
+    the standalone log keeps the previous entry's hash. The host's log provides the append-only guarantee; this entry
+    binds the approval to the exact answer, so the recipient can still check it."""
+    entry = {"seq": 0, "at": at, "actor": actor, "action": "approved", "subject": subject,
+             "details": {"digest": answer_digest(answer), "answer": answer.get("answer"), "note": note}, "prev": ref}
+    entry["hash"] = entry_hash(entry)
+    return entry
+
+
+class RecordedApprovals:
+    """Approvals kept in a host application's audit log (append-only there), handed to the proof pack builder."""
+
+    def __init__(self, entries: dict[str, dict[str, Any]], on_export: Callable[[str, str, list[str]], Any]):
+        self.entries = entries  # question id -> approval entry, the latest approval of each answer
+        self.on_export = on_export
+
+    def latest_decision(self, subject: str) -> dict[str, Any] | None:
+        return self.entries.get(subject)
+
+    def approval_problems(self, results: list[dict[str, Any]]) -> list[str]:
+        problems = []
+        for r in results:
+            if r.get("status") != "approved":
+                continue
+            e = self.entries.get(r["id"])
+            if e is None:
+                problems.append(f"{r['id']}: marked approved, but the audit log has no approval for it")
+            elif e.get("hash") != entry_hash(e):
+                problems.append(f"{r['id']}: the approval record was altered")
+            elif e["details"].get("digest") != answer_digest(r):
+                problems.append(f"{r['id']}: the answer changed after it was approved; review it again")
+        return problems
+
+    def exported(self, actor: str, pack_sha256: str, question_ids: list[str]) -> Any:
+        return self.on_export(actor, pack_sha256, question_ids)

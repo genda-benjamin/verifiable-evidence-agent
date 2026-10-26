@@ -16,3 +16,7 @@ data/private/
 # ...except the fictional sample package the demo and tests use
 !samples/*.zip
 out/
+# Packaging
+build/
+dist/
+*.egg-info/
