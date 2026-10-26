@@ -102,7 +102,10 @@ class ScriptedProvider:
 
 # Known endpoints. The base URL and model can be overridden by environment variable; the key always comes from one.
 PRESETS = {
-    "meta": {"base_url_env": "META_API_BASE_URL", "key_env": "META_API_KEY", "model_env": "META_MODEL", "base_url": "", "model": ""},
+    # Meta Model API (dev.meta.ai/docs): OpenAI-compatible. Standard mode, whose inputs are not used to train Meta's
+    # models; the "-contributor" model ids are cheaper but may be trained on, so they are not the default.
+    "meta": {"base_url_env": "META_API_BASE_URL", "key_env": "META_API_KEY", "model_env": "META_MODEL",
+             "base_url": "https://api.meta.ai/v1", "model": "muse-spark-1.3"},
     "baseten": {"base_url_env": "BASETEN_BASE_URL", "key_env": "BASETEN_API_KEY", "model_env": "BASETEN_MODEL",
                 "base_url": "https://inference.baseten.co/v1", "model": "meta-models/muse-spark-open-1026"},
     "custom": {"base_url_env": "VEA_BASE_URL", "key_env": "VEA_API_KEY", "model_env": "VEA_MODEL", "base_url": "", "model": ""},
