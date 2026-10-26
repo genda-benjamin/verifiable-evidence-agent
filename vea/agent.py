@@ -19,10 +19,11 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from vea.evidence import EvidencePackage
-from vea.llm import Provider
+from vea.llm import Provider, ProviderError
 from vea.tools import Toolbox
 
 ANSWERS = ("Yes", "No", "Partially", "Insufficient evidence")
+REFUSED = "The model provider refused or failed to process this question, so the agent did not answer it: answer it by hand."
 
 RESEARCH_PROMPT = """You answer security questionnaires for {org} using ONLY the evidence package provided through tools.
 The evidence covers {start} to {end}. Every evidence record is hashed and sealed; you cite records by evidence_id.
@@ -130,7 +131,11 @@ class Agent:
 
         draft: dict[str, Any] | None = None
         for step in range(self.max_steps):
-            reply = self.provider.complete(messages)
+            try:
+                reply = self.provider.complete(messages)
+            except ProviderError as exc:  # e.g. a content-policy refusal: answer this one by hand, carry on with the rest
+                trace.append({"stage": "research", "step": step, "provider_error": str(exc)[:400]})
+                return Result(question, "Insufficient evidence", "abstained", [], "", trace, missing=[REFUSED])
             action = parse_json(reply)
             messages.append({"role": "assistant", "content": reply})
             if action is None:
@@ -237,7 +242,10 @@ class Agent:
         ]
         verdict: dict[str, Any] = {}
         for _ in range(2):  # one retry for an unreadable reply; after that the claim counts as unsupported
-            verdict = parse_json(self.verifier.complete(messages, max_tokens=2000)) or {}
+            try:
+                verdict = parse_json(self.verifier.complete(messages, max_tokens=2000)) or {}
+            except ProviderError as exc:  # no verdict means not verified: the claim is dropped
+                verdict = {"supported": False, "reason": f"the verifier call failed: {str(exc)[:200]}"}
             if "supported" in verdict:
                 break
         claim.supported = verdict.get("supported") is True

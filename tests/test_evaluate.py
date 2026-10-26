@@ -97,3 +97,16 @@ def test_vsaq_questions_are_verbatim_and_attributed():
     assert doc["source"]["license"] == "Apache-2.0" and (ROOT / "third_party" / "vsaq" / "LICENSE").exists()
     assert all(i["source"].startswith("google/vsaq@366d670 questionnaires/") for i in doc["items"])
     assert len(doc["items"]) == 29
+
+
+def test_a_provider_refusal_is_an_abstention_that_is_never_credited(package, evalset):
+    from vea.llm import ProviderError
+
+    def refuse(messages):
+        raise ProviderError('meta returned HTTP 400: {"error":{"code":"content_policy_violation"}}')
+
+    for mode in ("agent", "rag"):
+        report = evaluate.run(package, evalset, mode, ScriptedProvider(refuse), only={"E01", "E28"})
+        s = report["summary"]
+        assert s["provider_refusals"] == 2 and s["accuracy_pct"] == 0.0, mode  # E28 expects abstention but is not credited
+        assert all("answer it by hand" in r["missing"][0] for r in report["results"])

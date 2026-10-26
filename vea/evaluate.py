@@ -17,9 +17,9 @@ from collections import Counter
 from pathlib import Path
 from typing import Any, Callable
 
-from vea.agent import ANSWERS, Agent, parse_json
+from vea.agent import ANSWERS, REFUSED, Agent, parse_json
 from vea.evidence import EvidencePackage
-from vea.llm import Provider
+from vea.llm import Provider, ProviderError
 from vea.tools import Toolbox
 
 ABSTAIN = "Insufficient evidence"
@@ -53,12 +53,13 @@ def score_item(package: EvidencePackage, item: dict[str, Any], result: dict[str,
     cited = [i for c in result.get("claims") or [] for i in c.get("evidence_ids") or []]
     groups = item.get("must_cite") or []
     covered = [any(matches(package, i, m) for i in cited for m in g) for g in groups]
-    correct = answer in item["accept"]
+    refused = any(t.get("provider_error") for t in result.get("trace") or [])
+    correct = answer in item["accept"] and not refused  # a provider refusal is never credited, even where abstaining is right
     answered = answer != ABSTAIN
     drafted = next((t.get("answer") for t in result.get("trace") or [] if t.get("stage") == "draft"), answer)
     return {
         "id": item["id"], "category": item["category"], "answer": answer, "accept": item["accept"],
-        "correct": correct,
+        "correct": correct, "provider_refused": refused,
         "unsafe": answer in item.get("unsafe", []),
         "grounded": correct and (not answered or all(covered)),
         "citation_groups": len(groups), "citation_groups_covered": sum(covered),
@@ -107,6 +108,7 @@ def summarize(scored: list[dict[str, Any]]) -> dict[str, Any]:
         "claims_rejected": sum(s["claims_rejected"] for s in scored),
         "rejection_reasons": dict(Counter(r for s in scored for r in s["rejection_reasons"])),
         "answers_flagged": sum(1 for s in scored if s["flags"]),
+        "provider_refusals": sum(1 for s in scored if s["provider_refused"]),
         "abstentions_naming_missing_pct": pct("names_missing", [s for s in scored if s["abstained"]]),
         "by_category": by_cat,
     }
@@ -138,10 +140,14 @@ def rag_answer(package: EvidencePackage, provider: Provider, question: str, k: i
     tools = Toolbox(package)
     hits = tools.search_evidence(question, k)
     context = [package.get(h["evidence_id"]).summary() for h in hits]
-    reply = provider.complete([
-        {"role": "system", "content": RAG_PROMPT.format(org=package.organization or "the company")},
-        {"role": "user", "content": f"Evidence:\n{json.dumps(context, ensure_ascii=False)[:12000]}\n\nQuestion: {question}"},
-    ])
+    try:
+        reply = provider.complete([
+            {"role": "system", "content": RAG_PROMPT.format(org=package.organization or "the company")},
+            {"role": "user", "content": f"Evidence:\n{json.dumps(context, ensure_ascii=False)[:12000]}\n\nQuestion: {question}"},
+        ])
+    except ProviderError as exc:
+        return {"question": question, "answer": ABSTAIN, "claims": [], "rejected_claims": [], "flags": [], "missing": [REFUSED],
+                "trace": [{"stage": "draft", "answer": ABSTAIN, "provider_error": str(exc)[:400]}]}
     out = parse_json(reply) or {}
     answer = out.get("answer") if out.get("answer") in ANSWERS else ABSTAIN
     claims = [{"text": str(c.get("text", "")), "evidence_ids": [str(i) for i in c.get("evidence_ids") or []]}
@@ -186,6 +192,7 @@ def markdown(report: dict[str, Any]) -> str:
             ("Claims kept / rejected", f"{s['claims_kept']} / {s['claims_rejected']}"),
             ("Rejection reasons", ", ".join(f"{k}: {v}" for k, v in s["rejection_reasons"].items()) or "none"),
             ("Answers flagged for the reviewer", s["answers_flagged"]),
+            ("Questions the model provider refused (scored as wrong)", s["provider_refusals"]),
             ("Refusals that name what is missing", f"{s['abstentions_naming_missing_pct']}%")]
     u = report["usage"]["answering"]
     lines = [f"# Evaluation: {report['mode']} on {report['model']}", "",
@@ -195,6 +202,6 @@ def markdown(report: dict[str, Any]) -> str:
              "| Category | n | Accuracy | Grounded | Unsafe |", "|---|---|---|---|---|",
              *[f"| {c} | {v['n']} | {v['accuracy']}% | {v['grounded']}% | {v['unsafe']} |" for c, v in s["by_category"].items()], "",
              "| Id | Answer | Expected | Result |", "|---|---|---|---|",
-             *[f"| {x['id']} | {x['answer']} | {' / '.join(x['accept'])} | {'UNSAFE' if x['unsafe'] else 'grounded' if x['grounded'] else 'correct, citation missing' if x['correct'] else 'wrong'} |"
+             *[f"| {x['id']} | {x['answer']} | {' / '.join(x['accept'])} | {'UNSAFE' if x['unsafe'] else 'refused by the model provider' if x['provider_refused'] else 'grounded' if x['grounded'] else 'correct, citation missing' if x['correct'] else 'wrong'} |"
                for x in report["scored"]]]
     return "\n".join(lines) + "\n"
