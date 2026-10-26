@@ -66,6 +66,38 @@ mistake fails the build.
 
 ## Results
 
+Model runs are kept in `results/<set>/` exactly as produced, including runs later found to have problems.
+
+**Run 1, 2026-10-26/27, `muse-spark-1.3` (Meta Model API), same model as verifier.** About $4.65 for all six runs.
+
+| Set | Mode | Accuracy | Grounded | Unsafe | Refused by provider | Claims removed by checks | Cost |
+|---|---|---|---|---|---|---|---|
+| sample-co | rag | 100% | 100% | 0 | 0 | 0 | $0.25 |
+| sample-co | no-verify | 96.9% | 96.9% | 0 | 1 | 0 | $0.62 |
+| sample-co | agent | 96.9% | 93.8% | 0 | 1 | 3 | $0.92 |
+| vsaq | rag | 75.9% | 72.4% | **3** | 1 | 0 | $0.26 |
+| vsaq | no-verify | 86.2% | 86.2% | 1 | 1 | 0 | $1.17 |
+| vsaq | agent | 79.3% | 75.9% | **0** | 2 | 11 | $1.43 |
+
+What run 1 shows, and what it does not:
+
+- **On the real (VSAQ) questions, basic RAG gave 3 answers that would mislead a customer; the full agent gave none.**
+  V02: "Yes" to encryption of *all* internal traffic (evidence covers storage only); V17: "No" to unencrypted
+  phones reaching company data (no evidence either way); V26: "Yes" to need-to-know access while a user has
+  administrator rights attached directly. 29 questions: a signal, not proof.
+- **The sample-co set is too easy to compare modes**: basic RAG scores 100%. It also uses this project's search,
+  which offers only the latest record of each check, so the baseline inherits the stale-evidence defence.
+- **A bug lowered the full agent's score:** 7 of the verifier's 11 removals said the evidence "is labelled as sample
+  data". The research prompt told the model to treat the fictional sample data as real; the verifier prompt did not.
+  The other 4 removals were correct catches of embellishment (V11 "independent", V13 "synchronous", V03 and V10
+  claiming purpose and scope the evidence does not show).
+- **Meta's content filter refused two ordinary questionnaire questions** (V19 host vulnerability scanning; V25
+  background checks; E12 in the agent runs). They are scored as wrong. The first attempt at this run stopped on the
+  first refusal; refusals are now answered "Insufficient evidence: answer it by hand" and counted.
+- **Disputed labels:** V24 (revoking *physical and logical* access; the evidence does not mention physical access)
+  and V14 (malware protection from a register that says devices are "protected") accept only "Yes"; the agent
+  answered "Partially". Left unchanged pending a domain reviewer's call.
+
 | Date | Mode | Model | Grounded | Accuracy | Unsafe | Notes |
 |---|---|---|---|---|---|---|
 | 2026-10-26 | retrieval | none | | | | sample-co: required evidence in top 1 / 3 / 8 search results: 71.4% / 96.4% / 100% (28 groups) |

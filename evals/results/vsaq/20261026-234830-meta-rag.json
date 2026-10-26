@@ -1,0 +1,1443 @@
+{
+  "mode": "rag",
+  "provider": "meta",
+  "model": "muse-spark-1.3",
+  "verifier": null,
+  "seconds": 260.5,
+  "usage": {
+    "answering": {
+      "calls": 28,
+      "prompt_tokens": 69789,
+      "completion_tokens": 40359,
+      "seconds": 241.0929999999862
+    }
+  },
+  "summary": {
+    "questions": 29,
+    "accuracy_pct": 75.9,
+    "grounded_accuracy_pct": 72.4,
+    "unsafe_answers": 3,
+    "unsafe_pct": 10.3,
+    "citation_recall_pct": 92.3,
+    "correct_abstention_pct": 83.3,
+    "false_abstention_pct": 26.1,
+    "pipeline_abstentions": 0,
+    "claims_kept": 48,
+    "claims_rejected": 0,
+    "rejection_reasons": {},
+    "answers_flagged": 0,
+    "provider_refusals": 1,
+    "abstentions_naming_missing_pct": 9.1,
+    "by_category": {
+      "fail": {
+        "n": 2,
+        "accuracy": 50.0,
+        "grounded": 50.0,
+        "unsafe": 1
+      },
+      "human-evidence": {
+        "n": 10,
+        "accuracy": 80.0,
+        "grounded": 80.0,
+        "unsafe": 0
+      },
+      "incomplete": {
+        "n": 6,
+        "accuracy": 66.7,
+        "grounded": 66.7,
+        "unsafe": 1
+      },
+      "no-evidence": {
+        "n": 6,
+        "accuracy": 83.3,
+        "grounded": 83.3,
+        "unsafe": 1
+      },
+      "pass": {
+        "n": 5,
+        "accuracy": 80.0,
+        "grounded": 60.0,
+        "unsafe": 0
+      }
+    }
+  },
+  "scored": [
+    {
+      "id": "V01",
+      "category": "pass",
+      "answer": "Yes",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V02",
+      "category": "incomplete",
+      "answer": "Yes",
+      "accept": [
+        "Insufficient evidence",
+        "Partially"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": true,
+      "grounded": false,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V03",
+      "category": "pass",
+      "answer": "Partially",
+      "accept": [
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 3,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V04",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 3,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V05",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V06",
+      "category": "pass",
+      "answer": "Yes",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 3,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V07",
+      "category": "pass",
+      "answer": "Yes",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V08",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 3,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V09",
+      "category": "pass",
+      "answer": "Yes",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V10",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V11",
+      "category": "human-evidence",
+      "answer": "Yes",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V12",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence",
+        "No"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 3,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V13",
+      "category": "fail",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Partially",
+        "No",
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V14",
+      "category": "human-evidence",
+      "answer": "Yes",
+      "accept": [
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V15",
+      "category": "human-evidence",
+      "answer": "Yes",
+      "accept": [
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V16",
+      "category": "human-evidence",
+      "answer": "Yes",
+      "accept": [
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 4,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V17",
+      "category": "no-evidence",
+      "answer": "No",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": true,
+      "grounded": false,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V18",
+      "category": "incomplete",
+      "answer": "Partially",
+      "accept": [
+        "Partially",
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V19",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Partially",
+        "Insufficient evidence"
+      ],
+      "correct": false,
+      "provider_refused": true,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V20",
+      "category": "human-evidence",
+      "answer": "Yes",
+      "accept": [
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V21",
+      "category": "human-evidence",
+      "answer": "Partially",
+      "accept": [
+        "Partially",
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V22",
+      "category": "human-evidence",
+      "answer": "Yes",
+      "accept": [
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V23",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V24",
+      "category": "human-evidence",
+      "answer": "Partially",
+      "accept": [
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V25",
+      "category": "human-evidence",
+      "answer": "Yes",
+      "accept": [
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V26",
+      "category": "fail",
+      "answer": "Yes",
+      "accept": [
+        "Partially",
+        "No"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": true,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V27",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V28",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V29",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    }
+  ],
+  "results": [
+    {
+      "id": "V01",
+      "question": "Firewalls are a basic network security control. Does your company use firewalls to restrict traffic into and out of your network at strategic points?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Both default security groups sg-01b4d8f2a6c1e371 and sg-02b4d8f2a6c1e372 have 0 ingress rules and 0 egress rules.",
+          "evidence_ids": [
+            "07ccfb32-1eff-494e-beac-767897f7a8e9"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V02",
+      "question": "Is encryption and integrity protection in place for all internal network traffic that potentially carries sensitive information (including passwords, emails, files, source code, management traffic, etc.)?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Encryption of data in transit was reviewed against the approved policy and records and found to be operating as described.",
+          "evidence_ids": [
+            "42fa74a4-849d-44b1-a5c4-67ea64871b8d"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V03",
+      "question": "Do you monitor your network for security events?",
+      "answer": "Partially",
+      "claims": [
+        {
+          "text": "A multi-region CloudTrail trail 'org-trail' is logging management events to S3 bucket sample-co-audit-logs.",
+          "evidence_ids": [
+            "f9aa8f78-3342-4375-93ba-b6fbe901324a"
+          ]
+        },
+        {
+          "text": "Security Hub is enabled in eu-west-1 and us-east-1.",
+          "evidence_ids": [
+            "834a1817-1737-4dd8-aa01-c2c899c20ff9"
+          ]
+        },
+        {
+          "text": "A Logging and Monitoring Policy document version 1 has been uploaded.",
+          "evidence_ids": [
+            "896b4365-a7f1-449e-ac1d-73e41ceaec4b"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Partially"
+        }
+      ]
+    },
+    {
+      "id": "V04",
+      "question": "Do you retain logs produced by networking devices (such as firewalls, routers, DNS servers, DHCP servers, etc.) for at least six months, and do you monitor them regularly?",
+      "answer": "Insufficient evidence",
+      "claims": [
+        {
+          "text": "A draft Logging and Monitoring Policy document exists.",
+          "evidence_ids": [
+            "896b4365-a7f1-449e-ac1d-73e41ceaec4b"
+          ]
+        },
+        {
+          "text": "Multi-region CloudTrail management-event logging is enabled to the audit bucket.",
+          "evidence_ids": [
+            "f9aa8f78-3342-4375-93ba-b6fbe901324a"
+          ]
+        },
+        {
+          "text": "The organisation audit log API is available, with no stated six-month retention or regular monitoring for firewall, router, DNS, or DHCP logs.",
+          "evidence_ids": [
+            "dd7e0ac9-f485-46cd-a727-7682955b7cdf"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    },
+    {
+      "id": "V05",
+      "question": "Do you have operating system hardening in place, or build standards for server systems?",
+      "answer": "Insufficient evidence",
+      "claims": [],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    },
+    {
+      "id": "V06",
+      "question": "Do you have processes in place for managing the configuration of your servers and services?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Three managed instances were COMPLIANT with zero missing critical patches in the 2026-10-25 scan.",
+          "evidence_ids": [
+            "6552df3d-108f-4921-a6ef-72d23fcded63"
+          ]
+        },
+        {
+          "text": "Code scanning with default setup is configured for four repositories including web-app and payments-api.",
+          "evidence_ids": [
+            "67c5c144-6a09-4ae1-9a9c-acbb8b3abbfe"
+          ]
+        },
+        {
+          "text": "No customer-managed policy grants Action * on Resource * across 6 policies checked.",
+          "evidence_ids": [
+            "8ad467e3-3768-4511-8ea5-dc6dae35e1e9"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V07",
+      "question": "Do you have a process for installing operating system and application updates and security patches on servers?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Sample Co maintains a Vulnerability and Patch Management Policy covering vulnerability and patch management.",
+          "evidence_ids": [
+            "41c6129d-84df-4a33-b2bb-bb60df4d8a97"
+          ]
+        },
+        {
+          "text": "Three managed server instances were COMPLIANT with zero missing critical patches as of the 2026-10-25 scan.",
+          "evidence_ids": [
+            "6552df3d-108f-4921-a6ef-72d23fcded63"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V08",
+      "question": "Do you test security patches before you deploy them to your production systems?",
+      "answer": "Insufficient evidence",
+      "claims": [
+        {
+          "text": "All four sampled repositories require test and lint status checks with strict mode before merge.",
+          "evidence_ids": [
+            "714878ce-6027-4b9f-b500-0cfbf2a9a8fc"
+          ]
+        },
+        {
+          "text": "All three managed instances were COMPLIANT with zero missing critical patches at the last scan, without describing any pre-deployment testing.",
+          "evidence_ids": [
+            "6552df3d-108f-4921-a6ef-72d23fcded63"
+          ]
+        },
+        {
+          "text": "The uploaded Vulnerability and Patch Management Policy provides no verifiable excerpt that patches are tested before production deployment.",
+          "evidence_ids": [
+            "41c6129d-84df-4a33-b2bb-bb60df4d8a97"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    },
+    {
+      "id": "V09",
+      "question": "Are your systems configured to log security-relevant events, such as authentication, data access, etc.?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Multi-region CloudTrail trail org-trail is logging and records all management events to S3 bucket sample-co-audit-logs.",
+          "evidence_ids": [
+            "f9aa8f78-3342-4375-93ba-b6fbe901324a"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V10",
+      "question": "Do you retain security event logs for at least six months, and do you monitor them regularly?",
+      "answer": "Insufficient evidence",
+      "claims": [
+        {
+          "text": "Multi-region CloudTrail trail org-trail is logging management events to S3 bucket sample-co-audit-logs.",
+          "evidence_ids": [
+            "f9aa8f78-3342-4375-93ba-b6fbe901324a"
+          ]
+        },
+        {
+          "text": "The organisation audit log is accessible via API.",
+          "evidence_ids": [
+            "dd7e0ac9-f485-46cd-a727-7682955b7cdf"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    },
+    {
+      "id": "V11",
+      "question": "Do you have procedures in place for regularly auditing administrative access to your servers?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Periodic user access reviews were reviewed against the approved policy and records and found to be operating as described.",
+          "evidence_ids": [
+            "008f8135-e48c-4eb2-88f1-9261340aee2f"
+          ]
+        },
+        {
+          "text": "An Access Control Policy covering periodic access reviews is documented.",
+          "evidence_ids": [
+            "2cfefa31-187e-4446-95ed-be8b69e54423"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V12",
+      "question": "Do you regularly test your backups?",
+      "answer": "Insufficient evidence",
+      "claims": [
+        {
+          "text": "AWS Backup plans exist in eu-west-1 and us-east-1 with daily 35-day retention.",
+          "evidence_ids": [
+            "5adbfed7-deee-4b6d-a4b7-a48f243454c0"
+          ]
+        },
+        {
+          "text": "RDS automated backups for payments-prod and analytics-replica are retained for 14 days.",
+          "evidence_ids": [
+            "1621d353-c744-4f45-a4d8-4c883ae62871"
+          ]
+        },
+        {
+          "text": "A Backup and Recovery Policy document has been drafted and uploaded.",
+          "evidence_ids": [
+            "073d158c-3b39-45ce-ad56-db85a6150e8b"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    },
+    {
+      "id": "V13",
+      "question": "Do you sync data to a different site in near real time?",
+      "answer": "Insufficient evidence",
+      "claims": [],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    },
+    {
+      "id": "V14",
+      "question": "Do you have controls in place to protect client systems from malware?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "All 7 company devices were confirmed within the last 90 days as encrypted, locked, protected and updating.",
+          "evidence_ids": [
+            "66eb8e2b-017a-4095-aef7-0003131f6a23"
+          ]
+        },
+        {
+          "text": "A manual review found endpoint protection operating as described against the approved policy and records.",
+          "evidence_ids": [
+            "d0985ae1-912e-4f06-998b-6e6143815a0d"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V15",
+      "question": "Do you fully encrypt the hard disks of laptops and other portable client devices?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "A register review confirmed that 7 of 7 company devices were encrypted within the last 90 days.",
+          "evidence_ids": [
+            "66eb8e2b-017a-4095-aef7-0003131f6a23"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V16",
+      "question": "Do you have a process for installing operating system and application updates and security patches on client systems?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Sample Co maintains a Vulnerability and Patch Management Policy covering patch management.",
+          "evidence_ids": [
+            "41c6129d-84df-4a33-b2bb-bb60df4d8a97"
+          ]
+        },
+        {
+          "text": "A manual review verified endpoint protection is operating as described against the approved policy.",
+          "evidence_ids": [
+            "d0985ae1-912e-4f06-998b-6e6143815a0d"
+          ]
+        },
+        {
+          "text": "All three managed instances were patch compliant with zero missing critical patches in the October 25, 2026 scan.",
+          "evidence_ids": [
+            "6552df3d-108f-4921-a6ef-72d23fcded63"
+          ]
+        },
+        {
+          "text": "Dependabot security updates are enabled for all four monitored repositories.",
+          "evidence_ids": [
+            "722306fb-d642-4aa4-9bab-8672725fe125"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V17",
+      "question": "Do you allow access to confidential information (e.g., email) from unencrypted mobile devices such as phones and tablets?",
+      "answer": "No",
+      "claims": [
+        {
+          "text": "All 7 company devices were confirmed as encrypted, locked, protected and updating in the last 90 days.",
+          "evidence_ids": [
+            "66eb8e2b-017a-4095-aef7-0003131f6a23"
+          ]
+        },
+        {
+          "text": "Confidential information classification and handling was reviewed against the approved policy and found operating as described.",
+          "evidence_ids": [
+            "09d87b76-d67c-4a89-980f-c9b0eb968377"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "No"
+        }
+      ]
+    },
+    {
+      "id": "V18",
+      "question": "Does an independent third party regularly perform penetration tests on all systems used to provide services to customers?",
+      "answer": "Partially",
+      "claims": [
+        {
+          "text": "The manual review for penetration testing (TE-VM-03) resulted in NEEDS_REVIEW rather than PASS.",
+          "evidence_ids": [
+            "d98c20e4-c7b5-455a-b9ae-75cd8bcf690a"
+          ]
+        },
+        {
+          "text": "This year's penetration test is booked for next month with last year's report attached for reference.",
+          "evidence_ids": [
+            "d98c20e4-c7b5-455a-b9ae-75cd8bcf690a"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Partially"
+        }
+      ]
+    },
+    {
+      "id": "V19",
+      "question": "Are all of the systems used in this project scanned for host-level vulnerabilities? ( Note : This question does not refer to anti-malware scans. Instead, it refers to scans that look for known vulnerabilities and misconfiguration of the software running on servers.)",
+      "answer": "Insufficient evidence",
+      "claims": [],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The model provider refused or failed to process this question, so the agent did not answer it: answer it by hand."
+      ],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence",
+          "provider_error": "meta returned HTTP 400: {\"error\":{\"code\":\"content_policy_violation\",\"message\":\"The response was filtered due to the prompt triggering our content management policy.\",\"param\":\"prompt\",\"type\":\"invalid_request_error\"}}"
+        }
+      ]
+    },
+    {
+      "id": "V20",
+      "question": "Has your company selected an individual or team to be responsible for managing the information security and privacy program?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Manual review passed for organisational structure and security responsibilities, confirming they operate as described.",
+          "evidence_ids": [
+            "6282d9c3-43ad-4b8b-a4ea-1c4e6a624f73"
+          ]
+        },
+        {
+          "text": "Manual review passed for management oversight of security, confirming it operates as described.",
+          "evidence_ids": [
+            "52390ab8-eff8-4568-b281-5b3e87bb3bc7"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V21",
+      "question": "Is your change management process formally documented, and does it classify changes by impact and size?",
+      "answer": "Partially",
+      "claims": [
+        {
+          "text": "Sample Co has a Change Management Policy document.",
+          "evidence_ids": [
+            "e1735b07-ff09-44da-89be-880868a8bc6b"
+          ]
+        },
+        {
+          "text": "A manual review found the change management procedure operating as described against the approved policy.",
+          "evidence_ids": [
+            "42c78e0f-8750-4b65-8fbc-7ef35fec4e20"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Partially"
+        }
+      ]
+    },
+    {
+      "id": "V22",
+      "question": "Are incident response procedures documented?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Sample Co maintains an Incident Response Plan documented as Sample_Co_Incident_Response_Plan.docx.",
+          "evidence_ids": [
+            "4926f461-5d3b-45a6-8bd0-efb3557a7abf"
+          ]
+        },
+        {
+          "text": "A manual review verified the incident response plan against the approved policy and records with a PASS result.",
+          "evidence_ids": [
+            "c86ddd33-3ddb-4fb3-9a17-2278eaee94f6"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V23",
+      "question": "Do you inform affected customers about security incidents?",
+      "answer": "Insufficient evidence",
+      "claims": [
+        {
+          "text": "An Incident Response Plan exists and its manual review recorded a PASS result.",
+          "evidence_ids": [
+            "4926f461-5d3b-45a6-8bd0-efb3557a7abf",
+            "c86ddd33-3ddb-4fb3-9a17-2278eaee94f6"
+          ]
+        },
+        {
+          "text": "A manual review of external commitments and customer communication recorded a PASS result without specifying incident notification to affected customers.",
+          "evidence_ids": [
+            "178cfabc-67b4-4e81-bcb2-66b1775f02c4"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    },
+    {
+      "id": "V24",
+      "question": "Do you have processes in place to make sure access (both physical and logical) is revoked when an employee, intern, vendor, contractor, or other associate leaves the company or a contract ends? Note that in many cases it is not sufficient to just disable the main LDAP or Active Directory account. Many employees have access to information that is governed by additional credentials, such as data in software-as-a-service applications.",
+      "answer": "Partially",
+      "claims": [
+        {
+          "text": "Periodic user access reviews were reviewed against the approved Access Control Policy and found operating as described.",
+          "evidence_ids": [
+            "008f8135-e48c-4eb2-88f1-9261340aee2f"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Partially"
+        }
+      ]
+    },
+    {
+      "id": "V25",
+      "question": "Do you perform background checks for personnel who are entrusted with sensitive information or granted access to sensitive systems?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "All 7 personnel with access have a cleared background check or a recorded reason none is needed.",
+          "evidence_ids": [
+            "64861a7f-125d-4ecd-aa7a-3c2ea9aa4bfd"
+          ]
+        },
+        {
+          "text": "Background checks were reviewed against the approved policy and records and found operating as described.",
+          "evidence_ids": [
+            "9697777d-ca72-46ab-8c79-71370cd5f88a"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V26",
+      "question": "Do you have processes in place to ensure that access to data is granted solely on a \"need-to-know\" basis, in accordance with the job descriptions and responsibilities of users? Do these processes also revoke access when the need no longer exists?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "Periodic user access reviews are performed in accordance with the approved access control policy and are operating as described.",
+          "evidence_ids": [
+            "008f8135-e48c-4eb2-88f1-9261340aee2f"
+          ]
+        },
+        {
+          "text": "Organisational structure and security responsibilities are defined and operating as described.",
+          "evidence_ids": [
+            "6282d9c3-43ad-4b8b-a4ea-1c4e6a624f73"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "V27",
+      "question": "Are you willing to share a management summary of the most recent audit reports?",
+      "answer": "Insufficient evidence",
+      "claims": [],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    },
+    {
+      "id": "V28",
+      "question": "Does your inbound email infrastructure support Transport Layer Security (TLS) 1.2 with cipher suites with forward secrecy (e.g. ECDHE)?",
+      "answer": "Insufficient evidence",
+      "claims": [],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    },
+    {
+      "id": "V29",
+      "question": "Do you operate a VPN that allows remote access to your network?",
+      "answer": "Insufficient evidence",
+      "claims": [],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence"
+        }
+      ]
+    }
+  ]
+}
