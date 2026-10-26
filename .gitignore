@@ -1,0 +1,15 @@
+# Secrets never enter this repository: API keys live in .env (ignored) or the shell environment.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+# Local data: real evidence packages and questionnaires stay on the machine
+data/private/
+*.zip
