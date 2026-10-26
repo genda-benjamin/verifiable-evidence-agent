@@ -26,6 +26,9 @@ For each question in a customer's questionnaire, the agent:
 6. **Flags contradictions** for the reviewer, also in code: a "Yes" whose cited check currently fails, or with open
    findings on the controls it relies on.
 7. Waits for **human approval** of every answer.
+8. Exports a **proof pack**: the approved answers plus exactly the evidence records they cite, with their Merkle
+   proofs. The customer opens `answers.html`, which re-verifies every citation in their browser, offline, or runs the
+   bundled `verify_pack.py` (standard library only). They see only the evidence behind the answers, nothing else.
 
 ## What existed before the hackathon, and what is new
 
@@ -57,13 +60,23 @@ Answering a questionnaire needs a model endpoint (Meta Model API, or Muse Spark 
 python -m vea answer samples/sample-co-evidence-package.zip samples/questionnaire.csv --provider meta
 ```
 
-`python -m vea answer --help` lists the providers; each reads its key from an environment variable.
+`python -m vea answer --help` lists the providers; each reads its key from an environment variable. Then:
+
+```bash
+python -m vea review out/answers.json                             # approve or reject each answer
+python -m vea export out/answers.json --out out/proof-pack.zip   # build the pack for the customer
+python -m vea check out/proof-pack.zip                            # what the customer runs
+```
 
 ## Status
 
 Under active development during the hackathon. Built so far: package verification, agent tools, the research loop,
-the citation check, the verifier and the contradiction flags, with tests. Next: a proof pack the customer can
-verify offline, an evaluation set, questionnaire intake from PDFs and screenshots, and a web UI.
+the citation check, the verifier, the contradiction flags, human review and the proof pack, with tests. Next: an
+evaluation set, the first runs on Meta models, questionnaire intake from PDFs and screenshots, and a web UI.
+
+The proof pack's trust anchor is the sealed batch root. The sample package's batches are unsigned, so a recipient
+must confirm the root with the company; packs from signed batches carry the signature, but the bundled verifier
+does not check signatures yet.
 
 ## Security
 

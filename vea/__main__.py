@@ -2,6 +2,9 @@
 
     python -m vea verify samples/sample-co-evidence-package.zip
     python -m vea answer samples/sample-co-evidence-package.zip samples/questionnaire.csv --provider meta
+    python -m vea review out/answers.json
+    python -m vea export out/answers.json --out out/proof-pack.zip
+    python -m vea check out/proof-pack.zip
 """
 from __future__ import annotations
 
@@ -10,7 +13,7 @@ import json
 import sys
 from pathlib import Path
 
-from vea import evidence, llm, questionnaire
+from vea import evidence, llm, proofcheck, proofpack, questionnaire
 from vea.agent import Agent
 
 
@@ -57,6 +60,52 @@ def cmd_answer(args) -> int:
     return 0
 
 
+def cmd_review(args) -> int:
+    """Approve or reject each unreviewed answer in the terminal. The web UI does the same with more context."""
+    path = Path(args.answers)
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    pending = [r for r in doc["results"] if r.get("status") not in ("approved", "rejected")]
+    print(f"{len(pending)} answer(s) to review. a = approve, r = reject, s = skip, q = save and quit.")
+    for r in pending:
+        print(f"\n{r['id']}  {r['question']}\n    -> {r['answer']}")
+        for c in r.get("claims") or []:
+            print(f"       - {c['text']}  ({', '.join(i[:8] for i in c['evidence_ids'])})")
+        if r.get("caveats"):
+            print(f"       caveats: {r['caveats']}")
+        for f in r.get("flags") or []:
+            print(f"       REVIEW: {f}")
+        choice = input("    [a/r/s/q] ").strip().lower()[:1]
+        if choice == "q":
+            break
+        if choice in ("a", "r"):
+            r["status"] = "approved" if choice == "a" else "rejected"
+            r["reviewer_note"] = input("    note (optional): ").strip()
+    path.write_text(json.dumps(doc, indent=2, default=str), encoding="utf-8")
+    left = sum(r.get("status") not in ("approved", "rejected") for r in doc["results"])
+    print(f"saved {path}; {left} still unreviewed")
+    return 0
+
+
+def cmd_export(args) -> int:
+    doc = json.loads(Path(args.answers).read_text(encoding="utf-8"))
+    package = evidence.load(args.package or doc["package"])
+    try:
+        pack = proofpack.build(package, doc["results"], args.out, allow_drafts=args.allow_drafts)
+    except proofpack.PackError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+    print(f"wrote {args.out}: {len(pack['questions'])} answers, {len(pack['evidence'])} cited records")
+    report = proofcheck.verify_pack(args.out)
+    print("self-check:", "VERIFIED" if report["ok"] else "NOT VERIFIED")
+    for problem in report["problems"]:
+        print("  ", problem)
+    return 0 if report["ok"] else 1
+
+
+def cmd_check(args) -> int:
+    return proofcheck.main([args.pack])
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="vea", description="Verifiable Evidence Agent")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -72,6 +121,18 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--only", help="comma-separated question ids")
     a.add_argument("--out", default="out/answers.json")
     a.set_defaults(fn=cmd_answer)
+    r = sub.add_parser("review", help="approve or reject drafted answers")
+    r.add_argument("answers")
+    r.set_defaults(fn=cmd_review)
+    e = sub.add_parser("export", help="build a proof pack the customer can verify offline")
+    e.add_argument("answers")
+    e.add_argument("--package", help="the evidence package (default: the one recorded in the answers file)")
+    e.add_argument("--out", default="out/proof-pack.zip")
+    e.add_argument("--allow-drafts", action="store_true", help="include unreviewed answers, marked DRAFT")
+    e.set_defaults(fn=cmd_export)
+    c = sub.add_parser("check", help="verify a proof pack (the same check as its verify_pack.py)")
+    c.add_argument("pack")
+    c.set_defaults(fn=cmd_check)
     args = ap.parse_args(argv)
     try:
         return args.fn(args)

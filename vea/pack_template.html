@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verified questionnaire answers</title>
+<style>
+:root {
+  --bg: #f6f7f9; --surface: #ffffff; --text: #16191d; --muted: #5d6670; --line: #e2e5e9;
+  --accent: #2456c7; --ok: #137a3f; --ok-bg: #e6f4ec; --bad: #b42318; --bad-bg: #fdecea;
+  --warn: #8a5a00; --warn-bg: #fff4dc; --chip: #eef1f5; --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --a-yes: #1d4ed8; --a-no: #334155; --a-part: #a16207; --a-none: #6b7280;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1216; --surface: #171b21; --text: #e6e9ed; --muted: #9aa4ae; --line: #2a3038;
+    --accent: #7aa2ff; --ok: #4ade80; --ok-bg: #12301f; --bad: #f87171; --bad-bg: #3a1614;
+    --warn: #fbbf24; --warn-bg: #33270d; --chip: #222831;
+    --a-yes: #7aa2ff; --a-no: #cbd5e1; --a-part: #fbbf24; --a-none: #9ca3af;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 16px 64px; }
+.kicker { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-size: 26px; line-height: 1.25; margin: 6px 0 4px; }
+.meta { color: var(--muted); margin: 0 0 18px; }
+.verdict { border-radius: 10px; padding: 14px 16px; font-weight: 600; display: flex; gap: 10px; align-items: center; }
+.verdict.pending { background: var(--chip); color: var(--muted); }
+.verdict.ok { background: var(--ok-bg); color: var(--ok); }
+.verdict.bad { background: var(--bad-bg); color: var(--bad); }
+.verdict small { font-weight: 400; color: inherit; opacity: .85; display: block; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.stat b { display: block; font-size: 22px; }
+.stat span { color: var(--muted); font-size: 13px; }
+.anchor { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--muted); }
+.anchor code { font-family: var(--mono); color: var(--text); word-break: break-all; }
+.q { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin-top: 14px; }
+.q-head { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
+.q-id { color: var(--muted); font-weight: 600; margin-right: 6px; }
+.q-text { font-weight: 600; }
+.badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.ans { border-radius: 999px; padding: 2px 10px; font-size: 13px; font-weight: 700; border: 1.5px solid currentColor; white-space: nowrap; }
+.ans.yes { color: var(--a-yes); } .ans.no { color: var(--a-no); } .ans.part { color: var(--a-part); } .ans.none { color: var(--a-none); border-style: dashed; }
+.draft { border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 700; color: var(--warn); background: var(--warn-bg); white-space: nowrap; }
+ul.claims { list-style: none; padding: 0; margin: 12px 0 0; }
+ul.claims li { padding: 8px 0; border-top: 1px solid var(--line); }
+.cites { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+button.cite { font: inherit; font-size: 12.5px; border: 1px solid var(--line); background: var(--chip); color: var(--text); border-radius: 7px; padding: 3px 8px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; max-width: 100%; }
+button.cite:hover { border-color: var(--accent); }
+button.cite .h { font-family: var(--mono); }
+button.cite .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px; color: var(--muted); }
+.mark { font-weight: 700; }
+.mark.ok { color: var(--ok); } .mark.bad { color: var(--bad); } .mark.pending { color: var(--muted); }
+.note { margin-top: 10px; border-radius: 8px; padding: 8px 10px; font-size: 13.5px; }
+.note.caveat { background: var(--chip); }
+.note.flag { background: var(--warn-bg); color: var(--warn); }
+.empty { color: var(--muted); margin-top: 10px; font-size: 14px; }
+.tools { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+.tools h2, dialog h2 { font-size: 16px; margin: 0 0 6px; }
+.tools p { color: var(--muted); margin: 6px 0; font-size: 14px; }
+.tools code { font-family: var(--mono); font-size: 13px; background: var(--chip); padding: 1px 5px; border-radius: 4px; }
+.btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.btn { font: inherit; font-size: 14px; border-radius: 8px; padding: 7px 12px; border: 1px solid var(--line); background: var(--chip); color: var(--text); cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+#tamper-msg { margin-top: 10px; font-size: 14px; }
+dialog { border: 1px solid var(--line); border-radius: 14px; padding: 0; width: min(760px, calc(100vw - 32px)); max-height: calc(100vh - 48px); background: var(--surface); color: var(--text); }
+dialog::backdrop { background: rgba(10, 14, 20, .55); }
+.dlg { padding: 18px 20px 20px; }
+.dlg-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.x { font: inherit; font-size: 20px; line-height: 1; background: none; border: 0; color: var(--muted); cursor: pointer; padding: 2px 6px; }
+.grid { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; font-size: 14px; margin: 10px 0 14px; }
+.grid dt { color: var(--muted); } .grid dd { margin: 0; word-break: break-word; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-top: 1px solid var(--line); vertical-align: top; word-break: break-word; }
+th { color: var(--muted); font-weight: 600; white-space: nowrap; }
+td.obs span { display: inline-block; margin-right: 10px; }
+td.obs b { font-weight: 500; color: var(--muted); }
+.steps { list-style: none; padding: 0; margin: 8px 0 0; }
+.steps li { border-top: 1px solid var(--line); padding: 8px 0; font-size: 14px; }
+.steps code { font-family: var(--mono); font-size: 12px; word-break: break-all; color: var(--muted); }
+h3 { font-size: 14px; margin: 16px 0 4px; }
+@media (max-width: 640px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .q-head { flex-direction: column; }
+  .badges { justify-content: flex-start; }
+  button.cite .t { max-width: 180px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Verified questionnaire answers</div>
+  <h1 id="title"></h1>
+  <p class="meta" id="meta"></p>
+  <div class="verdict pending" id="verdict"><span>Verifying citations in your browser…</span></div>
+  <div class="stats" id="stats"></div>
+  <div class="anchor" id="anchor"></div>
+  <main id="questions"></main>
+
+  <section class="tools">
+    <h2>Check it yourself</h2>
+    <p>This page recomputed every hash and Merkle proof on your device when it opened. Nothing was sent anywhere.
+       To check without a browser, run <code>python verify_pack.py &lt;this zip&gt;</code>: it needs only Python's standard library.</p>
+    <h2 style="margin-top:14px">See what tampering does</h2>
+    <p>These buttons change a cited record <em>in this page's memory only</em> and re-run every check.</p>
+    <div class="btns">
+      <button class="btn" id="t1">Edit a record's content</button>
+      <button class="btn" id="t2">Edit it and recompute its hashes</button>
+      <button class="btn" id="t0">Restore the original</button>
+    </div>
+    <div id="tamper-msg"></div>
+  </section>
+</div>
+
+<dialog id="dlg"><div class="dlg" id="dlg-body"></div></dialog>
+
+<script type="application/json" id="pack-data">/*__PACK_DATA__*/</script>
+<script>
+"use strict";
+const DATA = JSON.parse(document.getElementById("pack-data").textContent);
+const A = DATA.answers;
+const $ = (id) => document.getElementById(id);
+function el(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") e.className = v; else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) e.append(k instanceof Node ? k : String(k));  // text only: never parsed as HTML
+  return e;
+}
+
+// ---------------------------------------------------------------- hashing (WebCrypto, with a plain-JS fallback)
+const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+const hex = (u) => Array.from(u, (b) => b.toString(16).padStart(2, "0")).join("");
+const unhex = (h) => new Uint8Array((h.match(/../g) || []).map((x) => parseInt(x, 16)));
+const cat = (...parts) => { const o = new Uint8Array(parts.reduce((n, p) => n + p.length, 0)); let i = 0; for (const p of parts) { o.set(p, i); i += p.length; } return o; };
+const same = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
+const utf8 = new TextEncoder(), fromUtf8 = new TextDecoder();
+
+function sha256js(data) {
+  const K = new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+  const H = new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
+  const len = data.length, padded = new Uint8Array(((len + 9 + 63) >> 6) << 6);
+  padded.set(data); padded[len] = 0x80;
+  const view = new DataView(padded.buffer);
+  view.setUint32(padded.length - 8, Math.floor(len / 0x20000000)); view.setUint32(padded.length - 4, (len << 3) >>> 0);
+  const W = new Uint32Array(64), rotr = (x, n) => (x >>> n) | (x << (32 - n));
+  for (let off = 0; off < padded.length; off += 64) {
+    for (let i = 0; i < 16; i++) W[i] = view.getUint32(off + i * 4);
+    for (let i = 16; i < 64; i++) {
+      const s0 = rotr(W[i-15], 7) ^ rotr(W[i-15], 18) ^ (W[i-15] >>> 3), s1 = rotr(W[i-2], 17) ^ rotr(W[i-2], 19) ^ (W[i-2] >>> 10);
+      W[i] = (W[i-16] + s0 + W[i-7] + s1) >>> 0;
+    }
+    let [a, b, c, d, e, f, g, h] = H;
+    for (let i = 0; i < 64; i++) {
+      const t1 = (h + (rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + W[i]) >>> 0;
+      const t2 = ((rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) >>> 0;
+      h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+    }
+    H[0] += a; H[1] += b; H[2] += c; H[3] += d; H[4] += e; H[5] += f; H[6] += g; H[7] += h;
+  }
+  const out = new Uint8Array(32), ov = new DataView(out.buffer);
+  H.forEach((x, i) => ov.setUint32(i * 4, x));
+  return out;
+}
+const subtle = (globalThis.crypto && crypto.subtle) || null;
+async function sha(bytes) { return subtle ? new Uint8Array(await subtle.digest("SHA-256", bytes)) : sha256js(bytes); }
+const node = (l, r) => sha(cat([1], l, r));
+async function leafHash(recordBytes) { return sha(cat([0], await sha(recordBytes))); }
+
+// RFC 9162 section 2.1.3.2, the same algorithm as verify_pack.py.
+async function verifyInclusion(leaf, index, size, path, root) {
+  if (index >= size) return false;
+  let fn = index, sn = size - 1, r = leaf;
+  for (const p of path) {
+    if (sn === 0) return false;
+    if ((fn & 1) || fn === sn) {
+      r = await node(p, r);
+      if (!(fn & 1)) while (!(fn & 1) && fn !== 0) { fn >>= 1; sn >>= 1; }
+    } else r = await node(r, p);
+    fn >>= 1; sn >>= 1;
+  }
+  return sn === 0 && same(r, root);
+}
+
+const roots = {};
+for (const b of A.batches) {
+  const st = typeof b.statement === "string" ? JSON.parse(b.statement) : b.statement;
+  roots[b.batch_index] = { root: unhex(st.root_sha256), size: st.leaf_count, hex: st.root_sha256, signed: !!b.signature };
+}
+const evidence = Object.fromEntries(A.evidence.map((e) => [e.evidence_id, e]));
+const original = {};
+for (const e of A.evidence) original[e.evidence_id] = { record: b64(DATA.files[e.path + "/record.json"]), content: b64(DATA.files[e.path + "/content.json"]) };
+let bytes = structuredClone(original);
+let results = {};
+
+async function checkRecord(ev) {
+  const { record: rb, content: cb } = bytes[ev.evidence_id];
+  let rec = {}, content = null;
+  try { rec = JSON.parse(fromUtf8.decode(rb)); } catch (_) {}
+  try { content = JSON.parse(fromUtf8.decode(cb)); } catch (_) {}
+  const contentHash = hex(await sha(cb));
+  const chainInput = `${rec.prev_chain_hash || "GENESIS"}|${rec.content_sha256}|${rec.id}|${rec.collected_at}`;
+  const chainHash = hex(await sha(utf8.encode(chainInput)));
+  const leaf = await leafHash(rb);
+  const batch = roots[ev.batch_index];
+  const inclusion = !!batch && rec.id === ev.evidence_id && await verifyInclusion(leaf, ev.leaf_index, batch.size, (ev.audit_path || []).map(unhex), batch.root);
+  const r = { rec, content, contentHash, chainHash, leafHex: hex(leaf), batch,
+              contentOk: contentHash === rec.content_sha256, chainOk: chainHash === rec.chain_hash, inclusion };
+  r.ok = r.contentOk && r.chainOk && r.inclusion;
+  return r;
+}
+
+// ---------------------------------------------------------------- rendering
+const ANS = { "Yes": "yes", "No": "no", "Partially": "part", "Insufficient evidence": "none" };
+const short = (id) => id.slice(0, 8);
+
+function render() {
+  $("title").textContent = `${A.organization || "Company"}: security questionnaire answers`;
+  $("meta").textContent = `Evidence period ${A.period.start || "?"} to ${A.period.end || "?"} · generated ${A.generated_at.slice(0, 10)} · ${A.generator}`;
+  const answered = A.questions.filter((q) => q.answer !== "Insufficient evidence").length;
+  const claims = A.questions.reduce((n, q) => n + q.claims.length, 0);
+  $("stats").replaceChildren(...[[A.questions.length, "questions"], [answered, "answered with evidence"],
+    [A.questions.length - answered, "insufficient evidence"], [A.evidence.length, "evidence records cited"]]
+    .map(([n, l]) => el("div", { class: "stat" }, el("b", {}, n), el("span", {}, l))));
+  const anchor = $("anchor"); anchor.replaceChildren();
+  for (const [i, b] of Object.entries(roots)) {
+    anchor.append(el("div", {}, `Sealed batch ${i} root: `, el("code", {}, b.hex)));
+  }
+  anchor.append(el("div", { style: "margin-top:4px" }, Object.values(roots).some((b) => b.signed)
+    ? "The batch is signed by the company; check the signature against its published key."
+    : "This batch is not signed: confirm this root with the company through a channel you trust. Every proof below leads to it."));
+
+  const qs = $("questions"); qs.replaceChildren();
+  for (const q of A.questions) {
+    const badges = el("div", { class: "badges" }, el("span", { class: `ans ${ANS[q.answer] || "none"}` }, q.answer));
+    if (q.status !== "approved") badges.prepend(el("span", { class: "draft", title: "Not approved by a person before export" }, "DRAFT"));
+    const card = el("article", { class: "q" },
+      el("div", { class: "q-head" }, el("div", {}, el("span", { class: "q-id" }, q.id), el("span", { class: "q-text" }, q.question)), badges));
+    if (q.claims.length) {
+      const ul = el("ul", { class: "claims" });
+      for (const c of q.claims) {
+        const cites = el("div", { class: "cites" });
+        for (const id of c.evidence_ids) {
+          const r = results[id], ev = evidence[id];
+          const state = !r ? "pending" : r.ok ? "ok" : "bad";
+          cites.append(el("button", { class: "cite", title: "Show the evidence and its proof", onclick: () => openEvidence(id) },
+            el("span", { class: `mark ${state}`, "aria-label": state === "ok" ? "verified" : state === "bad" ? "failed" : "checking" },
+              state === "ok" ? "✓" : state === "bad" ? "✗" : "…"),
+            el("span", { class: "h" }, short(id)), el("span", { class: "t" }, ev ? ev.title : "not in this pack")));
+        }
+        ul.append(el("li", {}, c.text, cites));
+      }
+      card.append(ul);
+    } else {
+      card.append(el("div", { class: "empty" }, "No sealed evidence covers this question, so the agent did not answer it."));
+    }
+    for (const f of q.flags) card.append(el("div", { class: "note flag" }, "Review: " + f));
+    if (q.caveats) card.append(el("div", { class: "note caveat" }, q.caveats));
+    if (q.reviewer_note) card.append(el("div", { class: "note caveat" }, "Reviewer: " + q.reviewer_note));
+    qs.append(card);
+  }
+}
+
+function renderVerdict() {
+  const all = A.evidence.map((e) => results[e.evidence_id]);
+  const missing = A.questions.flatMap((q) => q.claims.flatMap((c) => c.evidence_ids)).filter((id) => !evidence[id]);
+  const bad = all.filter((r) => r && !r.ok).length + missing.length;
+  const v = $("verdict");
+  v.className = "verdict " + (bad ? "bad" : "ok");
+  v.replaceChildren(el("span", {}, bad
+    ? `${bad} citation${bad === 1 ? "" : "s"} FAILED verification`
+    : `All ${A.evidence.length} cited evidence records verified in your browser`,
+    el("small", {}, bad ? "Do not rely on answers that cite a failed record." :
+      "Each record's content hash, hash-chain link and Merkle proof to the sealed batch root checked out.")));
+}
+
+async function verifyAll() {
+  results = {};
+  for (const ev of A.evidence) results[ev.evidence_id] = await checkRecord(ev);
+  render(); renderVerdict();
+}
+
+function observed(v) {
+  // Show observed values as "key: value" pairs rather than raw JSON.
+  const td = el("td", { class: "obs" });
+  if (v && typeof v === "object" && !Array.isArray(v)) {
+    for (const [k, x] of Object.entries(v)) td.append(el("span", {}, el("b", {}, k + ": "), typeof x === "object" ? JSON.stringify(x) : String(x)));
+  } else td.append(typeof v === "object" ? JSON.stringify(v) : String(v ?? ""));
+  return td;
+}
+
+function openEvidence(id) {
+  const ev = evidence[id], r = results[id], body = $("dlg-body");
+  body.replaceChildren();
+  const close = el("button", { class: "x", "aria-label": "Close", onclick: () => $("dlg").close() }, "×");
+  if (!ev || !r) { body.append(el("div", { class: "dlg-head" }, el("h2", {}, "Not in this pack"), close)); $("dlg").showModal(); return; }
+  const c = r.content || {}, rec = r.rec;
+  body.append(el("div", { class: "dlg-head" }, el("h2", {}, rec.title || ev.title), close));
+  const dl = el("dl", { class: "grid" });
+  const add = (k, v) => { if (v != null && v !== "") dl.append(el("dt", {}, k), el("dd", {}, v)); };
+  add("Evidence id", id); add("Source", rec.source_type); add("Collected", rec.collected_at);
+  add("Controls", (rec.control_ids || []).join(", "));
+  if (c.check) { add("Check", c.check.title); add("Expected", c.check.expected); }
+  const res = c.result && typeof c.result === "object" ? c.result.status : c.result;
+  add("Result", res);
+  body.append(dl);
+  if (Array.isArray(c.resources) && c.resources.length) {
+    const t = el("table", {}, el("tr", {}, el("th", {}, "Resource"), el("th", {}, "Status"), el("th", {}, "Observed")));
+    for (const x of c.resources.slice(0, 25)) {
+      t.append(el("tr", {}, el("td", {}, x.id ?? ""), el("td", {}, x.status ?? ""), observed(x.observed)));
+    }
+    body.append(el("h3", {}, "What was observed"), t);
+  } else if (r.content) {
+    const { documents, ...rest } = c;
+    body.append(el("h3", {}, "Record"), el("table", {}, ...Object.entries(rest).slice(0, 20).map(([k, v]) =>
+      el("tr", {}, el("th", {}, k), el("td", {}, typeof v === "object" ? JSON.stringify(v) : String(v))))));
+  }
+  const mark = (ok) => el("span", { class: `mark ${ok ? "ok" : "bad"}` }, ok ? "✓ " : "✗ ");
+  body.append(el("h3", {}, "How this page verified it"), el("ol", { class: "steps" },
+    el("li", {}, mark(r.contentOk), "Content hash: SHA-256 of the content ", r.contentOk ? "matches" : "does NOT match", " the sealed hash.",
+      el("br"), el("code", {}, "computed " + r.contentHash), el("br"), el("code", {}, "sealed   " + (rec.content_sha256 || ""))),
+    el("li", {}, mark(r.chainOk), "Hash chain: the record's link to the record before it ", r.chainOk ? "is intact." : "is BROKEN.",
+      el("br"), el("code", {}, "computed " + r.chainHash), el("br"), el("code", {}, "sealed   " + (rec.chain_hash || ""))),
+    el("li", {}, mark(r.inclusion), `Merkle proof: leaf ${ev.leaf_index} of ${r.batch ? r.batch.size : "?"} in batch ${ev.batch_index}, `,
+      `${(ev.audit_path || []).length} sibling hashes, `, r.inclusion ? "leads to the sealed root." : "does NOT lead to the sealed root.",
+      el("br"), el("code", {}, "leaf " + r.leafHex), el("br"), el("code", {}, "root " + (r.batch ? r.batch.hex : "missing")))));
+  $("dlg").showModal();
+}
+$("dlg").addEventListener("click", (e) => { if (e.target === $("dlg")) $("dlg").close(); });
+
+// ---------------------------------------------------------------- tamper demonstration (in memory only)
+function tamperTarget() {
+  // Prefer a record with a failing result: forging FAIL into PASS is the edit a dishonest vendor would make.
+  for (const ev of A.evidence) {
+    const s = fromUtf8.decode(original[ev.evidence_id].content);
+    if (s.includes('"FAIL"')) return { ev, from: '"FAIL"', to: '"PASS"' };
+  }
+  const ev = A.evidence[0];
+  return ev ? { ev, from: '"PASS"', to: '"FAIL"' } : null;
+}
+async function tamper(fixHashes) {
+  const t = tamperTarget();
+  if (!t) return;
+  bytes = structuredClone(original);
+  const id = t.ev.evidence_id;
+  const text = fromUtf8.decode(original[id].content);
+  const forged = utf8.encode(text.includes(t.from) ? text.replace(t.from, t.to) : text + " ");
+  bytes[id].content = forged;
+  if (fixHashes) {
+    const rec = JSON.parse(fromUtf8.decode(original[id].record));
+    rec.content_sha256 = hex(await sha(forged));
+    rec.chain_hash = hex(await sha(utf8.encode(`${rec.prev_chain_hash || "GENESIS"}|${rec.content_sha256}|${rec.id}|${rec.collected_at}`)));
+    bytes[id].record = utf8.encode(JSON.stringify(rec));
+  }
+  await verifyAll();
+  const r = results[id];
+  $("tamper-msg").replaceChildren(el("div", { class: "note flag" },
+    `Simulated: changed ${t.from} to ${t.to} in evidence ${short(id)} (${t.ev.title})` +
+    (fixHashes ? ", then recomputed its content hash and chain hash to match. " : ". ") +
+    (fixHashes ? `The record's own hashes now agree, but its Merkle proof no longer reaches the sealed root (${r.inclusion ? "unexpectedly passed" : "failed"}). ` +
+                 "Hiding that would need a different root, and the root is what you confirm with the company."
+               : `Its content hash no longer matches the sealed hash (${r.contentOk ? "unexpectedly passed" : "failed"}).`)));
+}
+$("t1").addEventListener("click", () => tamper(false));
+$("t2").addEventListener("click", () => tamper(true));
+$("t0").addEventListener("click", async () => { bytes = structuredClone(original); await verifyAll(); $("tamper-msg").replaceChildren(); });
+
+render();
+verifyAll().catch((e) => { $("verdict").className = "verdict bad"; $("verdict").textContent = "Verification could not run: " + e.message; });
+</script>
+</body>
+</html>
