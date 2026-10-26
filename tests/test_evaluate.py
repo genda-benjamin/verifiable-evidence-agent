@@ -8,6 +8,7 @@ from vea.llm import ScriptedProvider
 
 ROOT = Path(__file__).resolve().parent.parent
 EVALSET = ROOT / "evals" / "sample-co.json"
+ALL_SETS = sorted((ROOT / "evals").glob("*.json"))
 
 
 @pytest.fixture(scope="module")
@@ -26,8 +27,11 @@ def _latest_results(package, matcher):
     return [package.get(i).result for i in ids if evaluate.matches(package, i, matcher)]
 
 
-def test_labels_agree_with_the_evidence(package, evalset):
+@pytest.mark.parametrize("path", ALL_SETS, ids=lambda p: p.name)
+def test_labels_agree_with_the_evidence(package, path):
     """The expected answers are checked against the package, so a labelling mistake fails the build."""
+    evalset = evaluate.load_items(path)
+    assert len({i["id"] for i in evalset["items"]}) == len(evalset["items"])
     for item in evalset["items"]:
         for group in item["must_cite"]:
             assert any(_latest_results(package, m) for m in group), f"{item['id']}: nothing in the package matches {group}"
@@ -86,3 +90,10 @@ def test_run_end_to_end_with_scripted_models(package, evalset, tmp_path):
     assert s["unsafe_answers"] == 0 and s["pipeline_abstentions"] == 2 and s["rejection_reasons"] == {"invented id": 2}
     md = evaluate.markdown(report)
     assert "| E28 | Insufficient evidence |" in md and "UNSAFE" not in md
+
+
+def test_vsaq_questions_are_verbatim_and_attributed():
+    doc = evaluate.load_items(ROOT / "evals" / "vsaq.json")
+    assert doc["source"]["license"] == "Apache-2.0" and (ROOT / "third_party" / "vsaq" / "LICENSE").exists()
+    assert all(i["source"].startswith("google/vsaq@366d670 questionnaires/") for i in doc["items"])
+    assert len(doc["items"]) == 29

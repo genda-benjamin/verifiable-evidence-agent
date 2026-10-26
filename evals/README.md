@@ -1,13 +1,19 @@
 # Evaluation
 
-`sample-co.json` holds 32 questionnaire questions over the fictional Sample Co evidence package, each labelled
-with the answer a careful human reviewer would give from that evidence.
+Two question sets over the fictional Sample Co evidence package, each item labelled with the answer a careful human
+reviewer would give from that evidence:
+
+| Set | Items | Questions written by | Role |
+|---|---|---|---|
+| `sample-co.json` | 32 | this project, with deliberate traps | development set |
+| `vsaq.json` | 29 | **Google's VSAQ**, real vendor-security questionnaires (Apache-2.0, see [third_party/vsaq](../third_party/vsaq/README.md)) | held-out set: nothing in the agent or its search was tuned on these questions |
 
 ```bash
 python -m vea eval --mode retrieval                    # no model needed: does search surface the evidence?
 python -m vea eval --mode agent --provider meta        # the full pipeline
 python -m vea eval --mode no-verify --provider meta    # ablation: without the verifier pass
 python -m vea eval --mode rag --provider meta          # baseline: basic RAG, one call, no checks
+python -m vea eval evals/vsaq.json --mode agent --provider meta   # the same on the real questions
 ```
 
 Model runs write `evals/results/<time>-<provider>-<mode>.json` (every answer, claim and trace) and a `.md` summary.
@@ -51,9 +57,10 @@ mistake fails the build.
 
 ## Limits, stated plainly
 
-- **Written by the developer during development.** The search was improved while these items existed (light
-  stemming fixed one miss), so the numbers are a development score. An unbiased number needs a held-out set written by
-  someone who has not seen the code; `evals/` will hold one as a separate file.
+- **`sample-co.json` was written by the developer during development.** The search was improved while these items
+  existed (light stemming fixed one miss), so its numbers are a development score. `vsaq.json` is the held-out check:
+  its questions were written by Google, and the search was not changed after seeing them. Its labels were still
+  written by this project's developer, against this one package.
 - **One fictional company, 32 items.** Differences of one or two items between modes are noise.
 - **Labels are one reviewer's judgement.** Where reasonable reviewers differ, `accept` lists both answers.
 
@@ -61,4 +68,5 @@ mistake fails the build.
 
 | Date | Mode | Model | Grounded | Accuracy | Unsafe | Notes |
 |---|---|---|---|---|---|---|
-| 2026-10-26 | retrieval | none | | | | Required evidence in top 1 / 3 / 8 search results: 71.4% / 96.4% / 100% (28 groups) |
+| 2026-10-26 | retrieval | none | | | | sample-co: required evidence in top 1 / 3 / 8 search results: 71.4% / 96.4% / 100% (28 groups) |
+| 2026-10-26 | retrieval | none | | | | **vsaq (held-out): 27.8% / 44.4% / 72.2%** (18 groups). The misses are vocabulary: "security events" vs GuardDuty, "revoked when an employee leaves" vs offboarding, "sync to a different site" vs Multi-AZ, "need-to-know" vs directly attached admin policies. One search with the customer's own wording (what basic RAG does) misses them; the agent searches again in its own words, and the model runs will measure whether that closes the gap. |

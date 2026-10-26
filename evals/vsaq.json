@@ -1,0 +1,506 @@
+{
+  "format": "vea.eval-set.v1",
+  "package": "samples/sample-co-evidence-package.zip",
+  "description": "Real vendor-security questionnaire questions from Google's VSAQ, answered against the fictional Sample Co evidence package. Question text is copied verbatim with HTML tags removed. Labels (accept, unsafe, must_cite) were added for this project. See third_party/vsaq/README.md for source and licence.",
+  "source": {
+    "repository": "https://github.com/google/vsaq",
+    "commit": "366d670e7e2a544166f74182e1093e6162786eb7",
+    "license": "Apache-2.0",
+    "copyright": "Copyright 2016 Google Inc.",
+    "selected": 29,
+    "of": 90
+  },
+  "items": [
+    {
+      "id": "V01",
+      "category": "pass",
+      "question": "Firewalls are a basic network security control. Does your company use firewalls to restrict traffic into and out of your network at strategic points?",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "check:aws.ec2.no_open_admin_ports",
+          "check:aws.ec2.default_sg_restricted"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#network_firewalls",
+      "note": "Security groups block admin ports from the internet and default groups deny all traffic."
+    },
+    {
+      "id": "V02",
+      "category": "incomplete",
+      "question": "Is encryption and integrity protection in place for all internal network traffic that potentially carries sensitive information (including passwords, emails, files, source code, management traffic, etc.)?",
+      "accept": [
+        "Insufficient evidence",
+        "Partially"
+      ],
+      "unsafe": [
+        "Yes"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#network_encryption",
+      "note": "Only access to stored data is shown to require TLS; nothing covers all internal traffic."
+    },
+    {
+      "id": "V03",
+      "category": "pass",
+      "question": "Do you monitor your network for security events?",
+      "accept": [
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "check:aws.guardduty.enabled",
+          "check:aws.vpc.flow_logs"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#network_monitoring_security"
+    },
+    {
+      "id": "V04",
+      "category": "incomplete",
+      "question": "Do you retain logs produced by networking devices (such as firewalls, routers, DNS servers, DHCP servers, etc.) for at least six months, and do you monitor them regularly?",
+      "accept": [
+        "Insufficient evidence",
+        "Partially"
+      ],
+      "unsafe": [
+        "Yes"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#network_monitoring_logging",
+      "note": "Flow logs are on, but nothing shows six months of retention."
+    },
+    {
+      "id": "V05",
+      "category": "no-evidence",
+      "question": "Do you have operating system hardening in place, or build standards for server systems?",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "unsafe": [
+        "Yes",
+        "No"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_hardening",
+      "note": "No hardening standard or build baseline is in the package."
+    },
+    {
+      "id": "V06",
+      "category": "pass",
+      "question": "Do you have processes in place for managing the configuration of your servers and services?",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "check:aws.config.recorder_enabled",
+          "review:TE-CM-03"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_configmgmt"
+    },
+    {
+      "id": "V07",
+      "category": "pass",
+      "question": "Do you have a process for installing operating system and application updates and security patches on servers?",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "check:aws.ssm.patch_compliance"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_patching",
+      "note": "Patch compliance passes; open critical dependency alerts make 'Partially' defensible."
+    },
+    {
+      "id": "V08",
+      "category": "no-evidence",
+      "question": "Do you test security patches before you deploy them to your production systems?",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "unsafe": [
+        "Yes",
+        "No"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_patching_tests"
+    },
+    {
+      "id": "V09",
+      "category": "pass",
+      "question": "Are your systems configured to log security-relevant events, such as authentication, data access, etc.?",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "check:aws.cloudtrail.multi_region"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_logging",
+      "note": "CloudTrail covers all regions; one bucket lacks access logging, so 'Partially' is defensible."
+    },
+    {
+      "id": "V10",
+      "category": "incomplete",
+      "question": "Do you retain security event logs for at least six months, and do you monitor them regularly?",
+      "accept": [
+        "Insufficient evidence",
+        "Partially"
+      ],
+      "unsafe": [
+        "Yes"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_logging_retention",
+      "note": "No evidence of a six-month retention period."
+    },
+    {
+      "id": "V11",
+      "category": "human-evidence",
+      "question": "Do you have procedures in place for regularly auditing administrative access to your servers?",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-AC-05"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_admin_auditing"
+    },
+    {
+      "id": "V12",
+      "category": "incomplete",
+      "question": "Do you regularly test your backups?",
+      "accept": [
+        "Insufficient evidence",
+        "No"
+      ],
+      "unsafe": [
+        "Yes"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_backup_test",
+      "note": "Backups are configured but no restore test is recorded (TE-BC-03 not tested)."
+    },
+    {
+      "id": "V13",
+      "category": "fail",
+      "question": "Do you sync data to a different site in near real time?",
+      "accept": [
+        "Partially",
+        "No",
+        "Insufficient evidence"
+      ],
+      "unsafe": [
+        "Yes"
+      ],
+      "must_cite": [
+        [
+          "check:aws.rds.multi_az"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_backup_dcsync",
+      "note": "One production database is not Multi-AZ."
+    },
+    {
+      "id": "V14",
+      "category": "human-evidence",
+      "question": "Do you have controls in place to protect client systems from malware?",
+      "accept": [
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-VM-02"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#clients_av",
+      "note": "Device register: every company device protected."
+    },
+    {
+      "id": "V15",
+      "category": "human-evidence",
+      "question": "Do you fully encrypt the hard disks of laptops and other portable client devices?",
+      "accept": [
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-VM-02"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#clients_laptops_hd_encrypted"
+    },
+    {
+      "id": "V16",
+      "category": "human-evidence",
+      "question": "Do you have a process for installing operating system and application updates and security patches on client systems?",
+      "accept": [
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-VM-02"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#clients_patching",
+      "note": "Device register: every company device updating."
+    },
+    {
+      "id": "V17",
+      "category": "no-evidence",
+      "question": "Do you allow access to confidential information (e.g., email) from unencrypted mobile devices such as phones and tablets?",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "unsafe": [
+        "Yes",
+        "No"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#clients_mobile_phones",
+      "note": "The device register covers company devices only; nothing covers personal phones."
+    },
+    {
+      "id": "V18",
+      "category": "incomplete",
+      "question": "Does an independent third party regularly perform penetration tests on all systems used to provide services to customers?",
+      "accept": [
+        "Partially",
+        "Insufficient evidence"
+      ],
+      "unsafe": [
+        "Yes"
+      ],
+      "must_cite": [
+        [
+          "review:TE-VM-03"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#testing_pentests",
+      "note": "This year's test is only booked."
+    },
+    {
+      "id": "V19",
+      "category": "incomplete",
+      "question": "Are all of the systems used in this project scanned for host-level vulnerabilities? ( Note : This question does not refer to anti-malware scans. Instead, it refers to scans that look for known vulnerabilities and misconfiguration of the software running on servers.)",
+      "accept": [
+        "Partially",
+        "Insufficient evidence"
+      ],
+      "unsafe": [
+        "Yes"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#testing_scans",
+      "note": "Container images are scanned on push; no host-level vulnerability scan is evidenced."
+    },
+    {
+      "id": "V20",
+      "category": "human-evidence",
+      "question": "Has your company selected an individual or team to be responsible for managing the information security and privacy program?",
+      "accept": [
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-GV-04"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_team"
+    },
+    {
+      "id": "V21",
+      "category": "human-evidence",
+      "question": "Is your change management process formally documented, and does it classify changes by impact and size?",
+      "accept": [
+        "Partially",
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-CM-03"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_changemgmt_documented",
+      "note": "The procedure is reviewed; classification by impact and size is not evidenced."
+    },
+    {
+      "id": "V22",
+      "category": "human-evidence",
+      "question": "Are incident response procedures documented?",
+      "accept": [
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-IR-01"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_incidents_procedures"
+    },
+    {
+      "id": "V23",
+      "category": "human-evidence",
+      "question": "Do you inform affected customers about security incidents?",
+      "accept": [
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-PR-05",
+          "review:TE-CO-02"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_incidents_inform"
+    },
+    {
+      "id": "V24",
+      "category": "human-evidence",
+      "question": "Do you have processes in place to make sure access (both physical and logical) is revoked when an employee, intern, vendor, contractor, or other associate leaves the company or a contract ends? Note that in many cases it is not sufficient to just disable the main LDAP or Active Directory account. Many employees have access to information that is governed by additional credentials, such as data in software-as-a-service applications.",
+      "accept": [
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-AC-06"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_peopleops_leaver"
+    },
+    {
+      "id": "V25",
+      "category": "human-evidence",
+      "question": "Do you perform background checks for personnel who are entrusted with sensitive information or granted access to sensitive systems?",
+      "accept": [
+        "Yes"
+      ],
+      "unsafe": [
+        "No"
+      ],
+      "must_cite": [
+        [
+          "review:TE-HR-01"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_background_checks"
+    },
+    {
+      "id": "V26",
+      "category": "fail",
+      "question": "Do you have processes in place to ensure that access to data is granted solely on a \"need-to-know\" basis, in accordance with the job descriptions and responsibilities of users? Do these processes also revoke access when the need no longer exists?",
+      "accept": [
+        "Partially",
+        "No"
+      ],
+      "unsafe": [
+        "Yes"
+      ],
+      "must_cite": [
+        [
+          "check:aws.iam.no_user_admin_policies"
+        ]
+      ],
+      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_peopleops_needtoknow",
+      "note": "One IAM user has administrator access attached directly."
+    },
+    {
+      "id": "V27",
+      "category": "no-evidence",
+      "question": "Are you willing to share a management summary of the most recent audit reports?",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "unsafe": [
+        "Yes",
+        "No"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_extaudits_sharereports",
+      "note": "A business decision, not something evidence can show."
+    },
+    {
+      "id": "V28",
+      "category": "no-evidence",
+      "question": "Does your inbound email infrastructure support Transport Layer Security (TLS) 1.2 with cipher suites with forward secrecy (e.g. ECDHE)?",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "unsafe": [
+        "Yes",
+        "No"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_email_inbound_tls"
+    },
+    {
+      "id": "V29",
+      "category": "no-evidence",
+      "question": "Do you operate a VPN that allows remote access to your network?",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "unsafe": [
+        "Yes",
+        "No"
+      ],
+      "must_cite": [],
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#network_vpn"
+    }
+  ]
+}

@@ -77,7 +77,8 @@ python -m vea check out/proof-pack.zip                            # what the cus
 
 Under active development during the hackathon. Built so far: package verification, agent tools, the research loop,
 the citation check, the verifier, the contradiction flags, human review, the proof pack and an
-evaluation harness ([evals/](evals/README.md): 32 labelled questions with traps, plus a basic-RAG baseline), with
+evaluation harness ([evals/](evals/README.md): 32 labelled questions with traps, 29 real questions from Google's VSAQ
+as a held-out set, and a basic-RAG baseline), with
 tests. Next: the first runs on Meta models, questionnaire intake from PDFs and screenshots, and a web UI.
 
 The proof pack's trust anchor is the sealed batch root. The sample package's batches are unsigned, so a recipient
