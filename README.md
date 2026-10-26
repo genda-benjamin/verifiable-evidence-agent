@@ -12,14 +12,20 @@ a confident answer with no evidence behind it is a liability in a compliance rev
 
 ## What this agent does
 
-For each question in a customer's questionnaire (PDF, spreadsheet or screenshot), the agent:
+For each question in a customer's questionnaire, the agent:
 
-1. **Plans** what evidence would prove an answer.
-2. **Retrieves** evidence through tools over the company's own evidence package.
-3. **Drafts** an answer in which every claim cites an evidence record by its tamper-evident hash.
-4. **Verifies** each claim with a second model pass and rejects anything the cited evidence does not support.
-5. **Abstains** ("not enough evidence") and says what is missing, instead of guessing.
-6. Waits for **human approval** of every answer before export.
+1. **Researches** with read-only tools over the company's evidence package: search, open evidence records, read
+   controls, list open findings.
+2. **Drafts** an answer (Yes / No / Partially / Insufficient evidence) in which every claim cites evidence records.
+3. **Checks every citation in code, without a model.** A cited record must exist, pass cryptographic verification
+   (content hash, hash chain, Merkle inclusion proof), have been opened by the agent, and be the *latest* record of
+   its check. A stale record can only be cited next to the newer one.
+4. **Verifies** each surviving claim with a separate model call that sees only the claim and the evidence it cites,
+   and drops claims the evidence does not support.
+5. **Abstains** ("Insufficient evidence") when no claim survives, instead of guessing.
+6. **Flags contradictions** for the reviewer, also in code: a "Yes" whose cited check currently fails, or with open
+   findings on the controls it relies on.
+7. Waits for **human approval** of every answer.
 
 ## What existed before the hackathon, and what is new
 
@@ -28,12 +34,36 @@ For each question in a customer's questionnaire (PDF, spreadsheet or screenshot)
 | **TrustEvidence** ([gettrustevidence.com](https://gettrustevidence.com)): the compliance platform that scans cloud accounts read-only, collects hash-chained evidence and exports evidence packages | **Existed before** the hackathon. Private codebase, not part of this submission. |
 | **Everything in this repository** | **New**, built during the hackathon (first commit 26 October 2026). |
 
-The agent reads TrustEvidence's existing evidence-package export format as its input. No TrustEvidence code is
-copied here.
+The agent reads TrustEvidence's existing evidence-package export format as its input. The verification code in
+`vea/evidence.py` is a new, independent implementation of that format's published verification recipe.
+
+`samples/sample-co-evidence-package.zip` is an export from TrustEvidence for a **fictional** company, Sample Co,
+used as test data. Like every export, it contains TrustEvidence's own standalone verifier (`verify.py`,
+`verify.html`) and report (`report.pdf`). Those files existed before the hackathon and are not part of the
+submission.
+
+## Quick start
+
+Tested on Python 3.11. The agent uses only the standard library; the tests need `pytest`.
+
+```bash
+python -m vea verify samples/sample-co-evidence-package.zip
+python -m pytest -q
+```
+
+Answering a questionnaire needs a model endpoint (Meta Model API, or Muse Spark Open on Baseten):
+
+```bash
+python -m vea answer samples/sample-co-evidence-package.zip samples/questionnaire.csv --provider meta
+```
+
+`python -m vea answer --help` lists the providers; each reads its key from an environment variable.
 
 ## Status
 
-Day 0: repository set up. The build starts 27 October.
+Under active development during the hackathon. Built so far: package verification, agent tools, the research loop,
+the citation check, the verifier and the contradiction flags, with tests. Next: a proof pack the customer can
+verify offline, an evaluation set, questionnaire intake from PDFs and screenshots, and a web UI.
 
 ## Security
 
