@@ -231,11 +231,15 @@ class Agent:
 
     def _verify_claim(self, claim: Claim) -> None:
         evidence = [self.package.get(i).summary() for i in claim.evidence_ids]  # existence checked already
-        reply = self.verifier.complete([
+        messages = [
             {"role": "system", "content": VERIFIER_PROMPT},
             {"role": "user", "content": f"Claim: {claim.text}\n\nEvidence:\n{json.dumps(evidence, ensure_ascii=False)[:8000]}"},
-        ], max_tokens=300)
-        verdict = parse_json(reply) or {}
+        ]
+        verdict: dict[str, Any] = {}
+        for _ in range(2):  # one retry for an unreadable reply; after that the claim counts as unsupported
+            verdict = parse_json(self.verifier.complete(messages, max_tokens=2000)) or {}
+            if "supported" in verdict:
+                break
         claim.supported = verdict.get("supported") is True
         claim.verifier_reason = str(verdict.get("reason") or ("verifier reply was not JSON" if not verdict else ""))
 

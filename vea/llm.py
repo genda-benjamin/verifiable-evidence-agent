@@ -21,7 +21,7 @@ class Provider(Protocol):
     name: str
     usage: "Usage"
 
-    def complete(self, messages: list[Message], *, temperature: float = 0.0, max_tokens: int = 1200) -> str: ...
+    def complete(self, messages: list[Message], *, temperature: float = 0.0, max_tokens: int = 4000) -> str: ...
 
 
 @dataclass
@@ -52,7 +52,20 @@ class OpenAICompatible:
     timeout: float = 120.0
     usage: Usage = field(default_factory=Usage)
 
-    def complete(self, messages: list[Message], *, temperature: float = 0.0, max_tokens: int = 1200) -> str:
+    def complete(self, messages: list[Message], *, temperature: float = 0.0, max_tokens: int = 4000) -> str:
+        data = self._post(messages, temperature, max_tokens)
+        choice = (data.get("choices") or [{}])[0]
+        if not (choice.get("message") or {}).get("content") and choice.get("finish_reason") == "length":
+            # Reasoning models think in hidden tokens first; if the thinking used the whole budget, the visible answer
+            # is empty. Ask once more with more room rather than return nothing.
+            data = self._post(messages, temperature, min(max_tokens * 3, 16000))
+            choice = (data.get("choices") or [{}])[0]
+        try:
+            return choice["message"]["content"] or ""
+        except (KeyError, TypeError):
+            raise ProviderError(f"{self.name} returned an unexpected response: {str(data)[:300]}") from None
+
+    def _post(self, messages: list[Message], temperature: float, max_tokens: int) -> dict[str, Any]:
         body = json.dumps({"model": self.model, "messages": messages, "temperature": temperature,
                            "max_tokens": max_tokens}).encode()
         req = urllib.request.Request(self.base_url.rstrip("/") + "/chat/completions", data=body, method="POST",
@@ -76,10 +89,7 @@ class OpenAICompatible:
                 raise ProviderError(f"{self.name} unreachable: {e}") from None
         u = data.get("usage") or {}
         self.usage.add(u.get("prompt_tokens", 0), u.get("completion_tokens", 0), time.monotonic() - started)
-        try:
-            return data["choices"][0]["message"]["content"] or ""
-        except (KeyError, IndexError, TypeError):
-            raise ProviderError(f"{self.name} returned an unexpected response: {str(data)[:300]}") from None
+        return data
 
 
 @dataclass
@@ -90,7 +100,7 @@ class ScriptedProvider:
     usage: Usage = field(default_factory=Usage)
     seen: list[list[Message]] = field(default_factory=list)
 
-    def complete(self, messages: list[Message], *, temperature: float = 0.0, max_tokens: int = 1200) -> str:
+    def complete(self, messages: list[Message], *, temperature: float = 0.0, max_tokens: int = 4000) -> str:
         self.seen.append(messages)
         self.usage.add(0, 0, 0.0)
         if callable(self.replies):

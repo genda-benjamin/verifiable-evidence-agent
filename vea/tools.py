@@ -72,8 +72,10 @@ class Toolbox:
                         "verified": e.verification.ok, "score": round(score, 2)})
         return out
 
-    def get_evidence(self, evidence_id: str = "", evidence_ids: list[str] | None = None) -> Any:
+    def get_evidence(self, evidence_id: str | list[str] = "", evidence_ids: list[str] | None = None) -> Any:
         """Open one record (evidence_id) or up to 6 (evidence_ids). Only opened records may be cited."""
+        if isinstance(evidence_id, list):  # models sometimes pass several ids in the single-id argument
+            evidence_ids, evidence_id = evidence_id, ""
         ids = [evidence_id] if evidence_id else list(evidence_ids or [])[:6]
         if not ids:
             return {"error": "give evidence_id or evidence_ids"}

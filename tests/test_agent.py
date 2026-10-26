@@ -175,3 +175,9 @@ def test_yes_answers_carry_no_missing_list(package):
                           json.dumps({"action": "answer", "answer": "Yes", "missing": ["noise"],
                                       "claims": [{"text": "Root has MFA.", "evidence_ids": [ROOT_MFA]}]}), supported()])
     assert Agent(package, p).answer("Root MFA?").missing == []
+
+
+def test_several_ids_in_the_single_id_argument_still_open_them(package):
+    tools = Toolbox(package)
+    opened = tools.get_evidence(evidence_id=[ROOT_MFA, CONSOLE_MFA])
+    assert [o["evidence_id"] for o in opened] == [ROOT_MFA, CONSOLE_MFA] and tools.opened == {ROOT_MFA, CONSOLE_MFA}
