@@ -99,14 +99,16 @@ class AuditLog:
         return problems
 
 
-def approval_entry(actor: str, subject: str, answer: dict[str, Any], *, at: str, ref: str, note: str = "") -> dict[str, Any]:
+def approval_entry(actor: str, subject: str, answer: dict[str, Any], *, at: str, ref: str, note: str = "",
+                   digest: str | None = None) -> dict[str, Any]:
     """An approval in the proof-pack format, for a host application that keeps approvals in its own audit log.
 
     `ref` names the host's own record of the approval (for example "trustevidence-audit:<event id>"), and stands where
     the standalone log keeps the previous entry's hash. The host's log provides the append-only guarantee; this entry
-    binds the approval to the exact answer, so the recipient can still check it."""
+    binds the approval to the exact answer, so the recipient can still check it. Pass the `digest` stored when the
+    person approved: recomputing it from today's answer would hide an edit made after approval."""
     entry = {"seq": 0, "at": at, "actor": actor, "action": "approved", "subject": subject,
-             "details": {"digest": answer_digest(answer), "answer": answer.get("answer"), "note": note}, "prev": ref}
+             "details": {"digest": digest or answer_digest(answer), "answer": answer.get("answer"), "note": note}, "prev": ref}
     entry["hash"] = entry_hash(entry)
     return entry
 

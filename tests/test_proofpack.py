@@ -226,3 +226,10 @@ def test_host_audit_log_approvals_build_a_verifiable_pack(package, results, tmp_
     results[1]["caveats"] = "edited later"
     with pytest.raises(proofpack.PackError, match="changed after it was approved"):
         proofpack.build_bytes(package, results, log=approvals, actor="owner")
+    # Entries rebuilt from the host's stored fingerprint still catch the edit.
+    from vea.proofcheck import answer_digest
+    stored = {r["id"]: answer_digest(r) for r in results}
+    results[2]["answer"] = "Yes"
+    rebuilt = RecordedApprovals({r["id"]: approval_entry("owner", r["id"], r, at="t", ref="x", digest=stored[r["id"]] if r["id"] != "Q3"
+                                                         else entries["Q3"]["details"]["digest"]) for r in results}, on_export=lambda *a: None)
+    assert rebuilt.approval_problems(results) == ["Q3: the answer changed after it was approved; review it again"]
