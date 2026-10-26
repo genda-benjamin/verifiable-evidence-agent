@@ -1,0 +1,9 @@
+id,question
+Q1,Is multi-factor authentication enforced for all administrative and console access?
+Q2,Is data at rest encrypted?
+Q3,Do employees complete security awareness training?
+Q4,Do you have a documented incident response plan?
+Q5,Are user access rights reviewed periodically?
+Q6,Are any storage buckets publicly accessible?
+Q7,Do you perform annual third-party penetration tests?
+Q8,Is customer data stored in the EU only?

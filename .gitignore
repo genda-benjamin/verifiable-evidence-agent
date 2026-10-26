@@ -13,3 +13,6 @@ __pycache__/
 # Local data: real evidence packages and questionnaires stay on the machine
 data/private/
 *.zip
+# ...except the fictional sample package the demo and tests use
+!samples/*.zip
+out/
