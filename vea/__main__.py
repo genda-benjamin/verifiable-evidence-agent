@@ -49,6 +49,8 @@ def cmd_answer(args) -> int:
             print(f"       - {c.text}  ({', '.join(i[:8] for i in c.evidence_ids)})")
         if r.caveats:
             print(f"       caveats: {r.caveats}")
+        for m in r.missing:
+            print(f"       missing: {m}")
         for f in r.flags:
             print(f"       REVIEW: {f}")
     out = Path(args.out)
@@ -73,6 +75,8 @@ def cmd_review(args) -> int:
             print(f"       - {c['text']}  ({', '.join(i[:8] for i in c['evidence_ids'])})")
         if r.get("caveats"):
             print(f"       caveats: {r['caveats']}")
+        for m in r.get("missing") or []:
+            print(f"       missing: {m}")
         for f in r.get("flags") or []:
             print(f"       REVIEW: {f}")
         choice = input("    [a/r/s/q] ").strip().lower()[:1]

@@ -143,3 +143,35 @@ def test_step_limit_and_bad_json_abstain(package):
     p = ScriptedProvider(lambda m: "thinking..." if len(m) % 2 else tool("list_controls"))
     r = Agent(package, p, max_steps=3).answer("Anything?")
     assert r.status == "abstained" and r.answer == "Insufficient evidence"
+
+
+def test_list_gaps_names_controls_without_current_evidence(package):
+    gaps = {g["control_id"]: g for g in Toolbox(package).list_gaps()}
+    assert set(gaps) == {"TE-BC-03", "TE-VM-03"}
+    assert gaps["TE-BC-03"]["status"] == "NOT_TESTED" and "booked" in gaps["TE-VM-03"]["why"]
+
+
+def test_refusal_names_what_is_missing(package):
+    p = ScriptedProvider([
+        tool("get_control", control_id="TE-BC-03"),
+        json.dumps({"action": "answer", "answer": "Insufficient evidence", "claims": [], "caveats": "",
+                    "missing": ["A record of a backup restore test"]}),
+    ])
+    r = Agent(package, p).answer("Do you regularly test restoring from backups?")
+    assert r.status == "abstained" and r.missing[0] == "A record of a backup restore test"
+    assert any(m.startswith("TE-BC-03 Backup restoration and DR testing: not tested") for m in r.missing)
+
+
+def test_every_refusal_names_something(package):
+    r = Agent(package, ScriptedProvider([answer("Insufficient evidence", [])])).answer("Are you ISO 27001 certified?")
+    assert r.missing == ["No evidence record in this package addresses this question."]
+    # When the checks remove every claim, the refusal says so instead of staying silent.
+    r = Agent(package, ScriptedProvider([answer("Yes", [{"text": "x", "evidence_ids": ["made-up"]}])])).answer("Anything?")
+    assert r.status == "abstained" and "not supported" in r.missing[0]
+
+
+def test_yes_answers_carry_no_missing_list(package):
+    p = ScriptedProvider([tool("get_evidence", evidence_id=ROOT_MFA),
+                          json.dumps({"action": "answer", "answer": "Yes", "missing": ["noise"],
+                                      "claims": [{"text": "Root has MFA.", "evidence_ids": [ROOT_MFA]}]}), supported()])
+    assert Agent(package, p).answer("Root MFA?").missing == []

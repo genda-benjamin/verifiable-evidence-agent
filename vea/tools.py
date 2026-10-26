@@ -42,6 +42,7 @@ class Toolbox:
         self._n = max(1, len(self._docs))
         self.calls: list[dict[str, Any]] = []  # an audit trail of every tool call the agent made
         self.opened: set[str] = set()  # evidence ids whose full record the agent has read
+        self.inspected_controls: set[str] = set()  # controls the agent looked at on purpose (not via search hits)
 
     # ------------------------------------------------------------------ tools
     def search_evidence(self, query: str, limit: int = 8) -> list[dict[str, Any]]:
@@ -83,6 +84,7 @@ class Toolbox:
                 out.append({"evidence_id": i, "error": "no evidence record with this id"})
                 continue
             self.opened.add(e.id)
+            self.inspected_controls.update(e.control_ids)
             item = e.summary()
             newer = self.package.superseded_by(e.id)
             if newer is not None:
@@ -94,6 +96,7 @@ class Toolbox:
     def get_control(self, control_id: str) -> dict[str, Any]:
         for c in self.package.controls:
             if c.get("control_id") == control_id:
+                self.inspected_controls.add(control_id)
                 out = {k: c.get(k) for k in ("control_id", "name", "objective", "status", "applicable", "criteria",
                                              "justification", "open_findings", "last_tested") if c.get(k) not in (None, "")}
                 out["checks"] = [{"check_id": x.get("check_id"), "status": x.get("status"), "expected": x.get("expected"),
@@ -103,6 +106,31 @@ class Toolbox:
                     out["human_review"] = {k: r.get(k) for k in ("result", "evidence_id", "reviewed_at", "valid_until", "expired", "notes")}
                 return out
         return {"error": f"no control {control_id}"}
+
+    def list_gaps(self) -> list[dict[str, Any]]:
+        """Controls with no current evidence: never tested, waiting on a review, or with an expired review."""
+        return [g for c in self.package.controls if (g := self.gap(c)) is not None]
+
+    @staticmethod
+    def gap(control: dict[str, Any]) -> dict[str, Any] | None:
+        status, review = control.get("status"), control.get("review") or {}
+        if status == "NOT_TESTED":
+            why = control.get("reason") or "no evidence has been recorded"
+        elif status == "NEEDS_REVIEW":
+            why = review.get("notes") or "a reviewer marked it as needing follow-up"
+        elif review.get("expired"):
+            why = f"the last review expired (valid until {review.get('valid_until')})"
+        else:
+            return None
+        return {"control_id": control.get("control_id"), "name": control.get("name"), "status": status, "why": why}
+
+    def gaps_for(self, control_ids: set[str]) -> list[str]:
+        """One line per gap among these controls, for the 'what is missing' part of an answer."""
+        lines = []
+        for c in self.package.controls:
+            if c.get("control_id") in control_ids and (g := self.gap(c)) is not None:
+                lines.append(f"{g['control_id']} {g['name']}: {g['status'].replace('_', ' ').lower()} ({g['why'].rstrip('.')})")
+        return lines
 
     def list_controls(self) -> list[dict[str, Any]]:
         return [{"control_id": c.get("control_id"), "name": c.get("name"), "status": c.get("status")} for c in self.package.controls]
@@ -125,6 +153,7 @@ class Toolbox:
         "get_evidence": "get_evidence(evidence_id: str) or get_evidence(evidence_ids: [str, ...] up to 6): open full records: what was checked, the result, what was observed. You may cite only records you opened",
         "get_control": "get_control(control_id: str): a control's status and the evidence ids behind it (e.g. TE-AC-01)",
         "list_controls": "list_controls(): every control with its status",
+        "list_gaps": "list_gaps(): controls with no current evidence (not tested, needs review, expired review)",
         "list_findings": "list_findings(status: str = 'open'): security findings (problems found); status is 'open', 'resolved' or 'any'",
     }
 

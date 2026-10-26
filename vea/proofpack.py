@@ -58,7 +58,7 @@ def _answers_doc(package: EvidencePackage, results: list[dict[str, Any]], allow_
 
     questions = [{"id": r.get("id"), "question": r.get("question"), "answer": r.get("answer"),
                   "status": r.get("status") if r.get("status") == "approved" else "draft",
-                  "caveats": r.get("caveats") or "", "flags": r.get("flags") or [],
+                  "caveats": r.get("caveats") or "", "flags": r.get("flags") or [], "missing": r.get("missing") or [],
                   "reviewer_note": r.get("reviewer_note") or "",
                   "claims": [{"text": c.get("text"), "evidence_ids": c.get("evidence_ids"),
                               "verifier_reason": c.get("verifier_reason", "")} for c in r.get("claims") or []]}

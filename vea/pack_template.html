@@ -57,6 +57,7 @@ button.cite .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 .note.caveat { background: var(--chip); }
 .note.flag { background: var(--warn-bg); color: var(--warn); }
 .empty { color: var(--muted); margin-top: 10px; font-size: 14px; }
+ul.missing { margin: 4px 0 0; padding-left: 20px; }
 .tools { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
 .tools h2, dialog h2 { font-size: 16px; margin: 0 0 6px; }
 .tools p { color: var(--muted); margin: 6px 0; font-size: 14px; }
@@ -256,6 +257,11 @@ function render() {
       card.append(ul);
     } else {
       card.append(el("div", { class: "empty" }, "No sealed evidence covers this question, so the agent did not answer it."));
+    }
+    if ((q.missing || []).length) {
+      const ul = el("ul", { class: "missing" });
+      for (const m of q.missing) ul.append(el("li", {}, m));
+      card.append(el("div", { class: "note caveat" }, el("b", {}, "What would settle this:"), ul));
     }
     for (const f of q.flags) card.append(el("div", { class: "note flag" }, "Review: " + f));
     if (q.caveats) card.append(el("div", { class: "note caveat" }, q.caveats));

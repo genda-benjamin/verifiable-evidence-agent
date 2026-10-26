@@ -69,6 +69,7 @@ def score_item(package: EvidencePackage, item: dict[str, Any], result: dict[str,
         "claims_rejected": len(result.get("rejected_claims") or []),
         "rejection_reasons": [_reason(c) for c in result.get("rejected_claims") or []],
         "flags": len(result.get("flags") or []),
+        "names_missing": bool(result.get("missing")),
     }
 
 
@@ -106,6 +107,7 @@ def summarize(scored: list[dict[str, Any]]) -> dict[str, Any]:
         "claims_rejected": sum(s["claims_rejected"] for s in scored),
         "rejection_reasons": dict(Counter(r for s in scored for r in s["rejection_reasons"])),
         "answers_flagged": sum(1 for s in scored if s["flags"]),
+        "abstentions_naming_missing_pct": pct("names_missing", [s for s in scored if s["abstained"]]),
         "by_category": by_cat,
     }
 
@@ -183,7 +185,8 @@ def markdown(report: dict[str, Any]) -> str:
             ("Answers the checks turned into abstentions", s["pipeline_abstentions"]),
             ("Claims kept / rejected", f"{s['claims_kept']} / {s['claims_rejected']}"),
             ("Rejection reasons", ", ".join(f"{k}: {v}" for k, v in s["rejection_reasons"].items()) or "none"),
-            ("Answers flagged for the reviewer", s["answers_flagged"])]
+            ("Answers flagged for the reviewer", s["answers_flagged"]),
+            ("Refusals that name what is missing", f"{s['abstentions_naming_missing_pct']}%")]
     u = report["usage"]["answering"]
     lines = [f"# Evaluation: {report['mode']} on {report['model']}", "",
              f"Provider `{report['provider']}`" + (f", verifier `{report['verifier']}`" if report.get("verifier") else "") +
