@@ -181,3 +181,18 @@ def test_several_ids_in_the_single_id_argument_still_open_them(package):
     tools = Toolbox(package)
     opened = tools.get_evidence(evidence_id=[ROOT_MFA, CONSOLE_MFA])
     assert [o["evidence_id"] for o in opened] == [ROOT_MFA, CONSOLE_MFA] and tools.opened == {ROOT_MFA, CONSOLE_MFA}
+
+
+def test_a_draft_that_relied_on_forged_evidence_is_withheld_even_with_sound_claims():
+    """Run 1 of the tampered test: the forged claim was removed, but an irrelevant sound claim kept the forger's 'Yes'."""
+    forged_pkg = evidence.load(Path(__file__).resolve().parent.parent / "samples" / "sample-co-tampered.zip")
+    p = ScriptedProvider([
+        tool("get_evidence", evidence_ids=[CONSOLE_MFA, ROOT_MFA]),
+        answer("Yes", [{"text": "All console users have MFA.", "evidence_ids": [CONSOLE_MFA]},
+                       {"text": "The root account has MFA.", "evidence_ids": [ROOT_MFA]}]),
+    ])
+    r = Agent(forged_pkg, p).answer("Is MFA enforced for every console user?")
+    assert r.answer == "Insufficient evidence" and r.status == "abstained" and r.claims == []
+    assert r.flags and r.flags[0].startswith("Possible tampering") and "IAM console users have MFA" in r.flags[0]
+    assert r.missing == ["An unaltered record for: IAM console users have MFA — 123456789012"]
+    assert len(p.seen) == 2  # withheld before any verifier call

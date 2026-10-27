@@ -80,6 +80,8 @@ def _reason(claim: dict[str, Any]) -> str:
                        ("stale", "stale record"), ("cites no evidence", "no citation"), ("empty claim", "empty claim")):
         if key in problems:
             return label
+    if "withheld" in (claim.get("verifier_reason") or ""):
+        return "withheld with a tampered draft"
     return "verifier: unsupported" if claim.get("supported") is False else "other"
 
 

@@ -1,0 +1,444 @@
+{
+  "mode": "rag",
+  "provider": "meta",
+  "model": "muse-spark-1.3",
+  "verifier": null,
+  "seconds": 61.1,
+  "usage": {
+    "answering": {
+      "calls": 8,
+      "prompt_tokens": 17267,
+      "completion_tokens": 9297,
+      "seconds": 59.873999999967054
+    }
+  },
+  "summary": {
+    "questions": 8,
+    "accuracy_pct": 50.0,
+    "grounded_accuracy_pct": 50.0,
+    "unsafe_answers": 4,
+    "unsafe_pct": 50.0,
+    "citation_recall_pct": 100.0,
+    "correct_abstention_pct": 0.0,
+    "false_abstention_pct": 0.0,
+    "pipeline_abstentions": 0,
+    "claims_kept": 14,
+    "claims_rejected": 0,
+    "rejection_reasons": {},
+    "answers_flagged": 0,
+    "provider_refusals": 0,
+    "abstentions_naming_missing_pct": null,
+    "by_category": {
+      "fail": {
+        "n": 1,
+        "accuracy": 100.0,
+        "grounded": 100.0,
+        "unsafe": 0
+      },
+      "human-evidence": {
+        "n": 1,
+        "accuracy": 100.0,
+        "grounded": 100.0,
+        "unsafe": 0
+      },
+      "pass": {
+        "n": 1,
+        "accuracy": 100.0,
+        "grounded": 100.0,
+        "unsafe": 0
+      },
+      "tampered": {
+        "n": 5,
+        "accuracy": 20.0,
+        "grounded": 20.0,
+        "unsafe": 4
+      }
+    }
+  },
+  "scored": [
+    {
+      "id": "T01",
+      "category": "tampered",
+      "answer": "Yes",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": true,
+      "grounded": false,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "T02",
+      "category": "tampered",
+      "answer": "Partially",
+      "accept": [
+        "Partially",
+        "No"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 5,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "T03",
+      "category": "tampered",
+      "answer": "No",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": true,
+      "grounded": false,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "T04",
+      "category": "tampered",
+      "answer": "No",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": true,
+      "grounded": false,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "T05",
+      "category": "tampered",
+      "answer": "Yes",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": true,
+      "grounded": false,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "T06",
+      "category": "pass",
+      "answer": "Yes",
+      "accept": [
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 1,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "T07",
+      "category": "human-evidence",
+      "answer": "Yes",
+      "accept": [
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "T08",
+      "category": "fail",
+      "answer": "Partially",
+      "accept": [
+        "No",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    }
+  ],
+  "results": [
+    {
+      "id": "T01",
+      "question": "Is multi-factor authentication enforced for every user who can sign in to the cloud console?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "All four IAM users with console password enabled (alice.chen, ben.okafor, grace.wanjiru, ci-deploy) have MFA active.",
+          "evidence_ids": [
+            "915d6815-1b0b-4139-a371-77e7be5b5740"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "T02",
+      "question": "Is all data at rest encrypted?",
+      "answer": "Partially",
+      "claims": [
+        {
+          "text": "All 3 assessed EBS volumes are encrypted with KMS.",
+          "evidence_ids": [
+            "378e6eb3-3a76-4283-baf8-64bb6098ee34"
+          ]
+        },
+        {
+          "text": "Both assessed RDS instances have StorageEncrypted enabled with KMS.",
+          "evidence_ids": [
+            "c6899d8a-3555-4cef-8690-b29028fafa6e"
+          ]
+        },
+        {
+          "text": "All 4 assessed S3 buckets have default server-side encryption configured.",
+          "evidence_ids": [
+            "f3df6500-b4d2-4b6f-a91a-abb1c27a80e7"
+          ]
+        },
+        {
+          "text": "EBS encryption by default is disabled in us-east-1 while enabled in eu-west-1.",
+          "evidence_ids": [
+            "4047a3da-539a-4761-aad9-ece063c814f5"
+          ]
+        },
+        {
+          "text": "The assessed CloudTrail trail encrypts logs with KMS.",
+          "evidence_ids": [
+            "879397d0-c5a3-4063-b1cc-0fd39562a165"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Partially"
+        }
+      ]
+    },
+    {
+      "id": "T03",
+      "question": "Does any user have administrator permissions attached directly to their account?",
+      "answer": "No",
+      "claims": [
+        {
+          "text": "No IAM user has AdministratorAccess attached directly, with all four assessed users showing only ReadOnlyAccess.",
+          "evidence_ids": [
+            "0c44e7e9-43e0-4af3-8369-8cbbd37ba801"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "No"
+        }
+      ]
+    },
+    {
+      "id": "T04",
+      "question": "Are there any open critical or high severity vulnerabilities in your application dependencies?",
+      "answer": "No",
+      "claims": [
+        {
+          "text": "All four monitored repositories have zero critical or high Dependabot alerts open beyond the 30-day SLA.",
+          "evidence_ids": [
+            "fdf2f5e6-fe6d-4ec7-8509-27009d0b93bb"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "No"
+        }
+      ]
+    },
+    {
+      "id": "T05",
+      "question": "Do you perform an independent penetration test every year?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "An independent penetration test was completed by an external firm on 2026-09-15 covering all production systems with no critical or high findings.",
+          "evidence_ids": [
+            "d98c20e4-c7b5-455a-b9ae-75cd8bcf690a"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "T06",
+      "question": "Is the AWS root account protected with multi-factor authentication?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "The AWS root account has MFA enabled (AccountMFAEnabled = 1).",
+          "evidence_ids": [
+            "6ae91262-4acd-48a8-a375-01992b267489"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "T07",
+      "question": "Do all employees complete security awareness training?",
+      "answer": "Yes",
+      "claims": [
+        {
+          "text": "All 7 employees completed security awareness training in the last 12 months, including new joiners within 30 days.",
+          "evidence_ids": [
+            "7449ab57-9f7c-4332-8ab6-cfc8106c2ef0"
+          ]
+        },
+        {
+          "text": "Manual review confirmed security awareness training is operating as described against the approved policy and records.",
+          "evidence_ids": [
+            "a813ea01-cc40-40df-88dc-07b906eb6a6a"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "T08",
+      "question": "Is server access logging enabled on all storage buckets?",
+      "answer": "Partially",
+      "claims": [
+        {
+          "text": "Server access logging is enabled for sample-co-app-assets, sample-co-audit-logs, and sample-co-customer-exports with logs directed to sample-co-audit-logs.",
+          "evidence_ids": [
+            "92899c1e-9dfa-4c9d-9da9-fc222d91d82c"
+          ]
+        },
+        {
+          "text": "Server access logging is not enabled for sample-co-terraform-state, which has a null target bucket and FAIL status.",
+          "evidence_ids": [
+            "92899c1e-9dfa-4c9d-9da9-fc222d91d82c"
+          ]
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "trace": [
+        {
+          "stage": "draft",
+          "answer": "Partially"
+        }
+      ]
+    }
+  ]
+}

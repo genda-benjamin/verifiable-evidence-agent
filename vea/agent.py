@@ -171,6 +171,23 @@ class Agent:
         trace.append({"stage": "citation_check", "passed": sum(c.citation_ok for c in claims), "failed": sum(not c.citation_ok for c in claims),
                       "problems": [p for c in claims for p in c.citation_problems]})
 
+        # A draft that relied on evidence failing cryptographic verification is compromised as a whole: its answer was
+        # reached from altered evidence, even if other claims are sound. Withhold it and say so; never answer around it.
+        tampered = [e for e in (self.package.get(i) for i in dict.fromkeys(i for c in claims for i in c.evidence_ids))
+                    if e is not None and not e.verification.ok]
+        if tampered:
+            for c in claims:
+                if c.citation_ok:
+                    c.verifier_reason = "withheld: the same draft relied on evidence that failed verification"
+            names = "; ".join(f"{e.id[:8]} {e.title} ({e.verification.describe()})" for e in tampered)
+            trace.append({"stage": "decision", "abstained": True, "reason": "draft relied on evidence that failed verification",
+                          "tampered": [e.id for e in tampered]})
+            return Result(question, "Insufficient evidence", "abstained", [], str(draft.get("caveats") or ""), trace,
+                          rejected_claims=claims,
+                          flags=[f"Possible tampering: the draft relied on {len(tampered)} evidence record(s) that fail "
+                                 f"cryptographic verification, so the answer was withheld: {names}. Check the evidence package."],
+                          missing=[f"An unaltered record for: {e.title}" for e in tampered])
+
         for c in claims:
             if not c.citation_ok:
                 continue
