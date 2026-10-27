@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
-from typing import Any
+from typing import Any, Callable
 
 from vea.evidence import EvidencePackage
 from vea.llm import Provider, ProviderError
@@ -113,16 +113,23 @@ def parse_json(text: str) -> dict[str, Any] | None:
 
 class Agent:
     def __init__(self, package: EvidencePackage, provider: Provider, verifier: Provider | None = None,
-                 max_steps: int = 8, verify: bool = True):
+                 max_steps: int = 8, verify: bool = True, on_step: Callable[[dict[str, Any]], None] | None = None):
         self.package = package
         self.provider = provider
         self.verifier = verifier or provider
         self.max_steps = max_steps
         self.verify = verify
+        self.on_step = on_step  # called with each trace entry as it happens (the CLI's --steps view)
 
     def answer(self, question: str) -> Result:
         tools = Toolbox(self.package)
         trace: list[dict[str, Any]] = []
+
+        def record(entry: dict[str, Any]) -> None:  # record a step, and report it to whoever is watching
+            trace.append(entry)
+            if self.on_step:
+                self.on_step(entry)
+
         period = self.package.period or {}
         messages: list[dict[str, Any]] = [
             {"role": "system", "content": RESEARCH_PROMPT.format(
@@ -136,12 +143,12 @@ class Agent:
             try:
                 reply = self.provider.complete(messages)
             except ProviderError as exc:  # e.g. a content-policy refusal: answer this one by hand, carry on with the rest
-                trace.append({"stage": "research", "step": step, "provider_error": str(exc)[:400]})
+                record({"stage": "research", "step": step, "provider_error": str(exc)[:400]})
                 return Result(question, "Insufficient evidence", "abstained", [], "", trace, missing=[REFUSED])
             action = parse_json(reply)
             messages.append({"role": "assistant", "content": reply})
             if action is None:
-                trace.append({"stage": "research", "step": step, "error": "reply was not JSON", "reply": reply[:300]})
+                record({"stage": "research", "step": step, "error": "reply was not JSON", "reply": reply[:300]})
                 messages.append({"role": "user", "content": "Reply with exactly one JSON object as instructed."})
                 continue
             if action.get("action") == "answer":
@@ -150,25 +157,25 @@ class Agent:
             name, args = action.get("tool", ""), action.get("args") or {}
             result = tools.call(name, args if isinstance(args, dict) else {})
             observed = json.dumps(result, ensure_ascii=False, default=str)
-            trace.append({"stage": "research", "step": step, "tool": name, "args": args, "why": action.get("why", ""),
+            record({"stage": "research", "step": step, "tool": name, "args": args, "why": action.get("why", ""),
                           "result_preview": observed[:400]})
             if step == self.max_steps - 2:
                 observed += "\n\nYou have one step left: give the final answer now."
             messages.append({"role": "user", "content": f"Tool result:\n{observed[:6000]}"})
 
         if draft is None:
-            trace.append({"stage": "draft", "error": "no answer within the step limit"})
+            record({"stage": "draft", "error": "no answer within the step limit"})
             return Result(question, "Insufficient evidence", "abstained", [], "The agent did not reach an answer.", trace,
                           missing=tools.gaps_for(tools.inspected_controls) or ["The agent did not finish its research; answer this one by hand."])
 
         claims = [Claim(text=str(c.get("text", "")).strip(), evidence_ids=[str(i) for i in (c.get("evidence_ids") or [])])
                   for c in (draft.get("claims") or []) if isinstance(c, dict)]
         answer = draft.get("answer") if draft.get("answer") in ANSWERS else "Insufficient evidence"
-        trace.append({"stage": "draft", "answer": answer, "claims": len(claims)})
+        record({"stage": "draft", "answer": answer, "claims": len(claims)})
 
         for c in claims:
             self._check_citations(c, tools.opened)
-        trace.append({"stage": "citation_check", "passed": sum(c.citation_ok for c in claims), "failed": sum(not c.citation_ok for c in claims),
+        record({"stage": "citation_check", "passed": sum(c.citation_ok for c in claims), "failed": sum(not c.citation_ok for c in claims),
                       "problems": [p for c in claims for p in c.citation_problems]})
 
         # A draft that relied on evidence failing cryptographic verification is compromised as a whole: its answer was
@@ -180,7 +187,7 @@ class Agent:
                 if c.citation_ok:
                     c.verifier_reason = "withheld: the same draft relied on evidence that failed verification"
             names = "; ".join(f"{e.id[:8]} {e.title} ({e.verification.describe()})" for e in tampered)
-            trace.append({"stage": "decision", "abstained": True, "reason": "draft relied on evidence that failed verification",
+            record({"stage": "decision", "abstained": True, "reason": "draft relied on evidence that failed verification",
                           "tampered": [e.id for e in tampered]})
             return Result(question, "Insufficient evidence", "abstained", [], str(draft.get("caveats") or ""), trace,
                           rejected_claims=claims,
@@ -195,7 +202,7 @@ class Agent:
                 self._verify_claim(c)
             else:
                 c.supported, c.verifier_reason = True, "verifier disabled"
-        trace.append({"stage": "verifier", "supported": sum(c.supported is True for c in claims),
+        record({"stage": "verifier", "supported": sum(c.supported is True for c in claims),
                       "unsupported": sum(c.supported is False for c in claims)})
 
         kept = [c for c in claims if c.accepted]
@@ -204,14 +211,14 @@ class Agent:
         stated = [str(m).strip()[:300] for m in (draft.get("missing") or []) if str(m).strip()][:5]             if isinstance(draft.get("missing"), list) else []
         missing = list(dict.fromkeys(stated + tools.gaps_for(tools.inspected_controls)))
         if answer != "Insufficient evidence" and not kept:
-            trace.append({"stage": "decision", "abstained": True, "reason": "no claim survived verification"})
+            record({"stage": "decision", "abstained": True, "reason": "no claim survived verification"})
             return Result(question, "Insufficient evidence", "abstained", [], caveats, trace, rejected_claims=dropped,
                           missing=missing or ["Evidence that directly supports an answer: the drafted claims were not supported by what they cited."])
         status = "abstained" if answer == "Insufficient evidence" else "draft"
         if dropped and kept:
             caveats = (caveats + " " if caveats else "") + f"{len(dropped)} drafted claim(s) were removed because the evidence did not support them."
         flags = self._consistency_flags(answer, kept)
-        trace.append({"stage": "decision", "answer": answer, "kept": len(kept), "dropped": len(dropped), "flags": len(flags)})
+        record({"stage": "decision", "answer": answer, "kept": len(kept), "dropped": len(dropped), "flags": len(flags)})
         if answer == "Insufficient evidence" and not missing:
             missing = ["No evidence record in this package addresses this question."]
         return Result(question, answer, status, kept, caveats, trace, rejected_claims=dropped, flags=flags,

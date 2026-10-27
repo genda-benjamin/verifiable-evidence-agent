@@ -5,6 +5,9 @@
     python -m vea review out/answers.json --reviewer "Jane Doe <jane@example.com>"
     python -m vea export out/answers.json --by "Jane Doe <jane@example.com>" --out out/proof-pack.zip
     python -m vea check out/proof-pack.zip
+    python -m vea ask samples/sample-co-evidence-package.zip "Is MFA enforced?" --steps
+    python -m vea compare samples/sample-co-tampered.zip "Is MFA enforced for every console user?"
+    python -m vea bare "Are background checks performed on personnel?"
 """
 from __future__ import annotations
 
@@ -31,13 +34,115 @@ def cmd_verify(args) -> int:
     return 0 if p.manifest_ok and not bad else 1
 
 
+def _short(package, eid: str) -> str:
+    e = package.get(eid)
+    return f"{eid[:8]} {e.title}" if e else f"{eid[:8]} (no such record)"
+
+
+def step_printer(package):
+    """The --steps view: print each research step and check as the agent takes it."""
+    n = [0]
+
+    def show(entry: dict) -> None:
+        stage = entry.get("stage")
+        if stage == "research":
+            n[0] += 1
+            if entry.get("provider_error"):
+                print(f"  [{n[0]}] the model provider refused this question")
+            elif entry.get("error"):
+                print(f"  [{n[0]}] unreadable reply; asked again")
+            else:
+                a = entry.get("args") or {}
+                ids = a.get("evidence_ids") or a.get("evidence_id") or []
+                ids = ids if isinstance(ids, list) else [ids]
+                detail = (f'"{a.get("query", "")}"' if entry["tool"] == "search_evidence" else
+                          ", ".join(i[:8] for i in ids) if entry["tool"] == "get_evidence" else
+                          a.get("control_id", "") if entry["tool"] == "get_control" else a.get("status", ""))
+                why = f"   ({entry['why']})" if entry.get("why") else ""
+                print(f"  [{n[0]}] {entry['tool']} {detail}{why}")
+        elif stage == "draft" and "answer" in entry:
+            print(f"  draft: {entry['answer']}, {entry['claims']} claim(s)")
+        elif stage == "citation_check":
+            print(f"  citation check (code): {entry['passed']} passed, {entry['failed']} rejected")
+            for problem in entry.get("problems") or []:
+                print(f"      rejected: {problem}")
+        elif stage == "verifier":
+            print(f"  verifier (model): {entry['supported']} supported, {entry['unsupported']} not supported")
+        elif stage == "decision" and entry.get("tampered"):
+            print("  WITHHELD: the draft relied on evidence that fails cryptographic verification")
+    return show
+
+
+def print_result(r, package, indent: str = "  ") -> None:
+    print(f"{indent}Answer: {r.answer}")
+    for c in r.claims:
+        print(f"{indent}  - {c.text}")
+        for i in c.evidence_ids:
+            print(f"{indent}      cites {_short(package, i)}")
+    if r.caveats:
+        print(f"{indent}Caveats: {r.caveats}")
+    for m in r.missing:
+        print(f"{indent}Missing: {m}")
+    for f in r.flags:
+        print(f"{indent}REVIEW: {f}")
+
+
+def _agent(args, package) -> Agent:
+    provider = llm.from_env(args.provider)
+    verifier = llm.from_env(args.verifier) if getattr(args, "verifier", None) else provider
+    return Agent(package, provider, verifier, max_steps=getattr(args, "max_steps", 8),
+                 on_step=step_printer(package) if getattr(args, "steps", False) else None)
+
+
+def cmd_ask(args) -> int:
+    """One question, answered by the agent, optionally showing every step."""
+    p = evidence.load(args.package)
+    agent = _agent(args, p)
+    print(f"Question: {args.question}\n")
+    r = agent.answer(args.question)
+    print()
+    print_result(r, p)
+    u = agent.provider.usage
+    print(f"\n({u.calls} model calls, {u.prompt_tokens + u.completion_tokens} tokens, {u.seconds:.0f} s)")
+    return 0
+
+
+def cmd_compare(args) -> int:
+    """The same question, answered by basic RAG and then by the agent, on the same evidence."""
+    p = evidence.load(args.package)
+    bad = sum(1 for e in p.evidence.values() if not e.verification.ok)
+    print(f"Evidence package: {p.organization}, {len(p.evidence)} records" + (f" ({bad} fail verification)" if bad else ""))
+    print(f"Question: {args.question}\n")
+    print("BASIC RAG (one search, one model call, no checks)")
+    rag = evaluate.rag_answer(p, llm.from_env(args.provider), args.question)
+    print(f"  Answer: {rag['answer']}")
+    for c in rag["claims"]:
+        print(f"    - {c['text']}")
+        for i in c["evidence_ids"]:
+            e = p.get(i)
+            note = "" if e is None or e.verification.ok else f"   <- this record FAILS verification ({e.verification.describe()[8:]})"
+            print(f"        cites {_short(p, i)}{note}")
+    print("\nVERIFIABLE EVIDENCE AGENT")
+    r = _agent(args, p).answer(args.question)
+    print()
+    print_result(r, p)
+    return 0
+
+
+def cmd_bare(args) -> int:
+    """Ask the model with no evidence and no instructions: what an unchecked answer looks like."""
+    provider = llm.from_env(args.provider)
+    print(f"Question (no evidence given): {args.question}\n")
+    print(provider.complete([{"role": "user", "content": args.question}], max_tokens=4000).strip())
+    return 0
+
+
 def cmd_answer(args) -> int:
     p = evidence.load(args.package)
     if not p.manifest_ok or p.verified_count != len(p.evidence):
         print("warning: the package has verification failures; failing records cannot be cited.", file=sys.stderr)
-    provider = llm.from_env(args.provider)
-    verifier = llm.from_env(args.verifier) if args.verifier else provider
-    agent = Agent(p, provider, verifier, max_steps=args.max_steps)
+    agent = _agent(args, p)
+    provider, verifier = agent.provider, agent.verifier
     questions = questionnaire.load(args.questionnaire)
     if args.only:
         questions = [q for q in questions if q.id in set(args.only.split(","))]
@@ -155,7 +260,21 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--max-steps", type=int, default=8)
     a.add_argument("--only", help="comma-separated question ids")
     a.add_argument("--out", default="out/answers.json")
+    a.add_argument("--steps", action="store_true", help="show each research step and check as it happens")
     a.set_defaults(fn=cmd_answer)
+    for name, fn, help_text in (("ask", cmd_ask, "answer one question with the agent"),
+                                ("compare", cmd_compare, "answer one question with basic RAG, then with the agent")):
+        q = sub.add_parser(name, help=help_text)
+        q.add_argument("package")
+        q.add_argument("question")
+        q.add_argument("--provider", default="meta", choices=sorted(llm.PRESETS))
+        q.add_argument("--verifier", choices=sorted(llm.PRESETS), help="a different provider for the verifier pass")
+        q.add_argument("--steps", action="store_true", help="show each research step and check as it happens")
+        q.set_defaults(fn=fn)
+    b = sub.add_parser("bare", help="ask the model with no evidence: what an unchecked answer looks like")
+    b.add_argument("question")
+    b.add_argument("--provider", default="meta", choices=sorted(llm.PRESETS))
+    b.set_defaults(fn=cmd_bare)
     r = sub.add_parser("review", help="approve or reject drafted answers")
     r.add_argument("answers")
     r.add_argument("--reviewer", required=True, help="who is reviewing (name or email); recorded in the audit log")
@@ -180,6 +299,8 @@ def main(argv: list[str] | None = None) -> int:
     ev.add_argument("--out-dir", default="evals/results")
     ev.set_defaults(fn=cmd_eval)
     args = ap.parse_args(argv)
+    if hasattr(sys.stdout, "reconfigure"):  # evidence titles contain dashes and names a Windows console code page cannot show
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     try:
         return args.fn(args)
     except llm.ProviderError as exc:
