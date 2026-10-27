@@ -139,7 +139,9 @@ def rag_answer(package: EvidencePackage, provider: Provider, question: str, k: i
     """Basic retrieval-augmented generation: top-k search hits in the prompt, one model call, no checks."""
     tools = Toolbox(package)
     hits = tools.search_evidence(question, k)
-    context = [package.get(h["evidence_id"]).summary() for h in hits]
+    # Basic RAG retrieves text; it has no notion of verification, so it does not see this project's verdicts.
+    context = [{k: v for k, v in package.get(h["evidence_id"]).summary().items() if k not in ("verification", "content_sha256")}
+               for h in hits]
     try:
         reply = provider.complete([
             {"role": "system", "content": RAG_PROMPT.format(org=package.organization or "the company")},

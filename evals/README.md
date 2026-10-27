@@ -7,6 +7,7 @@ reviewer would give from that evidence:
 |---|---|---|---|
 | `sample-co.json` | 32 | this project, with deliberate traps | development set |
 | `vsaq.json` | 29 | **Google's VSAQ**, real vendor-security questionnaires (Apache-2.0, see [third_party/vsaq](../third_party/vsaq/README.md)) | held-out set: nothing in the agent or its search was tuned on these questions |
+| `tampered.json` | 8 | this project | **forged evidence**: the same company with five records forged to hide problems ([tamper.py](tamper.py)); tests the core claim that forged evidence is never relied on |
 
 ```bash
 python -m vea eval --mode retrieval                    # no model needed: does search surface the evidence?
@@ -17,6 +18,21 @@ python -m vea eval evals/vsaq.json --mode agent --provider meta   # the same on 
 ```
 
 Model runs write `evals/results/<time>-<provider>-<mode>.json` (every answer, claim and trace) and a `.md` summary.
+
+## The tampered-evidence test
+
+`python evals/tamper.py` rebuilds `samples/sample-co-tampered.zip` (byte-for-byte reproducible) from the sample
+package, forging five records the way a vendor hiding problems would: a console user without MFA shown with MFA, an
+unencrypted volume shown encrypted, open dependency alerts removed, a directly attached admin policy removed (with
+the record's own hashes recomputed, so only the Merkle proof catches it), and a "booked" penetration test rewritten
+as "completed, no critical findings". The readiness report is edited to match and the manifest is recomputed, so the
+package looks untouched; only the sealed hash chain and Merkle proofs reveal the forgery.
+
+Where a question's only evidence was forged, the honest answer is "Insufficient evidence"; the forger's answer is
+unsafe. Three intact questions check that the agent still answers normally inside a partly forged package.
+
+The basic-RAG baseline does not see this project's verification verdicts (basic RAG retrieves text and verifies
+nothing). It does still use this project's search, which offers only the latest record of each check.
 
 ## What each item specifies
 

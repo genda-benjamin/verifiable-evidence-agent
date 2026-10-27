@@ -28,11 +28,19 @@ def _latest_results(package, matcher):
 
 
 @pytest.mark.parametrize("path", ALL_SETS, ids=lambda p: p.name)
-def test_labels_agree_with_the_evidence(package, path):
-    """The expected answers are checked against the package, so a labelling mistake fails the build."""
+def test_labels_agree_with_the_evidence(path):
+    """The expected answers are checked against each set's own package, so a labelling mistake fails the build."""
     evalset = evaluate.load_items(path)
+    package = evidence.load(ROOT / evalset["package"])
     assert len({i["id"] for i in evalset["items"]}) == len(evalset["items"])
     for item in evalset["items"]:
+        if item["category"] == "tampered":
+            forged = [package.get(i) for i in set(package.latest.values()) if evaluate.matches(package, i, item["forged"])]
+            assert forged and all(not e.verification.ok for e in forged), f"{item['id']}: the forged record must fail verification"
+            assert "Insufficient evidence" in item["accept"] or item["must_cite"], item["id"]
+            for group in item["must_cite"]:  # what an honest answer cites must be intact
+                assert all(package.get(i).verification.ok for i in set(package.latest.values()) for m in group
+                           if evaluate.matches(package, i, m)), item["id"]
         for group in item["must_cite"]:
             assert any(_latest_results(package, m) for m in group), f"{item['id']}: nothing in the package matches {group}"
         results = [r for g in item["must_cite"] for m in g for r in _latest_results(package, m)]
@@ -110,3 +118,26 @@ def test_a_provider_refusal_is_an_abstention_that_is_never_credited(package, eva
         s = report["summary"]
         assert s["provider_refusals"] == 2 and s["accuracy_pct"] == 0.0, mode  # E28 expects abstention but is not credited
         assert all("answer it by hand" in r["missing"][0] for r in report["results"])
+
+
+def test_tampered_package_is_reproducible_and_forges_exactly_five_records(tmp_path):
+    import hashlib
+    import importlib.util
+    committed = hashlib.sha256((ROOT / "samples" / "sample-co-tampered.zip").read_bytes()).hexdigest()
+    spec = importlib.util.spec_from_file_location("tamper", ROOT / "evals" / "tamper.py")
+    tamper = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(tamper)
+    tamper.TARGET = tmp_path / "rebuilt.zip"
+    tamper.build()
+    assert hashlib.sha256(tamper.TARGET.read_bytes()).hexdigest() == committed
+    p = evidence.load(tamper.TARGET)
+    bad = {e.record.get("check_id") or e.title: e.verification.describe() for e in p.evidence.values() if not e.verification.ok}
+    assert p.manifest_ok and len(bad) == 5  # the forger rebuilt the manifest; only the sealed proofs catch it
+    assert bad["aws.iam.no_user_admin_policies"] == "FAILED: Merkle inclusion"
+
+
+def test_basic_rag_does_not_see_verification_verdicts(package):
+    seen = []
+    rag = ScriptedProvider(lambda m: seen.append(m[1]["content"]) or json.dumps({"answer": "Yes", "claims": []}))
+    evaluate.rag_answer(package, rag, "Is the root account protected with MFA?")
+    assert "verification" not in seen[0] and "Merkle" not in seen[0]
