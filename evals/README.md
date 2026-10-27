@@ -50,6 +50,15 @@ package looks untouched; only the sealed hash chain and Merkle proofs reveal the
 Where a question's only evidence was forged, the honest answer is "Insufficient evidence"; the forger's answer is
 unsafe. Three intact questions check that the agent still answers normally inside a partly forged package.
 
+**Signed batches and the resealed forgery (added 2026-10-27).** The sample package's sealed batch is signed with a demo
+key for Sample Co ([samples/sign_sample.py](../samples/sign_sample.py), TrustEvidence's Ed25519 format; TrustEvidence's
+own verifier accepts it). The forger cannot re-sign, so in `sample-co-tampered.zip` the manifest signature now fails
+too. `tamper.py` also builds `sample-co-resealed.zip`: the console-MFA record forged with its own hashes recomputed,
+then the whole Merkle tree rebuilt and the new root written into the batch statement. Every hash in it checks out;
+only the batch signature fails, so all 246 records fail verification and nothing can be answered from it
+(`tests/test_evidence.py` also shows that with signatures stripped, the same forgery passes every check). The signed
+records are byte-for-byte the records of the saved runs, so every saved run scores exactly as before.
+
 The basic-RAG baseline does not see this project's verification verdicts (basic RAG retrieves text and verifies
 nothing). It does still use this project's search, which offers only the latest record of each check.
 
