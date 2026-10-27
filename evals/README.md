@@ -93,6 +93,25 @@ Model runs are kept in `results/<set>/` exactly as produced, including runs late
 | tampered (8, five records forged) | 50%, **believed 4 of 5 forgeries** | **100%, believed none** |
 | sample-co (32, too easy to separate modes) | 100% | 96.9% |
 
+**Open weights, 2026-10-27: the agent on Meta's open-weights Muse Spark Open** (`meta-models/muse-spark-open-1026`
+on Baseten), alone and as the verifier for Muse Spark:
+
+| Configuration | vsaq accuracy / grounded | Unsafe | Refused by provider | Forgeries believed (tampered) | Time per question |
+|---|---|---|---|---|---|
+| Muse Spark only | 93.1% / 89.7% | 0 | 1 | 0 of 5 | ~45 s |
+| **Muse Spark Open only** | **93.1% / 82.8%** | **0** | **0** | **0 of 5** | **~28 s** |
+| Muse Spark answers, Muse Spark Open verifies | 86.2% / 82.8% | 0 | 2 | 0 of 5 | ~32 s |
+
+- **The safety results hold on every model and configuration** (no unsafe answers, no forgery believed), because the
+  citation check and the withhold-on-tampering rule are code, not model judgement.
+- **The open-weights model alone matched Muse Spark's accuracy** and answered the two questions Meta's API filter
+  refuses (V19, V25). It cited the required evidence less often (82.8% grounded) and made about 9 model calls per
+  question instead of about 7.
+- Pairing a different verifier model did not improve results in this run.
+- Both open-weights configurations answered V08 (testing patches before production) "Partially", citing required test
+  checks before merge, and named the missing staging records for OS patches; the label accepts only "Insufficient
+  evidence", pending a domain reviewer's call.
+
 Limits: one run per mode (a reasoning model's answers vary between runs); 29 and 8 questions; Meta's filter refused one
 VSAQ question in every mode (scored as wrong); the agent-without-verifier mode was not rerun after the fixes. The full
 agent costs about 5.5 times basic RAG (about $0.05 a question) and takes about 45 seconds a question.

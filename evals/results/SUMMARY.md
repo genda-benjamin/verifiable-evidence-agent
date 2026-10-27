@@ -16,7 +16,11 @@ verifier on Baseten runs on hackathon credits and is not included.
 | tampered | 20261027-074334-meta-agent | agent | muse-spark-1.3 | 8 | 62.5% | 62.5% | 3 | 0 | 7 | 0.27 |
 | tampered | 20261027-075022-meta-no-verify | no-verify | muse-spark-1.3 | 8 | 100.0% | 100.0% | 0 | 0 | 11 | 0.2 |
 | tampered | 20261027-075035-meta-agent | agent | muse-spark-1.3 | 8 | 100.0% | 100.0% | 0 | 0 | 12 | 0.21 |
+| tampered | 20261027-083058-baseten-agent | agent | meta-models/muse-spark-open-1026 | 8 | 100.0% | 100.0% | 0 | 0 | 8 | 0.0 |
+| tampered | 20261027-083142-meta+baseten-verifier-agent | agent | muse-spark-1.3 (verifier: meta-models/muse-spark-open-1026) | 8 | 100.0% | 100.0% | 0 | 0 | 11 | 0.22 |
 | vsaq | 20261026-234830-meta-rag | rag | muse-spark-1.3 | 29 | 79.3% | 72.4% | 3 | 1 | 0 | 0.26 |
 | vsaq | 20261026-235828-meta-no-verify | no-verify | muse-spark-1.3 | 29 | 86.2% | 86.2% | 1 | 1 | 0 | 1.17 |
 | vsaq | 20261027-000512-meta-agent | agent | muse-spark-1.3 | 29 | 86.2% | 82.8% | 0 | 2 | 11 | 1.43 |
 | vsaq | 20261027-080400-meta-agent | agent | muse-spark-1.3 | 29 | 93.1% | 89.7% | 0 | 1 | 3 | 1.42 |
+| vsaq | 20261027-084210-baseten-agent | agent | meta-models/muse-spark-open-1026 | 29 | 93.1% | 82.8% | 0 | 0 | 7 | 0.0 |
+| vsaq | 20261027-084408-meta+baseten-verifier-agent | agent | muse-spark-1.3 (verifier: meta-models/muse-spark-open-1026) | 29 | 86.2% | 82.8% | 0 | 2 | 1 | 1.13 |
