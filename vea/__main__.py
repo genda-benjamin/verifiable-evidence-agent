@@ -13,7 +13,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
+import textwrap
 import time
 from pathlib import Path
 
@@ -180,17 +182,24 @@ def cmd_review(args) -> int:
     doc = json.loads(path.read_text(encoding="utf-8"))
     log = AuditLog(doc.get("audit_log") or path.with_suffix(".audit.jsonl"))
     pending = [r for r in doc["results"] if r.get("status") not in ("approved", "rejected")]
+    width = max(60, min(shutil.get_terminal_size((100, 20)).columns, 120) - 1)
+
+    def say(text: str, first: str, rest: str = "") -> None:  # wrapped to the terminal so long lines stay readable
+        print(textwrap.fill(text, width=width, initial_indent=first, subsequent_indent=rest or " " * len(first)))
+
     print(f"{len(pending)} answer(s) to review. a = approve, r = reject, s = skip, q = save and quit.")
     for r in pending:
-        print(f"\n{r['id']}  {r['question']}\n    -> {r['answer']}")
+        print()
+        say(r["question"], f"{r['id']}  ")
+        say(r["answer"], "    Answer: ")
         for c in r.get("claims") or []:
-            print(f"       - {c['text']}  ({', '.join(i[:8] for i in c['evidence_ids'])})")
+            say(f"{c['text']}  ({', '.join(i[:8] for i in c['evidence_ids'])})", "      - ", "        ")
         if r.get("caveats"):
-            print(f"       caveats: {r['caveats']}")
+            say(r["caveats"], "    Caveats: ", "      ")
         for m in r.get("missing") or []:
-            print(f"       missing: {m}")
+            say(m, "    Missing: ", "      ")
         for f in r.get("flags") or []:
-            print(f"       REVIEW: {f}")
+            say(f, "    REVIEW: ", "      ")
         choice = input("    [a/r/s/q] ").strip().lower()[:1]
         if choice == "q":
             break
