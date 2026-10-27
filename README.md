@@ -1,95 +1,132 @@
 # Verifiable Evidence Agent
 
-Answers security questionnaires **only with cryptographically cited evidence**. Built for the
-[Meta Global AI Developer Hackathon](https://cerebralvalley.ai/e/meta-ai-developer-hackathon) (Startup track,
-"Build for Your World"), 26 October – 4 November 2026.
+**Answers security questionnaires only with evidence it can prove, and refuses, or flags tampering, when it
+can't.** Built for the [Meta Global AI Developer Hackathon](https://cerebralvalley.ai/e/meta-ai-developer-hackathon)
+(Startup track), 26 October – 4 November 2026, on Meta's **Muse Spark** and the open-weights **Muse Spark Open**.
 
 ## The problem
 
-Small companies in Kenya and across Africa lose enterprise and bank deals because they cannot credibly answer
-100–300 question security questionnaires, and cannot afford consultants. Generic AI drafting makes this worse:
-a confident answer with no evidence behind it is a liability in a compliance review.
+Companies answer long security questionnaires to win bank and enterprise customers. Small companies rarely have a
+security team to do it, and AI drafting looks like the answer. We measured where it goes wrong:
 
-## What this agent does
+- **Without evidence, Muse Spark is careful.** Asked to fill in a company's questionnaire with nothing to go on, it
+  refuses to guess.
+- **With evidence, plain retrieval becomes overconfident.** On 29 real vendor-questionnaire questions, basic RAG (the
+  same model, the company's evidence in the prompt) gave **3 answers that would mislead a customer**, such as "Yes, all
+  internal network traffic is encrypted" from a single review of encryption in transit that said nothing about all
+  internal traffic.
+- **And it believes forgeries.** Given an evidence package with five records forged to hide problems, basic RAG
+  **believed 4 of the 5**.
 
-For each question in a customer's questionnaire, the agent:
+## Results
 
-1. **Researches** with read-only tools over the company's evidence package: search, open evidence records, read
-   controls, list open findings.
-2. **Drafts** an answer (Yes / No / Partially / Insufficient evidence) in which every claim cites evidence records.
-3. **Checks every citation in code, without a model.** A cited record must exist, pass cryptographic verification
-   (content hash, hash chain, Merkle inclusion proof), have been opened by the agent, and be the *latest* record of
-   its check. A stale record can only be cited next to the newer one.
-4. **Verifies** each surviving claim with a separate model call that sees only the claim and the evidence it cites,
-   and drops claims the evidence does not support.
-5. **Abstains** ("Insufficient evidence") when no claim survives, instead of guessing, and **names what is missing**:
-   the model says what evidence would settle the question, and controls with no current evidence (not tested, needs
-   review, expired review) are listed from the package itself.
-6. **Flags contradictions** for the reviewer, also in code: a "Yes" whose cited check currently fails, or with open
-   findings on the controls it relies on.
-7. Waits for **human approval** of every answer, **recorded in an append-only, hash-chained audit log**. Each
-   approval stores a fingerprint of the exact answer approved, so an answer edited afterwards no longer matches and
-   cannot be exported; when the agent runs inside TrustEvidence, these events go to TrustEvidence's audit log.
-8. Exports a **proof pack**: the approved answers plus exactly the evidence records they cite, with their Merkle
-   proofs. The customer opens `answers.html`, which re-verifies every citation in their browser, offline, or runs the
-   bundled `verify_pack.py` (standard library only). They see only the evidence behind the answers, nothing else,
-   plus who approved each answer and when, checked against the answer they are reading.
+Same evidence, same questions, same model; details and every saved run in [evals/](evals/README.md).
+
+| | Basic RAG | **This agent, on Muse Spark** | **This agent, on Muse Spark Open** |
+|---|---|---|---|
+| 29 real questions (Google's VSAQ, held out): accuracy | 79.3% | **93.1%** | **93.1%** |
+| Answers that would mislead a customer | **3** | **0** | **0** |
+| Forged evidence: forgeries believed (of 5) | **4** | **0** | **0** |
+
+One run per configuration on small question sets: strong signals, not statistical proof. The safety results hold on
+every model tested, because the guarantees that produce them are code, not model judgement.
+
+## How it works
+
+```mermaid
+flowchart LR
+    Q[Question] --> R[Research<br/>search, open records,<br/>controls, findings, gaps]
+    R --> D[Draft<br/>answer + claims<br/>citing record ids]
+    D --> C{Citation check<br/>code}
+    C -- cites a record that fails<br/>cryptographic verification --> W[Withhold<br/>flag possible tampering]
+    C -- invented, unopened<br/>or stale citation --> X[Claim removed]
+    C -- sound --> V{Verifier<br/>second model call}
+    V -- unsupported --> X
+    V -- supported --> A[Answer]
+    X --> N[If nothing survives:<br/>Insufficient evidence<br/>+ what is missing]
+    A --> H[Human approval<br/>bound to the exact answer<br/>in an audit log]
+    N --> H
+    H --> P[Proof pack<br/>the customer verifies<br/>offline]
+```
+
+1. **Research.** The agent plans its own steps with read-only tools over one company's evidence package: search
+   (latest record of each check only), open records, read controls, list open findings, list controls with no
+   current evidence.
+2. **Draft.** Yes / No / Partially / Insufficient evidence, with every claim citing evidence records.
+3. **Citation check, in code.** A cited record must exist, pass cryptographic verification (content hash, hash chain,
+   RFC 9162 Merkle inclusion), have been opened by the agent, and be the latest record of its check.
+4. **Withhold on tampering, in code.** If a draft relied on any record that fails verification, the whole answer is
+   withheld and flagged "Possible tampering", never answered around.
+5. **Verifier.** A separate model call sees only one claim and the evidence it cites, and drops overreach (in our
+   runs: a review called "independent", replication called "synchronous", neither stated).
+6. **Refuse with reasons.** When nothing survives, the answer is "Insufficient evidence" and names what would settle
+   it, including controls the package itself shows as untested.
+7. **Human approval.** A person approves each answer; the approval is recorded in a hash-chained audit log with a
+   fingerprint of the exact answer, so an answer edited afterwards cannot be exported.
+8. **Proof pack.** The approved answers plus only the evidence they cite. The customer opens `answers.html`, which
+   re-verifies every record and every approval in the browser, offline, or runs the bundled `verify_pack.py`.
+
+## Meta models
+
+| Model | How it is used |
+|---|---|
+| **Muse Spark** (`muse-spark-1.3`, Meta Model API, Standard mode) | the agent and the verifier |
+| **Muse Spark Open** (`meta-models/muse-spark-open-1026`, open weights, via Baseten) | the whole agent, or the verifier for Muse Spark |
+
+On open weights the agent matched Muse Spark's accuracy and answered two ordinary questions the Meta Model API's
+content filter refused (host vulnerability scanning, background checks). Because it runs on open weights, a bank or
+regulator can host it inside its own infrastructure, and the evidence never leaves.
+
+## Try it
+
+Python 3.11, standard library only (the tests need `pytest`). No key is needed to verify packages or run the tests:
+
+```bash
+python -m vea verify samples/sample-co-evidence-package.zip      # 246 records, all verified
+python -m vea verify samples/sample-co-tampered.zip              # the forged package: 5 records fail
+python -m pytest -q                                              # 43 tests
+```
+
+With a Meta Model API key in `.env` (`META_API_KEY=...`, never committed) or a Baseten key (`BASETEN_API_KEY=...`,
+`--provider baseten`):
+
+```bash
+python -m vea ask samples/sample-co-evidence-package.zip "Is MFA enforced for all console access?" --steps
+python -m vea compare samples/sample-co-tampered.zip "Is MFA enforced for every console user?" --steps
+python -m vea answer samples/sample-co-evidence-package.zip samples/questionnaire.csv
+python -m vea review out/answers.json --reviewer "Your Name"     # approve or reject; recorded in the audit log
+python -m vea export out/answers.json --by "Your Name" --out out/proof-pack.zip
+python -m vea check out/proof-pack.zip                           # what the customer runs
+python -m vea eval evals/vsaq.json --mode agent                  # or --mode rag, --mode no-verify
+```
 
 ## What existed before the hackathon, and what is new
 
 | | Status |
 |---|---|
-| **TrustEvidence** ([gettrustevidence.com](https://gettrustevidence.com)): the compliance platform that scans cloud accounts read-only, collects hash-chained evidence and exports evidence packages | **Existed before** the hackathon. Private codebase, not part of this submission. |
-| **Everything in this repository** | **New**, built during the hackathon (first commit 26 October 2026). |
+| **TrustEvidence** ([gettrustevidence.com](https://gettrustevidence.com)): the compliance platform that collects read-only evidence, seals it in a hash chain and Merkle batches, exports evidence packages, and has a rule-based questionnaire module and an audit log | **Existed before** the hackathon. Private codebase. |
+| **Everything in this repository**: the agent, the citation check, the verifier, the tampering rule, the audit log, the proof pack, the evaluation (question sets, forged package, baseline, results) | **New**, built during the hackathon (first commit 26 October 2026). |
+| **The connection inside TrustEvidence**: a "draft with the evidence agent" button for sample workspaces, approvals written to TrustEvidence's audit log, a proof-pack export | **New**, built during the hackathon in TrustEvidence's private repository (it calls this package; 9 tests; not yet released). |
 
-The agent reads TrustEvidence's existing evidence-package export format as its input. The verification code in
-`vea/evidence.py` is a new, independent implementation of that format's published verification recipe.
+The agent reads TrustEvidence's evidence-package format; `vea/evidence.py` and `vea/proofcheck.py` are a new,
+independent implementation of that format's published verification recipe. `samples/` holds exports for a
+**fictional** company, Sample Co. Like every export they contain TrustEvidence's own pre-existing verifier and report
+(`verify.py`, `verify.html`, `report.pdf`), which are not part of this submission. `samples/sample-co-tampered.zip`
+is made by [evals/tamper.py](evals/tamper.py).
 
-`samples/sample-co-evidence-package.zip` is an export from TrustEvidence for a **fictional** company, Sample Co,
-used as test data. Like every export, it contains TrustEvidence's own standalone verifier (`verify.py`,
-`verify.html`) and report (`report.pdf`). Those files existed before the hackathon and are not part of the
-submission.
+## Limits, stated plainly
 
-## Quick start
-
-Tested on Python 3.11. The agent uses only the standard library; the tests need `pytest`.
-
-```bash
-python -m vea verify samples/sample-co-evidence-package.zip
-python -m pytest -q
-```
-
-Answering a questionnaire needs a model endpoint (Meta Model API, or Muse Spark Open on Baseten):
-
-```bash
-python -m vea answer samples/sample-co-evidence-package.zip samples/questionnaire.csv --provider meta
-```
-
-`python -m vea answer --help` lists the providers; each reads its key from an environment variable. Then:
-
-```bash
-python -m vea review out/answers.json --reviewer "you@company.com"   # approve or reject; recorded in the audit log
-python -m vea export out/answers.json --by "you@company.com" --out out/proof-pack.zip   # build the pack
-python -m vea check out/proof-pack.zip                            # what the customer runs
-```
-
-## Status
-
-Under active development during the hackathon. Built so far: package verification, agent tools, the research loop,
-the citation check, the verifier, the contradiction flags, human review, the proof pack and an
-evaluation harness ([evals/](evals/README.md): 32 labelled questions with traps, 29 real questions from Google's VSAQ
-as a held-out set, and a basic-RAG baseline), with
-tests. Next: the first runs on Meta models, questionnaire intake from PDFs and screenshots, and a web UI.
-
-The proof pack's trust anchor is the sealed batch root. The sample package's batches are unsigned, so a recipient
-must confirm the root with the company; packs from signed batches carry the signature, but the bundled verifier
-does not check signatures yet.
-
-## Security
-
-API keys are never committed: they live in environment variables or an ignored `.env` file. Sample data in
-this repository is synthetic.
+- **Small, single-run evaluation:** 29 real questions, 8 forged-evidence questions, one run per configuration. The
+  developer wrote the labels; disputed ones were decided by a domain reviewer and are recorded in each item's note.
+- **Trust anchor:** the sample packages' batches are unsigned, so a recipient must confirm the sealed root with the
+  company. TrustEvidence can sign batches; the bundled verifier does not check signatures yet.
+- **Provider refusals:** the Meta Model API's content filter refused two ordinary security questions; the agent
+  answers those "Insufficient evidence: answer it by hand".
+- **Cost and speed:** about 5 US cents and 30–45 seconds a question on Muse Spark, about 5.5 times basic RAG.
+- **Data:** all evidence here is fictional. On free hackathon credits, Meta may use API content for product
+  improvement; real customer evidence must only go to a paid, Standard-mode deployment, or to self-hosted open weights.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE). The VSAQ questions in `evals/vsaq.json` are Google's, under the Apache License 2.0
+([third_party/vsaq](third_party/vsaq/README.md)).
