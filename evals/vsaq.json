@@ -144,7 +144,8 @@
         "No"
       ],
       "must_cite": [],
-      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_patching_tests"
+      "source": "google/vsaq@366d670 questionnaires/infrastructure.json#servers_patching_tests",
+      "note": "Kept as 'Insufficient evidence' only (decided 2026-10-27 by a domain reviewer after the open-weights runs answered 'Partially'): test checks on code changes do not show that security patches are tested before production."
     },
     {
       "id": "V09",

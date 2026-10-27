@@ -109,8 +109,9 @@ on Baseten), alone and as the verifier for Muse Spark:
   question instead of about 7.
 - Pairing a different verifier model did not improve results in this run.
 - Both open-weights configurations answered V08 (testing patches before production) "Partially", citing required test
-  checks before merge, and named the missing staging records for OS patches; the label accepts only "Insufficient
-  evidence", pending a domain reviewer's call.
+  checks before merge, and named the missing staging records for OS patches. A domain reviewer decided to keep the
+  label at "Insufficient evidence" only: test checks on code changes do not show security patches tested before
+  production. Those answers stay scored as wrong.
 
 Limits: one run per mode (a reasoning model's answers vary between runs); 29 and 8 questions; Meta's filter refused one
 VSAQ question in every mode (scored as wrong); the agent-without-verifier mode was not rerun after the fixes. The full
