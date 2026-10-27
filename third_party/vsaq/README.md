@@ -12,3 +12,7 @@ Changes made for this project: 29 of the 90 multiple-choice questions were selec
 whitespace normalised, and each was given an id (`V01`–`V29`), a category, and labels (acceptable answers, unsafe
 answers, required evidence) for the fictional Sample Co evidence package. The original question id is kept in each
 item's `source` field. The labels are this project's work, not Google's, and Google does not endorse this project.
+
+`samples/questionnaire.pdf` and the images made from it (`samples/make_questionnaire.py`) also contain 8 of these
+questions, word for word, in a fictional bank's questionnaire layout; each is marked `"source": "VSAQ"` in
+`samples/questionnaire-truth.json`.

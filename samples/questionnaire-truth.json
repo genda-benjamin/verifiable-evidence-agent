@@ -1,0 +1,104 @@
+{
+  "format": "vea.intake-truth.v1",
+  "description": "The questions in samples/questionnaire.pdf (Northwind Bank (fictional)); page 1 holds sections A and B, which are also the questions in samples/questionnaire-page1.png.",
+  "questions": [
+    {
+      "ref": "A1",
+      "section": "A. Access control",
+      "text": "Is multi-factor authentication enforced for all administrative and console access?",
+      "page": 1,
+      "source": "project"
+    },
+    {
+      "ref": "A2",
+      "section": "A. Access control",
+      "text": "Do you have processes in place to make sure access (both physical and logical) is revoked when an employee, intern, vendor, contractor, or other associate leaves the company or a project?",
+      "page": 1,
+      "source": "VSAQ"
+    },
+    {
+      "ref": "A3",
+      "section": "A. Access control",
+      "text": "Are user access rights reviewed periodically?",
+      "page": 1,
+      "source": "project"
+    },
+    {
+      "ref": "B1",
+      "section": "B. Data protection",
+      "text": "Is data at rest encrypted?",
+      "page": 1,
+      "source": "project"
+    },
+    {
+      "ref": "B2",
+      "section": "B. Data protection",
+      "text": "Is encryption and integrity protection in place for all internal network traffic that potentially carries sensitive information?",
+      "page": 1,
+      "source": "VSAQ"
+    },
+    {
+      "ref": "B3",
+      "section": "B. Data protection",
+      "text": "Are any storage buckets publicly accessible?",
+      "page": 1,
+      "source": "project"
+    },
+    {
+      "ref": "C1",
+      "section": "C. Security operations",
+      "text": "Do you monitor your network for security events?",
+      "page": 2,
+      "source": "VSAQ"
+    },
+    {
+      "ref": "C2",
+      "section": "C. Security operations",
+      "text": "Do you have a process for installing operating system and application updates and security patches on servers?",
+      "page": 2,
+      "source": "VSAQ"
+    },
+    {
+      "ref": "C3",
+      "section": "C. Security operations",
+      "text": "Do you regularly test your backups?",
+      "page": 2,
+      "source": "VSAQ"
+    },
+    {
+      "ref": "C4",
+      "section": "C. Security operations",
+      "text": "Does an independent third party regularly perform penetration tests on all systems used to provide services to customers?",
+      "page": 2,
+      "source": "VSAQ"
+    },
+    {
+      "ref": "D1",
+      "section": "D. People and incidents",
+      "text": "Do employees complete security awareness training?",
+      "page": 2,
+      "source": "project"
+    },
+    {
+      "ref": "D2",
+      "section": "D. People and incidents",
+      "text": "Are incident response procedures documented?",
+      "page": 2,
+      "source": "VSAQ"
+    },
+    {
+      "ref": "D3",
+      "section": "D. People and incidents",
+      "text": "Do you inform affected customers about security incidents?",
+      "page": 2,
+      "source": "VSAQ"
+    },
+    {
+      "ref": "D4",
+      "section": "D. People and incidents",
+      "text": "Is customer data stored in the EU only?",
+      "page": 2,
+      "source": "project"
+    }
+  ]
+}

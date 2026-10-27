@@ -8,6 +8,7 @@
     python -m vea ask samples/sample-co-evidence-package.zip "Is MFA enforced?" --steps
     python -m vea compare samples/sample-co-tampered.zip "Is MFA enforced for every console user?"
     python -m vea bare "Are background checks performed on personnel?"
+    python -m vea intake samples/questionnaire.pdf --out out/questions.csv
 """
 from __future__ import annotations
 
@@ -19,7 +20,7 @@ import textwrap
 import time
 from pathlib import Path
 
-from vea import evaluate, evidence, llm, proofcheck, proofpack, questionnaire
+from vea import evaluate, evidence, intake, llm, proofcheck, proofpack, questionnaire
 from vea.audit import AuditLog
 from vea.agent import Agent
 
@@ -134,6 +135,29 @@ def cmd_compare(args) -> int:
     r = _agent(args, p).answer(args.question)
     print()
     print_result(r, p)
+    return 0
+
+
+def cmd_intake(args) -> int:
+    """Read a questionnaire PDF or screenshot with a vision model into a CSV for a person to check."""
+    provider = llm.from_env(args.provider)
+    try:
+        questions = intake.extract(args.file, provider)
+    except ValueError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+    for q in questions:
+        wrap(q.text, f"{q.id}  ")
+        print(f"      [{q.check}]")
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    intake.write_csv(questions, out)
+    flagged = [q for q in questions if q.check != "verbatim"]
+    pages = max((q.page for q in questions), default=0)
+    print(f"\n{len(questions)} questions from {pages} page(s); {len(questions) - len(flagged)} match the document's text "
+          f"word for word, {len(flagged)} to check by hand.")
+    print(f"wrote {out}. Check it against the original and correct it, then answer it:\n"
+          f"  python -m vea answer <evidence package> {out}")
     return 0
 
 
@@ -289,6 +313,11 @@ def main(argv: list[str] | None = None) -> int:
         q.add_argument("--verifier", choices=sorted(llm.PRESETS), help="a different provider for the verifier pass")
         q.add_argument("--steps", action="store_true", help="show each research step and check as it happens")
         q.set_defaults(fn=fn)
+    it = sub.add_parser("intake", help="read a questionnaire PDF or screenshot into a CSV, checked against its text")
+    it.add_argument("file")
+    it.add_argument("--provider", default="meta", choices=sorted(llm.PRESETS))
+    it.add_argument("--out", default="out/questions.csv")
+    it.set_defaults(fn=cmd_intake)
     b = sub.add_parser("bare", help="ask the model with no evidence: what an unchecked answer looks like")
     b.add_argument("question")
     b.add_argument("--company", default="Sample Co", help="the company the questionnaire is for")
