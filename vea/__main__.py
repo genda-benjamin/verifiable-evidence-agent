@@ -36,6 +36,12 @@ def cmd_verify(args) -> int:
     return 0 if p.manifest_ok and not bad else 1
 
 
+def wrap(text: str, first: str, rest: str | None = None) -> None:
+    """Print wrapped at word boundaries to the terminal's width, continuation lines indented under the text."""
+    width = max(40, min(shutil.get_terminal_size((100, 20)).columns, 160) - 1)
+    print(textwrap.fill(text, width=width, initial_indent=first, subsequent_indent=" " * len(first) if rest is None else rest))
+
+
 def _short(package, eid: str) -> str:
     e = package.get(eid)
     return f"{eid[:8]} {e.title}" if e else f"{eid[:8]} (no such record)"
@@ -61,13 +67,13 @@ def step_printer(package):
                           ", ".join(i[:8] for i in ids) if entry["tool"] == "get_evidence" else
                           a.get("control_id", "") if entry["tool"] == "get_control" else a.get("status", ""))
                 why = f"   ({entry['why']})" if entry.get("why") else ""
-                print(f"  [{n[0]}] {entry['tool']} {detail}{why}")
+                wrap(f"{entry['tool']} {detail}{why}", f"  [{n[0]}] ")
         elif stage == "draft" and "answer" in entry:
             print(f"  draft: {entry['answer']}, {entry['claims']} claim(s)")
         elif stage == "citation_check" and entry["passed"] + entry["failed"]:
             print(f"  citation check (code): {entry['passed']} passed, {entry['failed']} rejected")
             for problem in entry.get("problems") or []:
-                print(f"      rejected: {problem}")
+                wrap(problem, "      rejected: ")
         elif stage == "verifier" and entry["supported"] + entry["unsupported"]:
             print(f"  verifier (model): {entry['supported']} supported, {entry['unsupported']} not supported")
         elif stage == "decision" and entry.get("tampered"):
@@ -78,15 +84,15 @@ def step_printer(package):
 def print_result(r, package, indent: str = "  ") -> None:
     print(f"{indent}Answer: {r.answer}")
     for c in r.claims:
-        print(f"{indent}  - {c.text}")
+        wrap(c.text, f"{indent}  - ")
         for i in c.evidence_ids:
-            print(f"{indent}      cites {_short(package, i)}")
+            wrap(f"cites {_short(package, i)}", f"{indent}      ")
     if r.caveats:
-        print(f"{indent}Caveats: {r.caveats}")
+        wrap(r.caveats, f"{indent}Caveats: ")
     for m in r.missing:
-        print(f"{indent}Missing: {m}")
+        wrap(m, f"{indent}Missing: ")
     for f in r.flags:
-        print(f"{indent}REVIEW: {f}")
+        wrap(f, f"{indent}REVIEW: ")
 
 
 def _agent(args, package) -> Agent:
@@ -119,7 +125,7 @@ def cmd_compare(args) -> int:
     rag = evaluate.rag_answer(p, llm.from_env(args.provider), args.question)
     print(f"  Answer: {rag['answer']}")
     for c in rag["claims"]:
-        print(f"    - {c['text']}")
+        wrap(c["text"], "    - ")
         for i in c["evidence_ids"]:
             e = p.get(i)
             note = "" if e is None or e.verification.ok else f"   <- this record FAILS verification ({e.verification.describe()[8:]})"
