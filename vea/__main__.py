@@ -182,7 +182,7 @@ def cmd_review(args) -> int:
     doc = json.loads(path.read_text(encoding="utf-8"))
     log = AuditLog(doc.get("audit_log") or path.with_suffix(".audit.jsonl"))
     pending = [r for r in doc["results"] if r.get("status") not in ("approved", "rejected")]
-    width = max(60, min(shutil.get_terminal_size((100, 20)).columns, 120) - 1)
+    width = max(40, min(shutil.get_terminal_size((100, 20)).columns, 120) - 1)
 
     def say(text: str, first: str, rest: str = "") -> None:  # wrapped to the terminal so long lines stay readable
         print(textwrap.fill(text, width=width, initial_indent=first, subsequent_indent=rest or " " * len(first)))
