@@ -130,10 +130,13 @@ def cmd_compare(args) -> int:
 
 
 def cmd_bare(args) -> int:
-    """Ask the model with no evidence and no instructions: what an unchecked answer looks like."""
+    """Ask the model to fill in a questionnaire answer with no evidence, the way people use chat assistants for this:
+    what an unchecked answer looks like."""
     provider = llm.from_env(args.provider)
-    print(f"Question (no evidence given): {args.question}\n")
-    print(provider.complete([{"role": "user", "content": args.question}], max_tokens=4000).strip())
+    prompt = (f"You are filling in a customer's security questionnaire for {args.company}. Answer Yes, No or Partially, "
+              f"with a one-sentence explanation.\n\nQuestion: {args.question}")
+    print(f"{args.company}, security questionnaire (no evidence given)\nQuestion: {args.question}\n")
+    print(provider.complete([{"role": "user", "content": prompt}], max_tokens=4000).strip())
     return 0
 
 
@@ -273,6 +276,7 @@ def main(argv: list[str] | None = None) -> int:
         q.set_defaults(fn=fn)
     b = sub.add_parser("bare", help="ask the model with no evidence: what an unchecked answer looks like")
     b.add_argument("question")
+    b.add_argument("--company", default="Sample Co", help="the company the questionnaire is for")
     b.add_argument("--provider", default="meta", choices=sorted(llm.PRESETS))
     b.set_defaults(fn=cmd_bare)
     r = sub.add_parser("review", help="approve or reject drafted answers")

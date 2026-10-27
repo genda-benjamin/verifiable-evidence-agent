@@ -57,5 +57,6 @@ def test_compare_on_the_forged_package_shows_rag_believing_and_the_agent_withhol
 def test_bare_asks_with_no_evidence(monkeypatch, capsys):
     provider = _model(monkeypatch, ["Yes, always."])
     assert cli.main(["bare", "Are background checks performed?"]) == 0
-    assert provider.seen[0] == [{"role": "user", "content": "Are background checks performed?"}]
+    sent = provider.seen[0][0]["content"]
+    assert "questionnaire for Sample Co" in sent and sent.endswith("Question: Are background checks performed?")
     assert "Yes, always." in capsys.readouterr().out
