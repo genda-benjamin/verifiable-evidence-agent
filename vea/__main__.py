@@ -62,11 +62,11 @@ def step_printer(package):
                 print(f"  [{n[0]}] {entry['tool']} {detail}{why}")
         elif stage == "draft" and "answer" in entry:
             print(f"  draft: {entry['answer']}, {entry['claims']} claim(s)")
-        elif stage == "citation_check":
+        elif stage == "citation_check" and entry["passed"] + entry["failed"]:
             print(f"  citation check (code): {entry['passed']} passed, {entry['failed']} rejected")
             for problem in entry.get("problems") or []:
                 print(f"      rejected: {problem}")
-        elif stage == "verifier":
+        elif stage == "verifier" and entry["supported"] + entry["unsupported"]:
             print(f"  verifier (model): {entry['supported']} supported, {entry['unsupported']} not supported")
         elif stage == "decision" and entry.get("tampered"):
             print("  WITHHELD: the draft relied on evidence that fails cryptographic verification")
