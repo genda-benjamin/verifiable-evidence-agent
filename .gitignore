@@ -20,3 +20,5 @@ out/
 build/
 dist/
 *.egg-info/
+# The fictional Sample Co demo signing key: never published (samples/sign_sample.py)
+.sample-signing-seed

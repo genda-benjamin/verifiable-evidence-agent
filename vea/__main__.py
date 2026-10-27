@@ -261,7 +261,7 @@ def cmd_export(args) -> int:
 
 
 def cmd_check(args) -> int:
-    return proofcheck.main([args.pack])
+    return proofcheck.main([args.pack] + (["--key", args.key] if args.key else []))
 
 
 def cmd_eval(args) -> int:
@@ -336,6 +336,7 @@ def main(argv: list[str] | None = None) -> int:
     e.set_defaults(fn=cmd_export)
     c = sub.add_parser("check", help="verify a proof pack (the same check as its verify_pack.py)")
     c.add_argument("pack")
+    c.add_argument("--key", help="the company's published signing-key fingerprint: every batch must be signed by it")
     c.set_defaults(fn=cmd_check)
     ev = sub.add_parser("eval", help="score an answering mode against a labelled question set")
     ev.add_argument("evalset", nargs="?", default="evals/sample-co.json")

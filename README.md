@@ -54,7 +54,8 @@ flowchart LR
    current evidence.
 2. **Draft.** Yes / No / Partially / Insufficient evidence, with every claim citing evidence records.
 3. **Citation check, in code.** A cited record must exist, pass cryptographic verification (content hash, hash chain,
-   RFC 9162 Merkle inclusion), have been opened by the agent, and be the latest record of its check.
+   RFC 9162 Merkle inclusion, and the company's signature on the sealed batch root), have been opened by the agent,
+   and be the latest record of its check.
 4. **Withhold on tampering, in code.** If a draft relied on any record that fails verification, the whole answer is
    withheld and flagged "Possible tampering", never answered around.
 5. **Verifier.** A separate model call sees only one claim and the evidence it cites, and drops overreach (in our
@@ -64,7 +65,15 @@ flowchart LR
 7. **Human approval.** A person approves each answer; the approval is recorded in a hash-chained audit log with a
    fingerprint of the exact answer, so an answer edited afterwards cannot be exported.
 8. **Proof pack.** The approved answers plus only the evidence they cite. The customer opens `answers.html`, which
-   re-verifies every record and every approval in the browser, offline, or runs the bundled `verify_pack.py`.
+   re-verifies every record, every approval and the batch signature in the browser, offline, or runs the bundled
+   `verify_pack.py` (standard library only, including the Ed25519 and ES256 signature checks). The trust anchor is one
+   thing: the fingerprint of the company's published signing key (`verify_pack.py pack.zip --key <fingerprint>`).
+
+**The strongest forgery it stops:** forge a record, recompute its hashes, rebuild the entire Merkle tree and write
+the new root into the batch statement. Every hash then checks out; only the signature over the root fails, because
+the forger does not hold the company's key ([samples/sample-co-resealed.zip](samples), made by
+[evals/tamper.py](evals/tamper.py)). Without signatures, that forgery passes every other check, which is why the
+proof pack's anchor is the key, not the root.
 
 ## Meta models
 
@@ -95,7 +104,8 @@ Python 3.11, standard library only (the tests need `pytest`). No key is needed t
 ```bash
 python -m vea verify samples/sample-co-evidence-package.zip      # 246 records, all verified
 python -m vea verify samples/sample-co-tampered.zip              # the forged package: 5 records fail
-python -m pytest -q                                              # 47 tests
+python -m vea verify samples/sample-co-resealed.zip              # every hash checks out; the signature does not
+python -m pytest -q                                              # 52 tests
 ```
 
 With a Meta Model API key in `.env` (`META_API_KEY=...`, never committed) or a Baseten key (`BASETEN_API_KEY=...`,
@@ -107,7 +117,8 @@ python -m vea compare samples/sample-co-tampered.zip "Is MFA enforced for every 
 python -m vea answer samples/sample-co-evidence-package.zip samples/questionnaire.csv
 python -m vea review out/answers.json --reviewer "Your Name"     # approve or reject; recorded in the audit log
 python -m vea export out/answers.json --by "Your Name" --out out/proof-pack.zip
-python -m vea check out/proof-pack.zip                           # what the customer runs
+python -m vea check out/proof-pack.zip --key 3a43cef7bc01614434541a77777626e625375d4cb13bfffdb8d2f28e4b0cdf8d
+                                                                 # what the customer runs, with Sample Co's published key
 python -m vea eval evals/vsaq.json --mode agent                  # or --mode rag, --mode no-verify
 python -m vea intake samples/questionnaire.pdf --out out/questions.csv   # needs: pip install .[pdf]
 ```
@@ -117,7 +128,7 @@ python -m vea intake samples/questionnaire.pdf --out out/questions.csv   # needs
 | | Status |
 |---|---|
 | **TrustEvidence** ([gettrustevidence.com](https://gettrustevidence.com)): the compliance platform that collects read-only evidence, seals it in a hash chain and Merkle batches, exports evidence packages, and has a rule-based questionnaire module and an audit log | **Existed before** the hackathon. Private codebase. |
-| **Everything in this repository**: the agent, the citation check, the verifier, the tampering rule, the audit log, the proof pack, the evaluation (question sets, forged package, baseline, results) | **New**, built during the hackathon (first commit 26 October 2026). |
+| **Everything in this repository**: the agent, the citation check, the verifier, the tampering rule, the audit log, the proof pack, standard-library and in-browser signature checking, PDF and screenshot intake, the evaluation (question sets, forged packages, baseline, results) | **New**, built during the hackathon (first commit 26 October 2026). |
 | **The connection inside TrustEvidence**: a "draft with the evidence agent" button for sample workspaces, approvals written to TrustEvidence's audit log, a proof-pack export | **New**, built during the hackathon in TrustEvidence's private repository (it calls this package; 9 tests; not yet released). |
 
 The agent reads TrustEvidence's evidence-package format; `vea/evidence.py` and `vea/proofcheck.py` are a new,
@@ -130,8 +141,10 @@ is made by [evals/tamper.py](evals/tamper.py).
 
 - **Small, single-run evaluation:** 29 real questions, 8 forged-evidence questions, one run per configuration. The
   developer wrote the labels; disputed ones were decided by a domain reviewer and are recorded in each item's note.
-- **Trust anchor:** the sample packages' batches are unsigned, so a recipient must confirm the sealed root with the
-  company. TrustEvidence can sign batches; the bundled verifier does not check signatures yet.
+- **Signing in the sample:** Sample Co's package was exported unsigned and signed afterwards with a demo key, in
+  TrustEvidence's exact format ([samples/sign_sample.py](samples/sign_sample.py)); TrustEvidence's own pre-existing
+  verifier accepts it. Re-exporting signed would have changed every record id and invalidated the saved runs. The
+  demo private key is not published; its public key is in `samples/sample-co-signing-key.json`.
 - **Provider refusals:** the Meta Model API's content filter refused two ordinary security questions; the agent
   answers those "Insufficient evidence: answer it by hand".
 - **Cost and speed:** about 5 US cents and 30–45 seconds a question on Muse Spark, about 5.5 times basic RAG.

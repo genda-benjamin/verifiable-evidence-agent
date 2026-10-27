@@ -74,6 +74,8 @@ def _answers_doc(package: EvidencePackage, results: list[dict[str, Any]], allow_
         "period": package.period,
         "source_package": {"manifest_sha256": package.source_manifest_sha256},
         "batches": [b for b in package.batches if b.get("batch_index") in used_batches],
+        "keys": [k for k in package.keys if k.get("key_id") in {b.get("signing_key_id") for b in package.batches
+                                                               if b.get("batch_index") in used_batches}],
         "questions": questions,
         "evidence": evidence,
         "excluded": {"rejected_answers": len(results) - len(shipped)},
@@ -96,8 +98,8 @@ What the checks prove
   Each cited record's content matches its sealed hash, its hash-chain link is intact, and it is included in the
   sealed batch whose root is printed by the verifier. Every file matches manifest.json.
 
-What they cannot prove on their own
-  That the batch root is the one {org} really sealed. {anchor}
+Who sealed it
+  {anchor}
 
 Answers marked DRAFT were not approved by a person before export.
 """
@@ -139,13 +141,16 @@ def build_bytes(package: EvidencePackage, results: list[dict[str, Any]], *, log:
     html = (_HERE / "pack_template.html").read_text(encoding="utf-8").replace("/*__PACK_DATA__*/", data)
     files["answers.html"] = html.encode("utf-8")
 
-    signed = any(b.get("signature") for b in doc["batches"])
+    signed = doc["batches"] and all(b.get("signature") for b in doc["batches"])
+    fingerprints = sorted({k.get("fingerprint_sha256", "?") for k in doc["keys"]})
     files["README.txt"] = README.format(
         org=doc["organization"] or "The company", start=doc["period"].get("start", "?"), end=doc["period"].get("end", "?"),
         generated=doc["generated_at"], generator=doc["generator"],
-        anchor=("The batches are signed; check the signature against the company's published key."
-                if signed else "These batches are not signed, so confirm the root with the company through a channel you trust "
-                "(for example, a root published on its website or given in an earlier report).")).encode("utf-8")
+        anchor=(f"Every sealed batch is signed by the key with SHA-256 fingerprint {', '.join(fingerprints)}. Compare it with "
+                "the fingerprint the company publishes, or check it in one step:\n  python verify_pack.py <this zip> --key "
+                "<published fingerprint>" if signed else
+                "These batches are not signed, so confirm the root printed by the verifier with the company through a "
+                "channel you trust (for example, a root published on its website or given in an earlier report).")).encode("utf-8")
     files["manifest.json"] = json.dumps({"format": FORMAT, "hash_algorithm": "SHA-256",
                                          "files": {k: sha256(v) for k, v in sorted(files.items())}}, indent=2).encode("utf-8")
 

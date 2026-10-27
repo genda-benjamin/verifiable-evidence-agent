@@ -21,7 +21,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from vea.proofcheck import batch_roots, check_record, sha256, verify_inclusion  # noqa: F401  (one implementation)
+from vea.proofcheck import batch_roots, batch_signatures, check_record, sha256, verify_inclusion  # noqa: F401  (one implementation)
 
 
 @dataclass
@@ -29,15 +29,18 @@ class Verification:
     content: bool
     chain: bool
     inclusion: bool
+    signature: bool | None = None  # the record's batch: True signed and valid, False invalid, None unsigned
 
     @property
     def ok(self) -> bool:
-        return self.content and self.chain and self.inclusion
+        return self.content and self.chain and self.inclusion and self.signature is not False
 
     def describe(self) -> str:
         if self.ok:
-            return "verified (content hash, hash chain, Merkle inclusion)"
-        failed = [n for n, v in (("content hash", self.content), ("hash chain", self.chain), ("Merkle inclusion", self.inclusion)) if not v]
+            signed = ", batch signature" if self.signature else ""
+            return f"verified (content hash, hash chain, Merkle inclusion{signed})"
+        failed = [n for n, v in (("content hash", self.content), ("hash chain", self.chain), ("Merkle inclusion", self.inclusion),
+                                 ("batch signature", self.signature is not False)) if not v]
         return "FAILED: " + ", ".join(failed)
 
 
@@ -110,6 +113,8 @@ class EvidencePackage:
     manifest_ok: bool
     manifest_problems: list[str] = field(default_factory=list)
     batches: list[dict[str, Any]] = field(default_factory=list, repr=False)
+    keys: list[dict[str, Any]] = field(default_factory=list, repr=False)  # public keys for the batch signatures
+    signatures: dict[int, bool | None] = field(default_factory=dict)  # batch_index -> signature state
     source_manifest_sha256: str = ""
     latest: dict[str, str] = field(default_factory=dict)  # check_key -> id of the newest record of that check
 
@@ -154,6 +159,13 @@ def load(path: str | Path | bytes) -> EvidencePackage:
 
     proofs = json.loads(raw["proofs.json"])
     roots = batch_roots(proofs.get("batches", []))
+    signatures = batch_signatures(proofs.get("batches", []), proofs.get("keys", []))
+    if "manifest.sig.json" in raw:  # the manifest's own signature, by the same key as the batches
+        sig = json.loads(raw["manifest.sig.json"])
+        check = batch_signatures([{"batch_index": 0, "statement": raw["manifest.json"].decode("utf-8"), "signature": sig.get("signature"),
+                                   "signature_alg": sig.get("alg"), "signing_key_id": sig.get("key_id")}], proofs.get("keys", []))
+        if check[0] is not True:
+            problems.append("manifest signature invalid: the file list was changed after it was signed")
     proof_by_id = {p["evidence_id"]: p for p in proofs.get("records", [])}
 
     evidence: dict[str, Evidence] = {}
@@ -164,7 +176,8 @@ def load(path: str | Path | bytes) -> EvidencePackage:
         content = json.loads(content_bytes) if content_bytes else {}
         proof = proof_by_id.get(record.get("id")) or {}
         evidence[record["id"]] = Evidence(record["id"], record, content, folder.rstrip("/"),
-                                          Verification(*check_record(record_bytes, content_bytes, proof, roots)),
+                                          Verification(*check_record(record_bytes, content_bytes, proof, roots),
+                                                       signature=signatures.get(proof.get("batch_index"))),
                                           proof=proof, raw_record=record_bytes, raw_content=content_bytes)
 
     report = json.loads(raw.get("report.json", b"{}"))
@@ -178,5 +191,7 @@ def load(path: str | Path | bytes) -> EvidencePackage:
         manifest_ok=not problems,
         manifest_problems=problems,
         batches=proofs.get("batches", []),
+        keys=proofs.get("keys", []),
+        signatures=signatures,
         source_manifest_sha256=sha256(raw["manifest.json"]),
     )

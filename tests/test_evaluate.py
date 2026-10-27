@@ -127,13 +127,17 @@ def test_tampered_package_is_reproducible_and_forges_exactly_five_records(tmp_pa
     spec = importlib.util.spec_from_file_location("tamper", ROOT / "evals" / "tamper.py")
     tamper = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(tamper)
-    tamper.TARGET = tmp_path / "rebuilt.zip"
+    tamper.TARGET, tamper.RESEALED = tmp_path / "rebuilt.zip", tmp_path / "resealed.zip"
     tamper.build()
+    tamper.build_resealed()
     assert hashlib.sha256(tamper.TARGET.read_bytes()).hexdigest() == committed
+    resealed_committed = hashlib.sha256((ROOT / "samples" / "sample-co-resealed.zip").read_bytes()).hexdigest()
+    assert hashlib.sha256(tamper.RESEALED.read_bytes()).hexdigest() == resealed_committed
     p = evidence.load(tamper.TARGET)
     bad = {e.record.get("check_id") or e.title: e.verification.describe() for e in p.evidence.values() if not e.verification.ok}
-    assert p.manifest_ok and len(bad) == 5  # the forger rebuilt the manifest; only the sealed proofs catch it
-    assert bad["aws.iam.no_user_admin_policies"] == "FAILED: Merkle inclusion"
+    # The forger rebuilt every file hash, but cannot re-sign the manifest; the sealed proofs catch each record.
+    assert p.manifest_problems == ["manifest signature invalid: the file list was changed after it was signed"]
+    assert len(bad) == 5 and bad["aws.iam.no_user_admin_policies"] == "FAILED: Merkle inclusion"
 
 
 def test_basic_rag_does_not_see_verification_verdicts(package):

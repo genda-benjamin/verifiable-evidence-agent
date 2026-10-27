@@ -1,0 +1,8 @@
+{
+  "owner": "Sample Co (fictional)",
+  "alg": "Ed25519",
+  "key_id": "ed25519:3a43cef7bc016144",
+  "public_key": "nSqEiQZyD0h7fdT0DUZdgY3D5tH4Co5QdEN+hfr/Mlc=",
+  "fingerprint_sha256": "3a43cef7bc01614434541a77777626e625375d4cb13bfffdb8d2f28e4b0cdf8d",
+  "note": "The public key Sample Co signs its sealed evidence batches with. A real company publishes this (or just its fingerprint) on its website or trust page, so customers can check proof packs against it."
+}

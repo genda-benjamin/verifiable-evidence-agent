@@ -194,6 +194,36 @@ for (const b of A.batches) {
   const st = typeof b.statement === "string" ? JSON.parse(b.statement) : b.statement;
   roots[b.batch_index] = { root: unhex(st.root_sha256), size: st.leaf_count, hex: st.root_sha256, signed: !!b.signature };
 }
+const keys = Object.fromEntries((A.keys || []).map((k) => [k.key_id, k]));
+let batchSig = {};  // batch_index -> true (valid), false (invalid), null (unsigned), "unchecked" (this browser cannot check)
+const b64any = (s) => b64(s.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (s.length % 4)) % 4));
+
+// The batch statement's signature, as verify_pack.py checks it: Ed25519 or ES256 (ECDSA P-256, SHA-256, raw r||s).
+async function checkSignature(b) {
+  if (!b.signature) return null;
+  const k = keys[b.signing_key_id];
+  if (!k) return false;
+  if (!subtle) return "unchecked";
+  const data = utf8.encode(typeof b.statement === "string" ? b.statement : JSON.stringify(b.statement));
+  let key;
+  try {
+    if (b.signature_alg === "Ed25519" && k.alg === "Ed25519") {
+      const raw = b64any(k.public_key);
+      if (hex(await sha(raw)) !== k.fingerprint_sha256) return false;
+      key = await subtle.importKey("raw", raw, { name: "Ed25519" }, false, ["verify"]);
+      return await subtle.verify({ name: "Ed25519" }, key, b64any(b.signature), data);
+    }
+    if (b.signature_alg === "ES256" && k.alg === "ES256") {
+      if (hex(await sha(cat([4], b64any(k.jwk.x), b64any(k.jwk.y)))) !== k.fingerprint_sha256) return false;
+      key = await subtle.importKey("jwk", { kty: "EC", crv: "P-256", x: k.jwk.x, y: k.jwk.y, ext: true },
+                                   { name: "ECDSA", namedCurve: "P-256" }, false, ["verify"]);
+      return await subtle.verify({ name: "ECDSA", hash: "SHA-256" }, key, b64any(b.signature), data);
+    }
+    return false;
+  } catch (e) {
+    return e && e.name === "NotSupportedError" && !key ? "unchecked" : false;  // an older browser without Ed25519
+  }
+}
 const evidence = Object.fromEntries(A.evidence.map((e) => [e.evidence_id, e]));
 const original = {};
 for (const e of A.evidence) original[e.evidence_id] = { record: b64(DATA.files[e.path + "/record.json"]), content: b64(DATA.files[e.path + "/content.json"]) };
@@ -234,7 +264,8 @@ async function checkRecord(ev) {
   const inclusion = !!batch && rec.id === ev.evidence_id && await verifyInclusion(leaf, ev.leaf_index, batch.size, (ev.audit_path || []).map(unhex), batch.root);
   const r = { rec, content, contentHash, chainHash, leafHex: hex(leaf), batch,
               contentOk: contentHash === rec.content_sha256, chainOk: chainHash === rec.chain_hash, inclusion };
-  r.ok = r.contentOk && r.chainOk && r.inclusion;
+  r.signature = batchSig[ev.batch_index] === undefined ? null : batchSig[ev.batch_index];
+  r.ok = r.contentOk && r.chainOk && r.inclusion && r.signature !== false;
   return r;
 }
 
@@ -251,12 +282,20 @@ function render() {
     [A.questions.length - answered, "insufficient evidence"], [A.evidence.length, "evidence records cited"]]
     .map(([n, l]) => el("div", { class: "stat" }, el("b", {}, n), el("span", {}, l))));
   const anchor = $("anchor"); anchor.replaceChildren();
-  for (const [i, b] of Object.entries(roots)) {
-    anchor.append(el("div", {}, `Sealed batch ${i} root: `, el("code", {}, b.hex)));
+  const org = A.organization || "the company";
+  for (const b of A.batches) {
+    const st = batchSig[b.batch_index], k = keys[b.signing_key_id];
+    anchor.append(el("div", {}, `Sealed batch ${b.batch_index} root: `, el("code", {}, roots[b.batch_index].hex)));
+    if (st === true) anchor.append(el("div", {}, el("span", { class: "mark ok" }, "✓ "),
+      "Signed by the key with fingerprint ", el("code", {}, k.fingerprint_sha256), ". Signature verified in your browser."));
+    else if (st === false) anchor.append(el("div", { class: "approval bad" }, el("span", { class: "mark bad" }, "✗ "),
+      "Signature INVALID: this batch's root was not signed by the key in this pack. Do not rely on its evidence."));
+    else if (st === "unchecked") anchor.append(el("div", {}, "Signed, but this browser cannot check the signature: run verify_pack.py."));
+    else anchor.append(el("div", {}, "Not signed: confirm this root with the company through a channel you trust. Every proof below leads to it."));
   }
-  anchor.append(el("div", { style: "margin-top:4px" }, Object.values(roots).some((b) => b.signed)
-    ? "The batch is signed by the company; check the signature against its published key."
-    : "This batch is not signed: confirm this root with the company through a channel you trust. Every proof below leads to it."));
+  if (A.batches.some((b) => b.signature)) anchor.append(el("div", { style: "margin-top:4px" },
+    `Compare the fingerprint with the one ${org} publishes, or check it in one step: `,
+    el("code", {}, "python verify_pack.py <this zip> --key <fingerprint>")));
 
   const qs = $("questions"); qs.replaceChildren();
   for (const q of A.questions) {
@@ -311,10 +350,13 @@ function renderVerdict() {
   v.replaceChildren(el("span", {}, parts.length ? parts.join(" · ")
     : `All ${A.evidence.length} cited evidence records and ${approved} approval${approved === 1 ? "" : "s"} verified in your browser`,
     el("small", {}, parts.length ? "Do not rely on the answers marked with ✗." :
-      "Each record's content hash, hash-chain link and Merkle proof to the sealed batch root checked out, and each approval matches its answer exactly.")));
+      "Each record's content hash, hash-chain link and Merkle proof to the sealed batch root checked out" +
+      (A.batches.some((b) => b.signature) ? ", the root's signature too," : "") + " and each approval matches its answer exactly.")));
 }
 
 async function verifyAll() {
+  batchSig = {};
+  for (const b of A.batches) batchSig[b.batch_index] = await checkSignature(b);
   results = {};
   for (const ev of A.evidence) results[ev.evidence_id] = await checkRecord(ev);
   approvals = {};
@@ -365,7 +407,11 @@ function openEvidence(id) {
       el("br"), el("code", {}, "computed " + r.chainHash), el("br"), el("code", {}, "sealed   " + (rec.chain_hash || ""))),
     el("li", {}, mark(r.inclusion), `Merkle proof: leaf ${ev.leaf_index} of ${r.batch ? r.batch.size : "?"} in batch ${ev.batch_index}, `,
       `${(ev.audit_path || []).length} sibling hashes, `, r.inclusion ? "leads to the sealed root." : "does NOT lead to the sealed root.",
-      el("br"), el("code", {}, "leaf " + r.leafHex), el("br"), el("code", {}, "root " + (r.batch ? r.batch.hex : "missing")))));
+      el("br"), el("code", {}, "leaf " + r.leafHex), el("br"), el("code", {}, "root " + (r.batch ? r.batch.hex : "missing"))),
+    el("li", {}, r.signature === null ? "– Batch signature: none (this batch is not signed)." :
+      r.signature === "unchecked" ? "– Batch signature: this browser cannot check it; run verify_pack.py." :
+      [mark(r.signature === true), r.signature === true ? "Batch signature: the root is signed by the key in this pack." :
+        "Batch signature: INVALID for this batch's root."].reduce((f, x) => (f.append(x), f), document.createDocumentFragment()))));
   $("dlg").showModal();
 }
 $("dlg").addEventListener("click", (e) => { if (e.target === $("dlg")) $("dlg").close(); });

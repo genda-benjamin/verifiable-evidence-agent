@@ -77,7 +77,18 @@ def test_pack_contains_only_cited_evidence_and_verifies(package, results, log, t
     report = proofcheck.verify_pack(out)
     assert report["ok"], report["problems"]
     assert report["records_verified"] == 2 and report["claims"] == 3 and report["questions"] == 3
-    assert "unsigned" in report["signatures"]
+    assert report["batch_signatures"] == {1: True} and "signed by the key with fingerprint" in report["signatures"]
+
+
+def test_the_company_key_settles_trust_in_one_step(package, results, log, tmp_path, capsys):
+    published = json.loads((SAMPLE.parent / "sample-co-signing-key.json").read_text(encoding="utf-8"))["fingerprint_sha256"]
+    out = tmp_path / "pack.zip"
+    proofpack.build(package, results, out, log=log, actor="exporter")
+    assert proofcheck.verify_pack(out, trusted_key=published)["ok"]
+    wrong = proofcheck.verify_pack(out, trusted_key="0" * 64)
+    assert not wrong["ok"] and "not signed only by the key you trust" in wrong["problems"][0]
+    assert proofcheck.main([str(out), "--key", published]) == 0
+    assert "every batch is signed by the key you trust" in capsys.readouterr().out
 
 
 def test_shipped_verifier_runs_standalone(package, results, log, tmp_path):

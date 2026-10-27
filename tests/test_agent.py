@@ -196,3 +196,12 @@ def test_a_draft_that_relied_on_forged_evidence_is_withheld_even_with_sound_clai
     assert r.flags and r.flags[0].startswith("Possible tampering") and "IAM console users have MFA" in r.flags[0]
     assert r.missing == ["An unaltered record for: IAM console users have MFA — 123456789012"]
     assert len(p.seen) == 2  # withheld before any verifier call
+
+
+def test_nothing_is_answered_from_a_resealed_package():
+    """Every hash in it checks out; the batch signature does not, so every citation is treated as tampered."""
+    resealed = evidence.load(Path(__file__).resolve().parent.parent / "samples" / "sample-co-resealed.zip")
+    p = ScriptedProvider([tool("get_evidence", evidence_id=ROOT_MFA),
+                          answer("Yes", [{"text": "Root has MFA.", "evidence_ids": [ROOT_MFA]}])])
+    r = Agent(resealed, p).answer("Is the root account protected with MFA?")
+    assert r.status == "abstained" and r.flags[0].startswith("Possible tampering") and "batch signature" in r.flags[0]
