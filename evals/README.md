@@ -83,6 +83,19 @@ mistake fails the build.
 ## Results
 
 Model runs are kept in `results/<set>/` exactly as produced, including runs later found to have problems.
+[`results/SUMMARY.md`](results/SUMMARY.md) re-scores every saved run with the current labels (`python evals/rescore.py`).
+
+**Current results (run 2, after the fixes below), 2026-10-27, `muse-spark-1.3`:**
+
+| Set | Basic RAG | Full agent |
+|---|---|---|
+| vsaq (29 real questions, held out) | 79.3% accurate, 72.4% grounded, **3 unsafe** | **93.1% accurate, 89.7% grounded, 0 unsafe** |
+| tampered (8, five records forged) | 50%, **believed 4 of 5 forgeries** | **100%, believed none** |
+| sample-co (32, too easy to separate modes) | 100% | 96.9% |
+
+Limits: one run per mode (a reasoning model's answers vary between runs); 29 and 8 questions; Meta's filter refused one
+VSAQ question in every mode (scored as wrong); the agent-without-verifier mode was not rerun after the fixes. The full
+agent costs about 5.5 times basic RAG (about $0.05 a question) and takes about 45 seconds a question.
 
 **Run 1, 2026-10-26/27, `muse-spark-1.3` (Meta Model API), same model as verifier.** About $4.65 for all six runs.
 

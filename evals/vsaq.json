@@ -238,7 +238,8 @@
       "category": "human-evidence",
       "question": "Do you have controls in place to protect client systems from malware?",
       "accept": [
-        "Yes"
+        "Yes",
+        "Partially"
       ],
       "unsafe": [
         "No"
@@ -249,7 +250,7 @@
         ]
       ],
       "source": "google/vsaq@366d670 questionnaires/infrastructure.json#clients_av",
-      "note": "Device register: every company device protected."
+      "note": "Accepts 'Partially' as well (decided 2026-10-27 with a domain reviewer after run 1): the register says devices are 'protected' but does not name anti-malware."
     },
     {
       "id": "V15",
@@ -411,7 +412,8 @@
       "category": "human-evidence",
       "question": "Do you have processes in place to make sure access (both physical and logical) is revoked when an employee, intern, vendor, contractor, or other associate leaves the company or a contract ends? Note that in many cases it is not sufficient to just disable the main LDAP or Active Directory account. Many employees have access to information that is governed by additional credentials, such as data in software-as-a-service applications.",
       "accept": [
-        "Yes"
+        "Yes",
+        "Partially"
       ],
       "unsafe": [
         "No"
@@ -421,7 +423,8 @@
           "review:TE-AC-06"
         ]
       ],
-      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_peopleops_leaver"
+      "source": "google/vsaq@366d670 questionnaires/security_privacy_programs.json#secprog_peopleops_leaver",
+      "note": "Accepts 'Partially' as well (decided 2026-10-27 with a domain reviewer after run 1): the evidence covers removing leavers' access but never mentions physical access (badges, keys)."
     },
     {
       "id": "V25",
