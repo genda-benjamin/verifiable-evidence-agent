@@ -131,7 +131,8 @@ def cmd_eval(args) -> int:
     only = set(args.only.split(",")) if args.only else None
     report = evaluate.run(package, doc, args.mode, provider, verifier, only, progress=print)
     stamp = time.strftime("%Y%m%d-%H%M%S")
-    out = Path(args.out_dir) / f"{stamp}-{args.provider}-{args.mode}"
+    who = args.provider + (f"+{args.verifier}-verifier" if args.verifier and args.verifier != args.provider else "")
+    out = Path(args.out_dir) / f"{stamp}-{who}-{args.mode}"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.with_suffix(".json").write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
     md = evaluate.markdown(report)
