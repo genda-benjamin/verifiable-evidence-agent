@@ -4,6 +4,12 @@
 can't.** Built for the [Meta Global AI Developer Hackathon](https://cerebralvalley.ai/e/meta-ai-developer-hackathon)
 (Startup track), 26 October – 4 November 2026, on Meta's **Muse Spark** and the open-weights **Muse Spark Open**.
 
+**Try it in your browser:** [Sample Co's proof pack](https://genda-benjamin.github.io/verifiable-evidence-agent/), the
+page a customer receives. Your browser re-checks every cited record, the signature and every approval, then you can
+press *Try to break it*. Sample Co is a fictional company.
+
+[![The proof pack page: 16 of 16 cited records and 8 approvals verified in the browser](docs/screenshot.png)](https://genda-benjamin.github.io/verifiable-evidence-agent/)
+
 ## The problem
 
 Companies answer long security questionnaires to win bank and enterprise customers. Small companies rarely have a
@@ -105,6 +111,8 @@ Python 3.11, standard library only (the tests need `pytest`). No key is needed t
 python -m vea verify samples/sample-co-evidence-package.zip      # 246 records, all verified
 python -m vea verify samples/sample-co-tampered.zip              # the forged package: 5 records fail
 python -m vea verify samples/sample-co-resealed.zip              # every hash checks out; the signature does not
+python -m vea check docs/proof-pack.zip --key 3a43cef7bc01614434541a77777626e625375d4cb13bfffdb8d2f28e4b0cdf8d
+                                                                 # the live demo's proof pack, as its customer checks it
 python -m pytest -q                                              # 54 tests
 ```
 

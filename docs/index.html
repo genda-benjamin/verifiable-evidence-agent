@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Verified questionnaire answers</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f6f9;
+  --glow: radial-gradient(1100px 440px at -5% -12%, rgba(99, 102, 241, .11), transparent 62%),
+          radial-gradient(900px 380px at 105% -8%, rgba(16, 185, 129, .10), transparent 58%);
+  --surface: #ffffff; --surface-2: #f7f8fb; --surface-3: #eef1f6; --bar: rgba(244, 246, 249, .82);
+  --text: #0c1324; --muted: #4f5b70; --faint: #6b7489;
+  --line: #e2e6ee; --line-2: #d2d8e3;
+  --accent: #4f46e5; --accent-soft: #eef0ff;
+  --ok: #067a52; --ok-soft: #e5f5ed; --ok-line: #a6dcc2;
+  --bad: #c42b1f; --bad-soft: #fdeceb; --bad-line: #f2bbb5;
+  --warn: #8a4f05; --warn-soft: #fff6e6; --warn-line: #efd39f;
+  --yes: #4338ca; --yes-soft: #eef0ff; --no: #334155; --no-soft: #eef1f6;
+  --part: #9a5204; --part-soft: #fff3df; --none: #5f6779; --none-soft: #f2f3f6;
+  --shadow: 0 1px 2px rgba(12, 19, 36, .04), 0 8px 24px rgba(12, 19, 36, .05);
+  --shadow-lg: 0 32px 90px rgba(12, 19, 36, .24);
+  --r: 18px; --r-sm: 11px;
+  --font: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", "Cascadia Code", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #080b11;
+    --glow: radial-gradient(1100px 460px at -5% -12%, rgba(99, 102, 241, .20), transparent 62%),
+            radial-gradient(900px 380px at 105% -8%, rgba(16, 185, 129, .12), transparent 58%);
+    --surface: #0f131b; --surface-2: #141924; --surface-3: #1b2131; --bar: rgba(8, 11, 17, .78);
+    --text: #e9ecf3; --muted: #a2aabc; --faint: #7d87a0;
+    --line: #212838; --line-2: #2d3547;
+    --accent: #8e8fff; --accent-soft: rgba(142, 143, 255, .14);
+    --ok: #3ddc97; --ok-soft: rgba(61, 220, 151, .11); --ok-line: rgba(61, 220, 151, .34);
+    --bad: #ff7a70; --bad-soft: rgba(255, 122, 112, .11); --bad-line: rgba(255, 122, 112, .36);
+    --warn: #f6c453; --warn-soft: rgba(246, 196, 83, .10); --warn-line: rgba(246, 196, 83, .30);
+    --yes: #b4bcff; --yes-soft: rgba(142, 143, 255, .14); --no: #cdd5e2; --no-soft: rgba(205, 213, 226, .08);
+    --part: #f6c453; --part-soft: rgba(246, 196, 83, .11); --none: #9aa2b5; --none-soft: rgba(154, 162, 181, .09);
+    --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 12px 32px rgba(0, 0, 0, .35);
+    --shadow-lg: 0 32px 100px rgba(0, 0, 0, .65);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #080b11;
+  --glow: radial-gradient(1100px 460px at -5% -12%, rgba(99, 102, 241, .20), transparent 62%),
+          radial-gradient(900px 380px at 105% -8%, rgba(16, 185, 129, .12), transparent 58%);
+  --surface: #0f131b; --surface-2: #141924; --surface-3: #1b2131; --bar: rgba(8, 11, 17, .78);
+  --text: #e9ecf3; --muted: #a2aabc; --faint: #7d87a0;
+  --line: #212838; --line-2: #2d3547;
+  --accent: #8e8fff; --accent-soft: rgba(142, 143, 255, .14);
+  --ok: #3ddc97; --ok-soft: rgba(61, 220, 151, .11); --ok-line: rgba(61, 220, 151, .34);
+  --bad: #ff7a70; --bad-soft: rgba(255, 122, 112, .11); --bad-line: rgba(255, 122, 112, .36);
+  --warn: #f6c453; --warn-soft: rgba(246, 196, 83, .10); --warn-line: rgba(246, 196, 83, .30);
+  --yes: #b4bcff; --yes-soft: rgba(142, 143, 255, .14); --no: #cdd5e2; --no-soft: rgba(205, 213, 226, .08);
+  --part: #f6c453; --part-soft: rgba(246, 196, 83, .11); --none: #9aa2b5; --none-soft: rgba(154, 162, 181, .09);
+  --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 12px 32px rgba(0, 0, 0, .35);
+  --shadow-lg: 0 32px 100px rgba(0, 0, 0, .65);
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { margin: 0; min-height: 100vh; background: var(--glow), var(--bg); background-attachment: fixed; color: var(--text);
+       font: 15px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+body:has(dialog[open]) { overflow: hidden; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code { font-family: var(--mono); font-size: .86em; }
+h1, h2, h3 { margin: 0; letter-spacing: -.01em; }
+p { margin: 0; }
+.i { width: 1em; height: 1em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.spin { width: 1em; height: 1em; flex-shrink: 0; display: inline-block; border: 2px solid currentColor; border-right-color: transparent;
+        border-radius: 50%; animation: rot .7s linear infinite; opacity: .75; }
+@keyframes rot { to { transform: rotate(360deg); } }
+.kicker { font-size: 11.5px; font-weight: 650; letter-spacing: .09em; text-transform: uppercase; color: var(--faint); }
+.label { font-size: 11.5px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: 4px; }
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+.small { font-size: 13px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
+
+/* top bar */
+.topbar { position: sticky; top: 0; z-index: 20; background: var(--bar); border-bottom: 1px solid var(--line);
+          backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px); }
+.topbar-in { max-width: 1120px; margin: 0 auto; padding: 0 20px; height: 60px; display: flex; align-items: center; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+.brand-mark { width: 32px; height: 32px; flex-shrink: 0; border-radius: 10px; display: grid; place-items: center; color: #fff; font-size: 18px;
+              background: linear-gradient(135deg, #6366f1, #10b981); box-shadow: 0 6px 16px rgba(99, 102, 241, .35); }
+.brand-name { font-weight: 700; white-space: nowrap; }
+.brand-sep { color: var(--line-2); }
+.brand-org { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top-actions { display: flex; align-items: center; gap: 8px; }
+.top-link { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px; border-radius: 10px; font-size: 13.5px;
+            font-weight: 600; color: var(--muted); text-decoration: none; }
+.top-link:hover { color: var(--text); background: var(--surface-3); }
+.status-pill { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 999px; font-size: 13px;
+               font-weight: 650; border: 1px solid var(--line); background: var(--surface); color: var(--muted); }
+.status-pill .i, .status-pill .spin { font-size: 15px; }
+.status-pill.ok { color: var(--ok); background: var(--ok-soft); border-color: var(--ok-line); }
+.status-pill.bad { color: var(--bad); background: var(--bad-soft); border-color: var(--bad-line); }
+.icon-btn { width: 34px; height: 34px; flex-shrink: 0; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--line);
+            background: var(--surface); color: var(--muted); font-size: 17px; transition: color .15s, border-color .15s; }
+.icon-btn:hover { color: var(--text); border-color: var(--line-2); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 30px 20px 72px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 22px; align-items: stretch; }
+.hero-text { padding: 8px 0; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+.hero h1 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.12; font-weight: 750; letter-spacing: -.025em; }
+.hero h1 .org { background: linear-gradient(120deg, var(--accent), #10b981); -webkit-background-clip: text; background-clip: text;
+                color: transparent; -webkit-text-fill-color: transparent; }
+.lede { color: var(--muted); font-size: 16px; max-width: 58ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 12.5px;
+        background: var(--surface); border: 1px solid var(--line); color: var(--muted); max-width: 100%; }
+.chip .i { font-size: 14px; }
+.chip code { color: var(--text); font-size: 12px; overflow-wrap: anywhere; }
+
+.seal { padding: 22px; display: flex; gap: 22px; align-items: center; }
+.ring-wrap { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
+.ring { width: 132px; height: 132px; transform: rotate(-90deg); display: block; }
+.ring circle { fill: none; stroke-width: 9; }
+.ring .track { stroke: var(--surface-3); }
+.ring .bar { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset .3s ease, stroke .3s; }
+.ring .bar.ok { stroke: var(--ok); } .ring .bar.bad { stroke: var(--bad); }
+.ring-center { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; }
+.ring-center strong { font-size: 25px; line-height: 1.15; font-weight: 750; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.ring-center span { font-size: 11px; color: var(--muted); line-height: 1.2; }
+.seal-ic { font-size: 22px; margin-bottom: 2px; }
+.seal-ic.ok { color: var(--ok); } .seal-ic.bad { color: var(--bad); }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; flex: 1; min-width: 0; }
+.chk { display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 8px; font-size: 13.5px; }
+.chk .i, .chk .spin { font-size: 16px; justify-self: center; }
+.chk em { font-style: normal; font-size: 12px; color: var(--faint); white-space: nowrap; }
+.chk.ok .i { color: var(--ok); } .chk.bad, .chk.bad .i, .chk.bad em { color: var(--bad); } .chk.bad em { font-weight: 650; }
+.chk.na .i { color: var(--faint); } .chk.pending { color: var(--muted); }
+
+/* verdict */
+.verdict { margin-top: 18px; padding: 16px 18px; border-radius: var(--r); display: flex; gap: 14px; align-items: center;
+           border: 1px solid var(--line); background: var(--surface); color: var(--muted); }
+.verdict > .i, .verdict > .spin { font-size: 26px; }
+.verdict strong { display: block; font-size: 16px; letter-spacing: -.01em; color: var(--text); }
+.verdict .sub { display: block; font-size: 13.5px; color: var(--muted); }
+.verdict.ok { background: var(--ok-soft); border-color: var(--ok-line); }
+.verdict.ok > .i, .verdict.ok strong { color: var(--ok); }
+.verdict.bad { background: var(--bad-soft); border-color: var(--bad-line); }
+.verdict.bad > .i, .verdict.bad strong { color: var(--bad); }
+
+/* stats */
+.stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.stat { display: flex; gap: 12px; align-items: center; padding: 14px 16px; }
+.stat-ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--surface-3); color: var(--muted);
+           font-size: 18px; flex-shrink: 0; }
+.stat-ic.accent { background: var(--accent-soft); color: var(--accent); }
+.stat-ic.ok { background: var(--ok-soft); color: var(--ok); }
+.stat-ic.bad { background: var(--bad-soft); color: var(--bad); }
+.stat b { display: block; font-size: 22px; line-height: 1.1; font-weight: 750; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.stat .l { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.3; }
+
+/* trust anchor */
+.anchor { margin-top: 14px; padding: 20px; display: grid; gap: 14px; }
+.anchor-head { display: flex; gap: 14px; align-items: center; }
+.anchor-ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; background: var(--surface-3);
+             color: var(--muted); flex-shrink: 0; }
+.anchor-ic.ok { background: var(--ok-soft); color: var(--ok); } .anchor-ic.bad { background: var(--bad-soft); color: var(--bad); }
+.anchor h2 { font-size: 18px; }
+.fp-row { display: flex; align-items: center; gap: 12px; justify-content: space-between; padding: 12px 14px; border-radius: var(--r-sm);
+          background: var(--surface-2); border: 1px solid var(--line); }
+.fp { display: block; font-size: 14px; letter-spacing: .04em; word-spacing: .15em; line-height: 1.7; color: var(--text); overflow-wrap: anywhere; }
+.anchor-note { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--muted); }
+.anchor-note .i, .anchor-note .spin { margin-top: 3px; font-size: 16px; }
+.anchor-note.ok { color: var(--text); } .anchor-note.ok .i { color: var(--ok); }
+.anchor-note.bad { color: var(--bad); font-weight: 600; }
+details.batch { border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface-2); }
+details.batch summary { cursor: pointer; padding: 10px 14px; font-size: 13.5px; color: var(--muted); list-style: none; display: flex; gap: 8px; align-items: center; }
+details.batch summary::-webkit-details-marker { display: none; }
+details.batch summary::before { content: "›"; font-size: 17px; line-height: 1; transition: transform .15s; }
+details.batch[open] summary::before { transform: rotate(90deg); }
+details.batch .kv { padding: 0 14px 12px; }
+details.batch code { overflow-wrap: anywhere; color: var(--text); }
+.cmd { border-radius: var(--r-sm); background: #0b1020; color: #dfe5f5; padding: 12px 14px; border: 1px solid transparent; }
+:root[data-theme="dark"] .cmd { background: #05070c; border-color: var(--line); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cmd { background: #05070c; border-color: var(--line); } }
+.cmd .label { color: #8f9ab8; }
+.cmd-row { display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+.cmd code { font-size: 12.5px; overflow-wrap: anywhere; color: #e7ecff; }
+.copy { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600;
+        border: 1px solid var(--line-2); background: var(--surface); color: var(--muted); flex-shrink: 0; transition: color .15s, border-color .15s; }
+.copy:hover { color: var(--text); }
+.copy.done { color: var(--ok); border-color: var(--ok-line); }
+.cmd .copy { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .14); color: #c7cfe6; }
+.cmd .copy.done { color: #3ddc97; }
+
+/* answers */
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 36px 0 12px; }
+.section-head h2 { font-size: 22px; letter-spacing: -.02em; }
+.toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 13px; background: var(--surface); border: 1px solid var(--line); }
+.seg-btn { display: inline-flex; gap: 7px; align-items: center; border: 0; background: transparent; color: var(--muted); padding: 6px 11px;
+           border-radius: 9px; font-size: 13.5px; font-weight: 550; }
+.seg-btn:hover { color: var(--text); }
+.seg-btn .count { font-size: 11.5px; font-variant-numeric: tabular-nums; padding: 0 6px; border-radius: 999px; background: var(--surface-3); color: var(--muted); }
+.seg-btn[aria-pressed="true"] { background: var(--text); color: var(--surface); }
+.seg-btn[aria-pressed="true"] .count { background: rgba(127, 127, 127, .28); color: var(--surface); }
+.search { flex: 1; min-width: 220px; display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 12px; border-radius: 13px;
+          background: var(--surface); border: 1px solid var(--line); color: var(--faint); }
+.search input { flex: 1; border: 0; outline: 0; background: transparent; color: var(--text); min-width: 0; }
+.search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.questions { display: grid; gap: 14px; }
+.q { padding: 20px 22px; scroll-margin-top: 84px; transition: border-color .2s; }
+.q.q-bad { border-color: var(--bad-line); box-shadow: inset 3px 0 0 var(--bad), var(--shadow); }
+.q.rise { animation: rise .45s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+.q.flash { animation: flash 1.8s ease; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes flash { 0%, 55% { box-shadow: 0 0 0 4px var(--accent-soft), 0 0 0 1px var(--accent); } 100% { box-shadow: var(--shadow); } }
+.q-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+.q-ref { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--muted); padding: 3px 8px; border-radius: 8px; background: var(--surface-3); margin-top: 2px; }
+.q-text { font-size: 16.5px; line-height: 1.45; font-weight: 650; letter-spacing: -.01em; }
+.answer { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 700;
+          white-space: nowrap; border: 1px solid transparent; }
+.answer .i { font-size: 15px; }
+.answer.yes { color: var(--yes); background: var(--yes-soft); }
+.answer.no { color: var(--no); background: var(--no-soft); }
+.answer.part { color: var(--part); background: var(--part-soft); }
+.answer.none { color: var(--none); background: var(--none-soft); border: 1px dashed var(--line-2); }
+.claims { list-style: none; margin: 16px 0 0; padding: 0; display: grid; counter-reset: claim; }
+.claim { position: relative; padding: 12px 0 12px 32px; border-top: 1px solid var(--line); }
+.claim::before { counter-increment: claim; content: counter(claim); position: absolute; left: 0; top: 14px; width: 21px; height: 21px; border-radius: 50%;
+                 display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--muted); background: var(--surface-3); }
+.cites { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.cite { display: inline-flex; align-items: center; gap: 7px; max-width: 100%; padding: 5px 10px 5px 8px; border-radius: 10px; font-size: 12.5px;
+        border: 1px solid var(--line); background: var(--surface-2); color: var(--text); transition: border-color .15s, transform .15s; }
+.cite:hover { border-color: var(--accent); transform: translateY(-1px); }
+.cite .i, .cite .spin { font-size: 15px; }
+.cite.ok .i { color: var(--ok); }
+.cite.bad { border-color: var(--bad-line); background: var(--bad-soft); }
+.cite.bad .i { color: var(--bad); }
+.cite.pending { color: var(--muted); }
+.cite .cid { font-family: var(--mono); font-weight: 600; }
+.cite .ct { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 330px; }
+.no-claims { margin-top: 14px; color: var(--muted); font-size: 14.5px; }
+.panel { margin-top: 12px; padding: 12px 14px; border-radius: var(--r-sm); font-size: 14px; background: var(--surface-2); border: 1px solid var(--line); }
+.panel-title { display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+               color: var(--muted); margin-bottom: 6px; }
+.panel ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; }
+.panel.caveat { color: var(--muted); }
+.panel.flag { display: flex; gap: 9px; align-items: flex-start; background: var(--warn-soft); border-color: var(--warn-line); color: var(--warn); }
+.panel.flag .i { margin-top: 3px; font-size: 16px; }
+.q-foot { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between;
+          gap: 12px; flex-wrap: wrap; }
+.q-foot.draft { color: var(--warn); font-weight: 600; justify-content: flex-start; font-size: 14px; }
+.who { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.avatar { width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; font-size: 12.5px; font-weight: 750;
+          color: #fff; background: linear-gradient(135deg, #6366f1, #0ea5e9); letter-spacing: .02em; }
+.who > div > strong { display: block; font-size: 14px; }
+.who > div > span { display: block; font-size: 12.5px; color: var(--muted); }
+.who.bad .avatar { background: var(--bad-soft); color: var(--bad); }
+.who.bad > div > strong { color: var(--bad); }
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 650; }
+.badge .i, .badge .spin { font-size: 15px; }
+.badge.ok { color: var(--ok); background: var(--ok-soft); }
+.badge.bad { color: var(--bad); background: var(--bad-soft); }
+.badge.pending { color: var(--muted); background: var(--surface-3); }
+.empty-state { padding: 40px; text-align: center; color: var(--muted); display: grid; gap: 8px; justify-items: center; }
+.empty-state .i { font-size: 28px; }
+
+/* tamper lab */
+.lab { margin-top: 36px; padding: 22px; scroll-margin-top: 84px; }
+.lab-head { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
+.lab-head h2 { font-size: 20px; letter-spacing: -.02em; }
+.lab-head p { color: var(--muted); font-size: 14px; max-width: 78ch; margin-top: 4px; }
+.lab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.lab-card { text-align: left; display: grid; gap: 8px; align-content: start; padding: 16px; border-radius: var(--r-sm); border: 1px solid var(--line);
+            background: var(--surface-2); transition: border-color .15s, transform .15s, box-shadow .15s; }
+.lab-card:hover { border-color: var(--bad-line); transform: translateY(-2px); box-shadow: var(--shadow); }
+.lab-ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--bad-soft); color: var(--bad); font-size: 17px; }
+.lab-card strong { font-size: 14.5px; }
+.lab-card .d { font-size: 13px; color: var(--muted); }
+.ghost { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line-2);
+         background: var(--surface); color: var(--text); font-weight: 600; font-size: 13.5px; }
+.ghost:hover { border-color: var(--accent); }
+.lab-result { margin-top: 14px; display: flex; gap: 12px; align-items: flex-start; padding: 15px 16px; border-radius: var(--r-sm);
+              background: var(--bad-soft); border: 1px solid var(--bad-line); font-size: 14px; }
+.lab-result:empty { display: none; }
+.lab-result > .i { color: var(--bad); font-size: 19px; margin-top: 2px; }
+.lab-body { display: grid; gap: 10px; min-width: 0; }
+.lab-checks { display: flex; flex-wrap: wrap; gap: 6px; }
+.lab-chk { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 650;
+           background: var(--surface); border: 1px solid var(--line); color: var(--muted); }
+.lab-chk .i { font-size: 13px; }
+.lab-chk.ok .i { color: var(--ok); }
+.lab-chk.bad { color: var(--bad); border-color: var(--bad-line); }
+.lab-result .ghost { justify-self: start; height: 32px; font-size: 13px; }
+
+.foot { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; color: var(--faint); font-size: 12.5px; }
+
+/* evidence drawer */
+dialog.drawer { position: fixed; inset: 0 0 0 auto; margin: 0 0 0 auto; padding: 0; border: 0; height: 100%; max-height: 100%;
+                width: min(620px, 100vw); max-width: 100vw; overflow-y: auto; overscroll-behavior: contain;
+                background: var(--surface); color: var(--text); box-shadow: var(--shadow-lg); border-left: 1px solid var(--line); }
+dialog.drawer[open] { animation: slide .26s cubic-bezier(.2, .8, .2, 1); }
+@keyframes slide { from { transform: translateX(28px); } to { transform: none; } }
+dialog.drawer::backdrop { background: rgba(6, 9, 16, .5); }
+.drawer-in { min-height: 100%; padding: 0 24px 40px; display: grid; gap: 18px; align-content: start; }
+.dr-head { position: sticky; top: 0; z-index: 2; display: flex; gap: 14px; align-items: flex-start; justify-content: space-between;
+           padding: 20px 0 12px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.dr-head h2 { font-size: 20px; line-height: 1.3; margin-top: 4px; }
+.dr-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.rec-verdict { display: flex; gap: 10px; align-items: center; padding: 11px 14px; border-radius: var(--r-sm); font-weight: 650; font-size: 14px; }
+.rec-verdict .i { font-size: 18px; }
+.rec-verdict.ok { color: var(--ok); background: var(--ok-soft); border: 1px solid var(--ok-line); }
+.rec-verdict.bad { color: var(--bad); background: var(--bad-soft); border: 1px solid var(--bad-line); }
+.result { display: grid; gap: 6px; padding: 16px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--surface-2); }
+.result-top { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.result h3 { font-size: 15px; }
+.result p { font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
+.result p.faint { font-size: 13px; color: var(--faint); }
+.result b { color: var(--text); font-weight: 600; }
+.status { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 750; letter-spacing: .04em; white-space: nowrap; }
+.status.PASS { color: var(--ok); background: var(--ok-soft); }
+.status.FAIL { color: var(--bad); background: var(--bad-soft); }
+.status.NEEDS_REVIEW, .status.WARN { color: var(--warn); background: var(--warn-soft); }
+.status.OTHER { color: var(--muted); background: var(--surface-3); }
+.dr-section h3 { font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+.tbl { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; border: 1px solid var(--line); border-radius: var(--r-sm); overflow: hidden; }
+.tbl th { text-align: left; font-weight: 650; color: var(--muted); background: var(--surface-2); padding: 9px 12px; white-space: nowrap; font-size: 12px; }
+.tbl td { padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+.tbl td.rid { font-family: var(--mono); font-size: 12px; max-width: 210px; }
+.tbl td.rid span { display: block; margin-top: 4px; font-family: var(--font); color: var(--muted); font-size: 12px; }
+.kvs { display: flex; flex-wrap: wrap; gap: 4px; }
+.kvs span { font-size: 12px; padding: 2px 7px; border-radius: 7px; background: var(--surface-3); }
+.kvs b { font-weight: 550; color: var(--muted); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; }
+.step { position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; padding-bottom: 20px; }
+.step:not(:last-child)::before { content: ""; position: absolute; left: 14px; top: 30px; bottom: 0; width: 2px; background: var(--line); }
+.step-dot { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; background: var(--surface-3); color: var(--muted); z-index: 1; }
+.step.ok .step-dot { background: var(--ok-soft); color: var(--ok); }
+.step.bad .step-dot { background: var(--bad-soft); color: var(--bad); }
+.step-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 650; font-size: 14.5px; }
+.tag { font-size: 11px; font-weight: 750; padding: 1px 8px; border-radius: 999px; background: var(--surface-3); color: var(--muted); letter-spacing: .03em; }
+.tag.ok { color: var(--ok); background: var(--ok-soft); } .tag.bad { color: var(--bad); background: var(--bad-soft); }
+.step p { font-size: 13.5px; color: var(--muted); margin-top: 3px; }
+.hashes { margin-top: 8px; display: grid; gap: 4px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); }
+.hrow { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 8px; font-size: 12px; }
+.hrow span { color: var(--faint); }
+.hrow code { overflow-wrap: anywhere; color: var(--text); font-size: 11.5px; }
+.hashes.ok code { color: var(--ok); } .hashes.bad code.diff { color: var(--bad); }
+.mpath { margin-top: 10px; display: grid; }
+.mnode { position: relative; display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 10px; padding: 7px 10px;
+         border-radius: 9px; border: 1px solid var(--line); background: var(--surface-2); font-size: 12px; }
+.mnode + .mnode { margin-top: 10px; }
+.mnode + .mnode::before { content: ""; position: absolute; left: 22px; top: -11px; height: 10px; width: 2px; background: var(--line-2); }
+.mnode .ml { color: var(--muted); font-weight: 600; }
+.mnode code { color: var(--text); font-size: 11.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mnode.leaf { border-color: var(--accent); }
+.mnode.root.ok { border-color: var(--ok-line); background: var(--ok-soft); }
+.mnode.root.bad { border-color: var(--bad-line); background: var(--bad-soft); }
+.docs { display: grid; gap: 6px; }
+.doc { display: flex; gap: 10px; align-items: center; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); font-size: 13px; min-width: 0; }
+.doc span { overflow-wrap: anywhere; }
+.doc code { color: var(--muted); font-size: 11.5px; margin-left: auto; white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lab-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .topbar-in { padding: 0 14px; gap: 10px; }
+  .brand-org, .brand-sep, .top-link { display: none; }
+  .wrap { padding: 20px 16px 56px; }
+  .seal { flex-direction: column; align-items: stretch; padding: 18px; }
+  .ring-wrap { margin: 0 auto; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat:last-child { grid-column: 1 / -1; }
+  .q { padding: 16px; }
+  .q-top { grid-template-columns: auto minmax(0, 1fr); }
+  .q-top .answer { grid-column: 1 / -1; justify-self: start; }
+  .cite .ct { max-width: 170px; }
+  .fp-row, .cmd-row { flex-direction: column; align-items: stretch; }
+  .fp-row .copy, .cmd-row .copy { align-self: flex-start; }
+  .drawer-in { padding: 0 16px 32px; }
+  .tbl.res { display: block; }
+  .tbl.res tr:first-child { display: none; }
+  .tbl.res tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; border-top: 1px solid var(--line); }
+  .tbl.res tr:nth-child(2) { border-top: 0; }
+  .tbl.res td { border-top: 0; }
+  .tbl.res td:last-child { grid-column: 1 / -1; padding-top: 0; }
+  .tbl.res td.rid { max-width: none; }
+  .mnode { grid-template-columns: 84px minmax(0, 1fr); }
+  .hrow { grid-template-columns: 62px minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@media print {
+  :root { color-scheme: light; }
+  body { background: #fff; }
+  .top-actions, .toolbar, .lab, dialog, .copy, .cmd { display: none !important; }
+  .topbar { position: static; backdrop-filter: none; -webkit-backdrop-filter: none; background: none; }
+  .hero h1 .org { background: none; color: inherit; -webkit-text-fill-color: currentColor; }
+  .card, .verdict { box-shadow: none; break-inside: avoid; }
+  .q.rise { animation: none; }
+}
+</style>
+</head>
+<body>
+<div style="background:#0b1020;color:#dfe5f5;font:13.5px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif;padding:9px 16px;text-align:center">Live demo: a proof pack for <b>Sample Co</b>, a fictional company. Every check on this page runs in your browser. <a href="https://github.com/genda-benjamin/verifiable-evidence-agent" style="color:#a9b8ff">Source, evaluation and results on GitHub</a></div>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="brand-mark" data-icon="shieldCheck"></span>
+      <span class="brand-name">Verified answers</span>
+      <span class="brand-sep">/</span>
+      <span class="brand-org" id="brand-org"></span>
+    </div>
+    <div class="top-actions">
+      <a class="top-link" href="#lab" data-icon="zap">Try to break it</a>
+      <span class="status-pill" id="status-pill"></span>
+      <button class="icon-btn" id="theme-btn" type="button"></button>
+      <button class="icon-btn" id="print-btn" type="button" aria-label="Print or save as PDF" title="Print or save as PDF" data-icon="printer"></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-text">
+      <div class="kicker">Proof pack · Security questionnaire</div>
+      <h1 id="title"></h1>
+      <p class="lede" id="lede"></p>
+      <div class="meta-row" id="meta"></div>
+    </div>
+    <div class="card seal" id="seal"></div>
+  </section>
+
+  <div class="verdict pending" id="verdict" role="status" aria-live="polite"></div>
+  <section class="stats" id="stats" aria-label="Summary"></section>
+  <section class="card anchor" id="anchor" aria-label="Who sealed this evidence"></section>
+
+  <div class="section-head"><h2>Answers</h2><span class="muted small" id="shown"></span></div>
+  <section class="toolbar" id="toolbar"></section>
+  <section class="questions" id="questions"></section>
+
+  <section class="card lab" id="lab" aria-labelledby="lab-title">
+    <div class="lab-head">
+      <div>
+        <div class="kicker">Tamper lab</div>
+        <h2 id="lab-title">Try to break it</h2>
+        <p>Each button changes a cited record or an approved answer in this page's memory only, then re-runs every check.
+           Nothing is saved or sent. A forger faces exactly these checks.</p>
+      </div>
+      <button class="ghost" id="t0" type="button" data-icon="undo">Restore the original</button>
+    </div>
+    <div class="lab-grid">
+      <button class="lab-card" id="t1" type="button"><span class="lab-ic" data-icon="edit"></span><strong>Edit a record's content</strong>
+        <span class="d">Turn a failing check into a pass: the edit a dishonest vendor would make.</span></button>
+      <button class="lab-card" id="t2" type="button"><span class="lab-ic" data-icon="hash"></span><strong>Edit it and recompute its hashes</strong>
+        <span class="d">A careful forger also recomputes the record's content hash and its chain link.</span></button>
+      <button class="lab-card" id="t3" type="button"><span class="lab-ic" data-icon="msg"></span><strong>Change an approved answer</strong>
+        <span class="d">Widen a claim after a person approved it.</span></button>
+    </div>
+    <div class="lab-result" id="tamper-msg" role="status" aria-live="polite"></div>
+  </section>
+
+  <footer class="foot">
+    <span id="foot-gen"></span>
+    <span>No network needed: every check on this page ran on your device. Independent check: <code>verify_pack.py</code></span>
+  </footer>
+</main>
+
+<dialog class="drawer" id="dlg" aria-label="Evidence record"><div class="drawer-in" id="dlg-body"></div></dialog>
+
+<script type="application/json" id="pack-data">{"answers": {"format": "vea.proof-pack.v1", "generator": "Verifiable Evidence Agent 0.1.0", "generated_at": "2026-10-28T20:54:14+00:00", "organization": "Sample Co", "period": {"end": "2026-10-26", "start": "2026-09-26", "timezone": "UTC"}, "source_package": {"manifest_sha256": "4b7729b1f8d5395930a8d193d42d3bebc436ad4266132b182df0f474c855aa47"}, "batches": [{"anchor_uri": null, "batch_index": 1, "signature": "P7A/TG84x8O7Wu1C/zUmqHcMmqhbUonj0oUrQhG9ai990e/pgE5iQc1weZjRnX72Vun894NBxQwPqkIm2DrwDw==", "signature_alg": "Ed25519", "signing_key_id": "ed25519:3a43cef7bc016144", "statement": "{\"batch_index\":1,\"first_sequence\":1,\"last_sequence\":246,\"leaf_count\":246,\"prev_root_sha256\":null,\"root_sha256\":\"53e8287dfe074af3d4b8415ed9c6ab45939160de69fdef4bcf3cf8798357993b\",\"sealed_at\":\"2026-10-26T16:25:55+00:00\",\"tenant_id\":\"2649fe94-60b6-44ab-8ee5-212a940e5b19\",\"type\":\"trustevidence.evidence-batch.v1\"}"}], "keys": [{"alg": "Ed25519", "fingerprint_sha256": "3a43cef7bc01614434541a77777626e625375d4cb13bfffdb8d2f28e4b0cdf8d", "key_id": "ed25519:3a43cef7bc016144", "public_key": "nSqEiQZyD0h7fdT0DUZdgY3D5tH4Co5QdEN+hfr/Mlc="}], "questions": [{"id": "Q1", "question": "Is multi-factor authentication enforced for all administrative and console access?", "answer": "Partially", "status": "approved", "caveats": "IAM console users MFA check FAILs due to ben.okafor without MFA; open high-severity finding 'IAM console users have MFA: ben.okafor' remains open.", "flags": [], "missing": ["A follow-up passing IAM console users MFA check showing mfa_active=true for ben.okafor"], "reviewer_note": "", "approval": {"action": "approved", "actor": "Benjamin Genda", "at": "2026-10-27T06:29:32+00:00", "details": {"answer": "Partially", "digest": "51de9dd472d1d1449eb84557cdbe6789b2e02e438c989567ac3a92e9ad166020", "note": ""}, "hash": "b2bf2d71848a69ce2250bdb4880f62b7fd5447707fd7c8559401982cd028ec37", "prev": "78b815e8a562630d355b03e66064dd81cea6f3bcbef335bc0f40bf8d6a771c0a", "seq": 16, "subject": "Q1"}, "claims": [{"text": "The AWS root account has MFA enabled.", "evidence_ids": ["6ae91262-4acd-48a8-a375-01992b267489"], "verifier_reason": "Evidence shows PASS with AccountMFAEnabled = 1 for arn:aws:iam::123456789012:root."}, {"text": "The sample-co organisation has the 2FA requirement enabled.", "evidence_ids": ["0186230f-f88f-4ee8-86b1-1bf84f655f6f"], "verifier_reason": "The evidence directly observes two_factor_requirement_enabled as true for sample-co."}, {"text": "Three console users (alice.chen, grace.wanjiru, ci-deploy) have MFA active.", "evidence_ids": ["915d6815-1b0b-4139-a371-77e7be5b5740"], "verifier_reason": "Evidence shows mfa_active true with password_enabled true for alice.chen, grace.wanjiru, and ci-deploy."}, {"text": "Console user ben.okafor has password enabled with recent use on 2026-10-23 but MFA is not active.", "evidence_ids": ["915d6815-1b0b-4139-a371-77e7be5b5740"], "verifier_reason": "Evidence shows ben.okafor with password_enabled true, password_last_used 2026-10-23, and mfa_active false."}]}, {"id": "Q2", "question": "Is data at rest encrypted?", "answer": "Partially", "status": "approved", "caveats": "EBS volumes encrypted check FAILs with open finding 'EBS volumes encrypted: vol-02c9e2b7a4d6f802'; EBS encryption by default check FAILs in us-east-1 with open finding 'EBS encryption by default: us-east-1'.", "flags": [], "missing": ["Record showing vol-02c9e2b7a4d6f802 encrypted or decommissioned", "Record showing EBS encryption by default enabled in us-east-1"], "reviewer_note": "", "approval": {"action": "approved", "actor": "Benjamin Genda", "at": "2026-10-27T06:29:34+00:00", "details": {"answer": "Partially", "digest": "1ae6c3b29977606415d7e7e622933fbd860131f612f82f8d1ce4ada361ebf200", "note": ""}, "hash": "0a036b1b89c109a62823967d616b38f78156e37173315760157672708c1b0950", "prev": "b2bf2d71848a69ce2250bdb4880f62b7fd5447707fd7c8559401982cd028ec37", "seq": 17, "subject": "Q2"}, "claims": [{"text": "Both assessed RDS databases have StorageEncrypted true with a KMS key.", "evidence_ids": ["c6899d8a-3555-4cef-8690-b29028fafa6e"], "verifier_reason": "Evidence lists two RDS instances both with StorageEncrypted true and a KmsKeyId."}, {"text": "All four assessed S3 buckets have default server-side encryption configured with AES256 or aws:kms.", "evidence_ids": ["f3df6500-b4d2-4b6f-a91a-abb1c27a80e7"], "verifier_reason": "Evidence lists four buckets each PASS with observed algorithms AES256 or aws:kms."}, {"text": "The organization CloudTrail trail uses a KMS key for log encryption.", "evidence_ids": ["879397d0-c5a3-4063-b1cc-0fd39562a165"], "verifier_reason": "The evidence shows trail org-trail as PASS with an observed KmsKeyId indicating KMS encryption."}, {"text": "EBS volume vol-02c9e2b7a4d6f802 attached to i-03a7c3e5f9b2d413 is unencrypted.", "evidence_ids": ["378e6eb3-3a76-4283-baf8-64bb6098ee34"], "verifier_reason": "Evidence shows vol-02c9e2b7a4d6f802 attached to i-03a7c3e5f9b2d413 with encrypted false."}, {"text": "EBS encryption by default is disabled in us-east-1 while enabled in eu-west-1.", "evidence_ids": ["4047a3da-539a-4761-aad9-ece063c814f5"], "verifier_reason": "Evidence shows EbsEncryptionByDefault false for us-east-1 and true for eu-west-1."}]}, {"id": "Q3", "question": "Do employees complete security awareness training?", "answer": "Yes", "status": "approved", "caveats": "", "flags": [], "missing": [], "reviewer_note": "", "approval": {"action": "approved", "actor": "Benjamin Genda", "at": "2026-10-27T06:29:36+00:00", "details": {"answer": "Yes", "digest": "985b8172cbd2403ecb382d203042168ffc8b2110156a5bbf8f0aea963a2e05a6", "note": ""}, "hash": "881f8645aebe71a9def08ecdd0da7ea35fd3d7c83615e6d332547a362333cba6", "prev": "0a036b1b89c109a62823967d616b38f78156e37173315760157672708c1b0950", "seq": 18, "subject": "Q3"}, "claims": [{"text": "All 7 personnel completed security awareness training in the last 12 months, including new joiners within 30 days.", "evidence_ids": ["7449ab57-9f7c-4332-8ab6-cfc8106c2ef0"], "verifier_reason": "The review records 7 of 7 personnel trained in the last 12 months including new joiners within 30 days."}, {"text": "A manual review on 2026-10-26 confirmed security awareness training is operating as described against policy and records.", "evidence_ids": ["a813ea01-cc40-40df-88dc-07b906eb6a6a"], "verifier_reason": "Evidence shows a PASS human review collected on 2026-10-26 finding security awareness training operating as described against policy and records."}]}, {"id": "Q4", "question": "Do you have a documented incident response plan?", "answer": "Yes", "status": "approved", "caveats": "", "flags": [], "missing": [], "reviewer_note": "", "approval": {"action": "approved", "actor": "Benjamin Genda", "at": "2026-10-27T06:29:41+00:00", "details": {"answer": "Yes", "digest": "ac44da7f7f93650a83bdb220a258422af714c00da6b7784a0843ea834812f1dd", "note": ""}, "hash": "d6855478faff1d2649e1e950f853dd834e5b8ee24d84e48c84b23ed394e261a3", "prev": "881f8645aebe71a9def08ecdd0da7ea35fd3d7c83615e6d332547a362333cba6", "seq": 19, "subject": "Q4"}, "claims": [{"text": "An Incident Response Plan document (Sample_Co_Incident_Response_Plan.docx) is on file.", "evidence_ids": ["4926f461-5d3b-45a6-8bd0-efb3557a7abf"], "verifier_reason": "The evidence shows a verified uploaded file named Sample_Co_Incident_Response_Plan.docx described as an Incident Response Plan."}, {"text": "Manual review of the incident response plan passed, finding it operating as described.", "evidence_ids": ["c86ddd33-3ddb-4fb3-9a17-2278eaee94f6"], "verifier_reason": "Evidence records a PASS manual review noting the plan is operating as described."}]}, {"id": "Q5", "question": "Are user access rights reviewed periodically?", "answer": "Yes", "status": "approved", "caveats": "", "flags": [], "missing": [], "reviewer_note": "", "approval": {"action": "approved", "actor": "Benjamin Genda", "at": "2026-10-27T06:31:36+00:00", "details": {"answer": "Yes", "digest": "48de49d44ec5772ea426c173637a444fcfa9251a7d563b3078cd444bd2b1225b", "note": ""}, "hash": "58bf372cca6010f53747220a9fc91c89566ca64cd0edc2e4fbd0cd1a6ad4f4be", "prev": "7cd1bc578a5003581d3d563fa4046fd32cc331189a93bc3ff9de2fd93a8862de", "seq": 23, "subject": "Q5"}, "claims": [{"text": "Manual review on 2026-10-26 found periodic user access reviews operating as described against policy and records.", "evidence_ids": ["008f8135-e48c-4eb2-88f1-9261340aee2f"], "verifier_reason": "The evidence records a PASS manual review collected on 2026-10-26 stating periodic user access reviews were operating as described against policy and records."}, {"text": "Automated check found zero outside collaborators in the sample-co organization.", "evidence_ids": ["b3ef6eb2-0cc7-444d-af3e-fdcdff5b2b73"], "verifier_reason": "The evidence shows sample-co with observed outside_collaborators as an empty list."}, {"text": "Automated check found no IAM credentials unused for more than 90 days across 4 users.", "evidence_ids": ["5ba1df6a-6587-4438-a5d2-8706085cef8c"], "verifier_reason": "Evidence shows PASS result with all 4 listed users having empty unused credential lists at the 90-day threshold."}]}, {"id": "Q6", "question": "Are any storage buckets publicly accessible?", "answer": "Yes", "status": "approved", "caveats": "Check 'Buckets block public access' result is FAIL due to sample-co-audit-logs; high-severity finding for sample-co-audit-logs is in_progress due 2026-11-02.", "flags": ["Answer is Yes, but cited evidence a471f2a4 (Buckets block public access — 123456789012) currently shows FAIL.", "Answer is Yes, but 2 finding(s) are open on the controls it relies on (high: Buckets block public access: sample-co-audit-logs; medium: Public repositories are intentional: mobile-app)."], "missing": [], "reviewer_note": "", "approval": {"action": "approved", "actor": "Benjamin Genda", "at": "2026-10-27T06:29:46+00:00", "details": {"answer": "Yes", "digest": "ab7552af92e8e8f26e39d5cdce15d64cdea20bac82f539c26c1f6a35a6188b4e", "note": ""}, "hash": "c6e149ccb39e0c9e26729d4ed8d379fdb3b7e22e18d41ec8e4527b4296770f2d", "prev": "d6855478faff1d2649e1e950f853dd834e5b8ee24d84e48c84b23ed394e261a3", "seq": 20, "subject": "Q6"}, "claims": [{"text": "Bucket sample-co-audit-logs has policy_is_public true with BlockPublicPolicy false and RestrictPublicBuckets false.", "evidence_ids": ["a471f2a4-0742-419b-91b5-a0081786b201"], "verifier_reason": "The evidence directly records sample-co-audit-logs with policy_is_public true, BlockPublicPolicy false, and RestrictPublicBuckets false."}, {"text": "Three other buckets (sample-co-app-assets, sample-co-customer-exports, sample-co-terraform-state) have Block Public Access enabled and non-public policies.", "evidence_ids": ["a471f2a4-0742-419b-91b5-a0081786b201"], "verifier_reason": "The evidence lists those three buckets as PASS with all BlockPublicAccess flags true and policy_is_public false."}]}, {"id": "Q7", "question": "Do you perform annual third-party penetration tests?", "answer": "Insufficient evidence", "status": "approved", "caveats": "Control TE-VM-03 Penetration testing is NEEDS_REVIEW; manual review states this year's test is booked for next month with last year's report referenced, but no completed third-party report is in evidence.", "flags": [], "missing": ["Independent third-party penetration test report dated within the past 12 months showing scope, tester, date and findings", "Evidence that penetration test findings are tracked to closure", "TE-VM-03 Penetration testing: needs review (Sample data: this year's penetration test is booked for next month; last year's report is attached for reference)"], "reviewer_note": "", "approval": {"action": "approved", "actor": "Benjamin Genda", "at": "2026-10-27T06:29:48+00:00", "details": {"answer": "Insufficient evidence", "digest": "26a59708839b6f2da3e6d39d17b88f3024d3888072ee6d0bdcc10222ad35a4bb", "note": ""}, "hash": "7a9548a8240fe0b8affefcab4aa4cee6d75648e9b4a4d5602818c200dca5dba4", "prev": "c6e149ccb39e0c9e26729d4ed8d379fdb3b7e22e18d41ec8e4527b4296770f2d", "seq": 21, "subject": "Q7"}, "claims": []}, {"id": "Q8", "question": "Is customer data stored in the EU only?", "answer": "Insufficient evidence", "status": "approved", "caveats": "", "flags": [], "missing": ["a record of production storage and backup regions confirming EU-only data residency, such as system description or cloud region configuration showing where customer data is stored"], "reviewer_note": "", "approval": {"action": "approved", "actor": "Benjamin Genda", "at": "2026-10-27T06:29:50+00:00", "details": {"answer": "Insufficient evidence", "digest": "4e7779da549557332476c7aeeec39571b50be6481037732790f1c5afd0870eda", "note": ""}, "hash": "7cd1bc578a5003581d3d563fa4046fd32cc331189a93bc3ff9de2fd93a8862de", "prev": "7a9548a8240fe0b8affefcab4aa4cee6d75648e9b4a4d5602818c200dca5dba4", "seq": 22, "subject": "Q8"}, "claims": []}], "evidence": [{"evidence_id": "6ae91262-4acd-48a8-a375-01992b267489", "path": "evidence/6ae91262-4acd-48a8-a375-01992b267489", "title": "Root user has MFA enabled — 123456789012", "batch_index": 1, "leaf_index": 126, "sequence": 127, "audit_path": ["7cf34f1f68348a5632e8c9d0c93f487c72b04909274523c1416f106b04853c85", "e32114ebce799190debf7b58d91fdea7d99661e46f9bcde3c5403673f60a40e7", "029a234beb3bf1ece29f1152bad1534ab8a33a65d9374c6772f06a347d397060", "2eb3b6224ada50c12bb3ec1795a73fe3c07bb64d06750f1c7b2d4f3a1f3b7497", "ed41bf4a2ba7d429910cc0791f90447e1517f01b3eacce385363d5b018f1f4a0", "7fa7192572b0e2c6d209b1c4ef1806f35719ad695687a149011c9f495f26c8d8", "527080789a74a9b43660f2b95280c2df856677e662a19a380651270cd72f77c2", "dba477b43f6a8cda741da28aebe2b3d64275ec0fcc08def55933f7c12fe8b936"]}, {"evidence_id": "0186230f-f88f-4ee8-86b1-1bf84f655f6f", "path": "evidence/0186230f-f88f-4ee8-86b1-1bf84f655f6f", "title": "Organisation requires 2FA — sample-co", "batch_index": 1, "leaf_index": 165, "sequence": 166, "audit_path": ["322e2b1d8ae0e33f8fb4b2c67049056ec6c198c7bb948dbc43c42f0b9dfd418d", "7635ee97550cef448bc89d8a1d6d6a5b6420af2811b3a18ee08c4f881047919b", "4064078b79cb5b758fd954fb1f4937f309eeab7d72c717d652d738d04f8357cc", "38ea66ca65be51c1fd5ba7539e994e205f09f601db6d9682139d6380150b4a08", "037119c8138ae94f9a6c15f0b30f705dacdf2ec5d55521b56af7526f6d2a1bfb", "8141df4cc324e5eb7f05f7e458d4f50140493b4ef360aa1affd5964425da8cd2", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "915d6815-1b0b-4139-a371-77e7be5b5740", "path": "evidence/915d6815-1b0b-4139-a371-77e7be5b5740", "title": "IAM console users have MFA — 123456789012", "batch_index": 1, "leaf_index": 129, "sequence": 130, "audit_path": ["7eb5f6417deb7a26a407156b394f97c3f5da0e8795a24f28f322210e4d53e87d", "0fa6f8554faf05e0e469e24a2e78b2ad9db42d0c90b59cfa29ec8d27bae884e7", "f557ef065a96df0df801e92456ceab3bd44f8db9797f95cbd8477a90e6733be6", "44af70aca86eb799e7688fc21efccaf3eb13b3714c9a0901194092385cfd8cb0", "21ff888ed225da7e31552a338932b64e264ce2c6153fce93e8eba3af10349c66", "265ffa40ce64d682cea41c1453b941517bb563696ca92c9134eebccf03ae38a1", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "c6899d8a-3555-4cef-8690-b29028fafa6e", "path": "evidence/c6899d8a-3555-4cef-8690-b29028fafa6e", "title": "RDS storage encrypted — 123456789012", "batch_index": 1, "leaf_index": 155, "sequence": 156, "audit_path": ["d3030c1658b4b50f1fc6065f6f0684355d7718c7503579e9c26e2d270d3f2cd2", "84e714850937955a2fd6997137aa804920ca30536e33cb3972b46f3b618b8bda", "bc1a726a776beabf6ef89a85f962a2aa0b29d693ceedaceaf9b07891a6e22fab", "fcd9c46361969af59f3f428fa8ef993dcfcf402c31c5f76afa8b2ddea1cc4197", "75d8c0627489f83ec7f3c461a8ce027fa5168d2dc8ee6f33f42459d1bffb68f8", "265ffa40ce64d682cea41c1453b941517bb563696ca92c9134eebccf03ae38a1", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "f3df6500-b4d2-4b6f-a91a-abb1c27a80e7", "path": "evidence/f3df6500-b4d2-4b6f-a91a-abb1c27a80e7", "title": "Buckets have default encryption — 123456789012", "batch_index": 1, "leaf_index": 146, "sequence": 147, "audit_path": ["38a48a8ba0698a6e17dfe43b5439187acff76386ac913824acd7f26ebecd277e", "123e5dad4cb73318ded6926b4f28b87438a6bd7eda569b08249420aac69c2403", "32332e20d144a719a5d1be653bd8c454f9129d89366adc403112acc74954d676", "ecfd33575158e26c1dd69b6b078ea97a9d00c97551b0a6334f5ec6bfbcf8719d", "75d8c0627489f83ec7f3c461a8ce027fa5168d2dc8ee6f33f42459d1bffb68f8", "265ffa40ce64d682cea41c1453b941517bb563696ca92c9134eebccf03ae38a1", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "879397d0-c5a3-4063-b1cc-0fd39562a165", "path": "evidence/879397d0-c5a3-4063-b1cc-0fd39562a165", "title": "CloudTrail logs encrypted with KMS — 123456789012", "batch_index": 1, "leaf_index": 137, "sequence": 138, "audit_path": ["d1b39b517082c4f6c608652207afba4c1c8153771ca0aa2dd097efec6aa4da60", "1483448c7330b390768fc75d906d472f08b72f06f2f82d1a3f2c08701f081249", "998505bd02dbaaff488137d47ded1773a0681d033d0ab003f14713bd64cc3b0b", "4526525f2a834676502b456952984479d26dfd433ed96b51db59619986ee9804", "21ff888ed225da7e31552a338932b64e264ce2c6153fce93e8eba3af10349c66", "265ffa40ce64d682cea41c1453b941517bb563696ca92c9134eebccf03ae38a1", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "378e6eb3-3a76-4283-baf8-64bb6098ee34", "path": "evidence/378e6eb3-3a76-4283-baf8-64bb6098ee34", "title": "EBS volumes encrypted — 123456789012", "batch_index": 1, "leaf_index": 151, "sequence": 152, "audit_path": ["62298d77e59dd528dac143e48077e16b2d236a7126109de4f43dc561cd31c7e1", "f078c48b9b90a025cc2d009f5a9bb6ee5eb78ef8399455c94be2bd9561cacf54", "09c819695610d487cd056e22b0106b0da563a399bc8bc3b1fff81bf826218f3b", "ecfd33575158e26c1dd69b6b078ea97a9d00c97551b0a6334f5ec6bfbcf8719d", "75d8c0627489f83ec7f3c461a8ce027fa5168d2dc8ee6f33f42459d1bffb68f8", "265ffa40ce64d682cea41c1453b941517bb563696ca92c9134eebccf03ae38a1", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "4047a3da-539a-4761-aad9-ece063c814f5", "path": "evidence/4047a3da-539a-4761-aad9-ece063c814f5", "title": "EBS encryption by default — 123456789012", "batch_index": 1, "leaf_index": 150, "sequence": 151, "audit_path": ["352b7f4e61f470a783a3511657a5b0320ffd139563b4c16b16dc473e05500403", "f078c48b9b90a025cc2d009f5a9bb6ee5eb78ef8399455c94be2bd9561cacf54", "09c819695610d487cd056e22b0106b0da563a399bc8bc3b1fff81bf826218f3b", "ecfd33575158e26c1dd69b6b078ea97a9d00c97551b0a6334f5ec6bfbcf8719d", "75d8c0627489f83ec7f3c461a8ce027fa5168d2dc8ee6f33f42459d1bffb68f8", "265ffa40ce64d682cea41c1453b941517bb563696ca92c9134eebccf03ae38a1", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "7449ab57-9f7c-4332-8ab6-cfc8106c2ef0", "path": "evidence/7449ab57-9f7c-4332-8ab6-cfc8106c2ef0", "title": "Register review: Security awareness training", "batch_index": 1, "leaf_index": 243, "sequence": 244, "audit_path": ["84a0663f265957a847654b0969d7d3a1eb2cc7d08fe9f04d2f8bfab7c88ef359", "b08b6d3eb736ec97d3dac84ac732fdc162b75e01b2b3e00dbef03d00d5398405", "9d69f66f4e811054d82065c3cfb5df9dea7f8058f64263f184d85cd0894c15f9", "710439a8cdda36d8a9247dae8fce39ca8b64ae79645d61edb3637f344edcee04", "4210d43d66e09e5e10e7e5b95dcd87946897e81eb267ceaf0cdbafc3c40d3885", "94c3a6737782ebaff69a303a7458447e0d7239e6452888a9ffd185b5c9a4be9d", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "a813ea01-cc40-40df-88dc-07b906eb6a6a", "path": "evidence/a813ea01-cc40-40df-88dc-07b906eb6a6a", "title": "Manual review: Security awareness training", "batch_index": 1, "leaf_index": 213, "sequence": 214, "audit_path": ["e8c66a1c0e55e7a0eaf966e6226534c5bfece65fc8672a8e441c8e283ee6d168", "b4832f8895c3f43f75773e55e22f8462d7196f1cbca79f39726800262c4ec81f", "8c9f56261083fd36c0e811e9f3c9335516cf4003f38e09a54c3c30c770a45c1b", "5d699f1faa611ecda5e65ac2ff151ce1789548a32d0b7dcac861b4e251cda8d6", "d9de62f43f70fa9bd734d1bbcbec208dae86b04b495b51cfb292c40fffd87ac9", "b0f321313686f8a717870aa5bc201b9c1db1bab757104dc0b8fea3afae9e5bd3", "94c3a6737782ebaff69a303a7458447e0d7239e6452888a9ffd185b5c9a4be9d", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "4926f461-5d3b-45a6-8bd0-efb3557a7abf", "path": "evidence/4926f461-5d3b-45a6-8bd0-efb3557a7abf", "title": "Drafted policy: Sample_Co_Incident_Response_Plan.docx", "batch_index": 1, "leaf_index": 198, "sequence": 199, "audit_path": ["7c16678232950d259699a46dd303116410fa739515e21ee38a27c57e8d2ecad2", "2e5603fba67c2d49b331737c28731f0adeb556c9fd613e55c95455d9befc7c54", "6d322b2f4e9e5737e6f3ae59a26e11fb45bf1cea5124bbd1efb96a7cd0b9b566", "34b31342717bf05375b20bedca171158f3b97e4cdba861d1c2bf754dd5213880", "3d4651523da3c0abc16f3e6b6ad3c6d463d3c5b6bb3f6e85f013bf1bb977f24c", "b0f321313686f8a717870aa5bc201b9c1db1bab757104dc0b8fea3afae9e5bd3", "94c3a6737782ebaff69a303a7458447e0d7239e6452888a9ffd185b5c9a4be9d", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "c86ddd33-3ddb-4fb3-9a17-2278eaee94f6", "path": "evidence/c86ddd33-3ddb-4fb3-9a17-2278eaee94f6", "title": "Manual review: Incident response plan", "batch_index": 1, "leaf_index": 219, "sequence": 220, "audit_path": ["2cb47dba3136dd3f0f7b6ebabfd06b110ff0bdc3b3eb00474eef92e8ce0035a3", "1f72f45797b1c1971e8138c21faeac56e9fb412ae5c52b5845a801f3a2ae0fcb", "2cba4ccea95fe9cdf96713e0096d024883031203e7820626f50308f0a069ffc4", "21b4925591d820f0011e913fc197c761e2bcaeddd6201839dafa8e99047c90ea", "d9de62f43f70fa9bd734d1bbcbec208dae86b04b495b51cfb292c40fffd87ac9", "b0f321313686f8a717870aa5bc201b9c1db1bab757104dc0b8fea3afae9e5bd3", "94c3a6737782ebaff69a303a7458447e0d7239e6452888a9ffd185b5c9a4be9d", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "008f8135-e48c-4eb2-88f1-9261340aee2f", "path": "evidence/008f8135-e48c-4eb2-88f1-9261340aee2f", "title": "Manual review: Periodic user access reviews", "batch_index": 1, "leaf_index": 215, "sequence": 216, "audit_path": ["cfbf300c9cb11d71b604e62a102d23c57a55cf84ccc3149a59ce1395e8b9492c", "d9c97bc8be6839a3a65b08af7d31fe2f9e5f11225d5e283d85b67550ad4084e4", "8c9f56261083fd36c0e811e9f3c9335516cf4003f38e09a54c3c30c770a45c1b", "5d699f1faa611ecda5e65ac2ff151ce1789548a32d0b7dcac861b4e251cda8d6", "d9de62f43f70fa9bd734d1bbcbec208dae86b04b495b51cfb292c40fffd87ac9", "b0f321313686f8a717870aa5bc201b9c1db1bab757104dc0b8fea3afae9e5bd3", "94c3a6737782ebaff69a303a7458447e0d7239e6452888a9ffd185b5c9a4be9d", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "b3ef6eb2-0cc7-444d-af3e-fdcdff5b2b73", "path": "evidence/b3ef6eb2-0cc7-444d-af3e-fdcdff5b2b73", "title": "Outside collaborators are reviewed — sample-co", "batch_index": 1, "leaf_index": 169, "sequence": 170, "audit_path": ["561dcd4ae294d28094744f5b8d3c9acfab3f60f4e76c43055720cbdd544cfb0d", "bcb57df94007a16b2376165e97bcc35b764134a7f30f97ea91214aae93e940dc", "5da570e36e49492e2cc4e107218b87e865e0c969ffe6e240564238309314fa74", "8031bccddcc3a98a4aede371b2a5940efa4e41c54ac2d7d54aa6e2c96bb2a1aa", "037119c8138ae94f9a6c15f0b30f705dacdf2ec5d55521b56af7526f6d2a1bfb", "8141df4cc324e5eb7f05f7e458d4f50140493b4ef360aa1affd5964425da8cd2", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "5ba1df6a-6587-4438-a5d2-8706085cef8c", "path": "evidence/5ba1df6a-6587-4438-a5d2-8706085cef8c", "title": "Unused credentials are removed — 123456789012", "batch_index": 1, "leaf_index": 132, "sequence": 133, "audit_path": ["811c7411a8f4376a2afb820622fb085c64035408d28969e4514cc6ad11842f80", "3166758a2b9d2d02ab2c2ce5356bc73251030818ad4abe542f708c3ecfe929a4", "e7be641ef7c095de0be38e32c33fbc66efe86d294d3407354dec09d6a009aec6", "44af70aca86eb799e7688fc21efccaf3eb13b3714c9a0901194092385cfd8cb0", "21ff888ed225da7e31552a338932b64e264ce2c6153fce93e8eba3af10349c66", "265ffa40ce64d682cea41c1453b941517bb563696ca92c9134eebccf03ae38a1", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}, {"evidence_id": "a471f2a4-0742-419b-91b5-a0081786b201", "path": "evidence/a471f2a4-0742-419b-91b5-a0081786b201", "title": "Buckets block public access — 123456789012", "batch_index": 1, "leaf_index": 145, "sequence": 146, "audit_path": ["c09ab698512ab77a81a9f61b946fbb270e31540c9e028c2f9e490f8d34568947", "c1a87bf964072a90f29864ef396c84d375e705613ba248b6d5133b6996f00b3e", "32332e20d144a719a5d1be653bd8c454f9129d89366adc403112acc74954d676", "ecfd33575158e26c1dd69b6b078ea97a9d00c97551b0a6334f5ec6bfbcf8719d", "75d8c0627489f83ec7f3c461a8ce027fa5168d2dc8ee6f33f42459d1bffb68f8", "265ffa40ce64d682cea41c1453b941517bb563696ca92c9134eebccf03ae38a1", "3f186cbf21e5d3e72f57be9779702be6a471384bb17080d18bcc9e5457b13206", "1b7e1fc1d9b8ab46fba1660bef1dbffd6740e7c6156de3ff80be93e5869c490d"]}], "excluded": {"rejected_answers": 0}}, "files": {"evidence/6ae91262-4acd-48a8-a375-01992b267489/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiIxMjM0NTY3ODkwMTIiLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiQVdTIHByb2R1Y3Rpb24iLCJwcm92aWRlciI6ImF3cyJ9LCJhcGlfb3BlcmF0aW9ucyI6WyJOb25lOiBzYW1wbGUgZGF0YSJdLCJjaGFpbl9oYXNoIjoiMGQ1OGE5YTE3MzMwMGU2YTkzNTQ1MGY2YzgxOGUzYzkxYWIzMDIwYzhiMjkwMjIzZjQ2YjljYzg0MjMyZTk3NSIsImNoZWNrX2lkIjoiYXdzLmlhbS5yb290X21mYSIsImNoZWNrX3ZlcnNpb24iOiIxLjAuMCIsImNvbGxlY3RlZF9hdCI6IjIwMjYtMTAtMjZUMTQ6MjU6NTUrMDA6MDAiLCJjb2xsZWN0aW9uX2Vycm9ycyI6W10sImNvbGxlY3Rpb25fbWV0aG9kIjoiUmVhZC1vbmx5IEFXUyBBUEkgY2FsbHMuIFBlci1jYWxsIHRpbWVvdXRzOiBBV1MgMTBzIGNvbm5lY3QvMzBzIHJlYWQ7IEdpdEh1YiAyMHMuIiwiY29udGVudF9zaGEyNTYiOiJhZjU3ZGJjMjBhMTE4MTQ1ODFlZWUyMTJmMmIxMjI0YmE4OTIwNGJhY2QzNzc3Mjk3Y2IxYjhkZjc1MjZhZGU4IiwiY29udHJvbF9pZHMiOlsiVEUtQUMtMDEiXSwiY3JlYXRlZF9ieSI6bnVsbCwiZG9jdW1lbnRfaWQiOm51bGwsImlkIjoiNmFlOTEyNjItNGFjZC00OGE4LWEzNzUtMDE5OTJiMjY3NDg5IiwiaW50ZWdyYXRpb25faWQiOiI3NDRhMGViNC0xM2U4LTQ0MmEtODg0MC0yM2I5YWYyZDllYWYiLCJwYWdpbmF0aW9uX2NvbXBsZXRlIjp0cnVlLCJwcmV2X2NoYWluX2hhc2giOiJiYmQzOWZjYzFkNWEyMTU5YmQ5MjFhYjI2YTdlOTQ2OWZlMmZlZWYyNzFiMTU3ZDBkMzY5ZjZiNTc4ZTEzMjliIiwicHJvdmlkZXJfcmVxdWVzdF9pZHMiOltdLCJyZXNvdXJjZV9pZHMiOlsiYXJuOmF3czppYW06OjEyMzQ1Njc4OTAxMjpyb290Il0sInNjYW5fcnVuX2lkIjoiM2JlNDNmMDktYjk1Yi00ODE0LTg3YWEtYjIzNDFkZDI5NzFiIiwic2VxdWVuY2UiOjEyNywic291cmNlX2V2ZW50X2F0IjpudWxsLCJzb3VyY2VfdHlwZSI6InByb3ZpZGVyX2FwaSIsInRlbmFudF9pZCI6IjI2NDlmZTk0LTYwYjYtNDRhYi04ZWU1LTIxMmE5NDBlNWIxOSIsInRpdGxlIjoiUm9vdCB1c2VyIGhhcyBNRkEgZW5hYmxlZCDigJQgMTIzNDU2Nzg5MDEyIiwidiI6MX0=", "evidence/6ae91262-4acd-48a8-a375-01992b267489/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiUmVhZHMgdGhlIGFjY291bnQgc3VtbWFyeSB0byBkZXRlcm1pbmUgd2hldGhlciBhbiBNRkEgZGV2aWNlIGlzIHJlZ2lzdGVyZWQgZm9yIHRoZSByb290IHVzZXIuIiwiZXhwZWN0ZWQiOiJBY2NvdW50TUZBRW5hYmxlZCA9IDEiLCJpZCI6ImF3cy5pYW0ucm9vdF9tZmEiLCJ0aXRsZSI6IlJvb3QgdXNlciBoYXMgTUZBIGVuYWJsZWQiLCJ2ZXJzaW9uIjoiMS4wLjAifSwiZXJyb3JzIjpbXSwib2JzZXJ2YXRpb25zIjp7Im5vdGUiOiJTYW1wbGUgZGF0YSBnZW5lcmF0ZWQgYnkgVHJ1c3RFdmlkZW5jZSBmb3IgZGVtb25zdHJhdGlvbi4gTm8gcmVhbCBzeXN0ZW0gd2FzIGNvbnRhY3RlZC4ifSwicmVzb3VyY2VzIjpbeyJpZCI6ImFybjphd3M6aWFtOjoxMjM0NTY3ODkwMTI6cm9vdCIsIm9ic2VydmVkIjp7IkFjY291bnRNRkFFbmFibGVkIjoxfSwicmVhc29uIjoiTWVldHMgdGhlIHJlcXVpcmVtZW50OiBBY2NvdW50TUZBRW5hYmxlZCA9IDEiLCJyZWdpb24iOm51bGwsInN0YXR1cyI6IlBBU1MiLCJ0eXBlIjoiQVdTOjpJQU06OlJvb3QifV0sInJlc3VsdCI6eyJzdGF0dXMiOiJQQVNTIiwic3VtbWFyeSI6IkFsbCAxIHJlc291cmNlcyBwYXNzLiAoU2FtcGxlIGRhdGEuKSJ9fQ==", "evidence/0186230f-f88f-4ee8-86b1-1bf84f655f6f/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiJzYW1wbGUtY28iLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiR2l0SHViIMK3IHNhbXBsZS1jbyIsInByb3ZpZGVyIjoiZ2l0aHViIn0sImFwaV9vcGVyYXRpb25zIjpbIk5vbmU6IHNhbXBsZSBkYXRhIl0sImNoYWluX2hhc2giOiIzMzhmNzFmZGNkYjM4MWUxMDllMmUzYWYxMmJjMjcwM2FjYTFjODdlODA0M2VkOTI2YmExZTUyNjRmZDI1MmUyIiwiY2hlY2tfaWQiOiJnaXRodWIub3JnLnR3b19mYWN0b3JfcmVxdWlyZWQiLCJjaGVja192ZXJzaW9uIjoiMS4wLjAiLCJjb2xsZWN0ZWRfYXQiOiIyMDI2LTEwLTI2VDE0OjI1OjU1KzAwOjAwIiwiY29sbGVjdGlvbl9lcnJvcnMiOltdLCJjb2xsZWN0aW9uX21ldGhvZCI6IlJlYWQtb25seSBHSVRIVUIgQVBJIGNhbGxzLiBQZXItY2FsbCB0aW1lb3V0czogQVdTIDEwcyBjb25uZWN0LzMwcyByZWFkOyBHaXRIdWIgMjBzLiIsImNvbnRlbnRfc2hhMjU2IjoiOWE1NDJlZGNlNWUwZTMyY2ZjYTE0MDBmMGNiZDg2NDA4NDM2MjMzYTA3Y2YzMmUwY2E5NGVlZDg5YjEyYzM0ZSIsImNvbnRyb2xfaWRzIjpbIlRFLUFDLTAxIl0sImNyZWF0ZWRfYnkiOm51bGwsImRvY3VtZW50X2lkIjpudWxsLCJpZCI6IjAxODYyMzBmLWY4OGYtNGVlOC04NmIxLTFiZjg0ZjY1NWY2ZiIsImludGVncmF0aW9uX2lkIjoiM2NkMWY5OTItNTU2Zi00Njg2LTg1ZTctMmMwZDhkNDhkYWU4IiwicGFnaW5hdGlvbl9jb21wbGV0ZSI6dHJ1ZSwicHJldl9jaGFpbl9oYXNoIjoiYmQ0ZjNhMjBmYzNiOGZkNTNhNWU0NDg2OGNhMjg3MmRlMWZjM2NhMGE2NDFlZGUxY2JhN2NjOTgyODk3NjViYSIsInByb3ZpZGVyX3JlcXVlc3RfaWRzIjpbXSwicmVzb3VyY2VfaWRzIjpbInNhbXBsZS1jbyJdLCJzY2FuX3J1bl9pZCI6IjNiZTQzZjA5LWI5NWItNDgxNC04N2FhLWIyMzQxZGQyOTcxYiIsInNlcXVlbmNlIjoxNjYsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJwcm92aWRlcl9hcGkiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6Ik9yZ2FuaXNhdGlvbiByZXF1aXJlcyAyRkEg4oCUIHNhbXBsZS1jbyIsInYiOjF9", "evidence/0186230f-f88f-4ee8-86b1-1bf84f655f6f/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiUmVhZHMgdHdvX2ZhY3Rvcl9yZXF1aXJlbWVudF9lbmFibGVkIGZyb20gdGhlIG9yZ2FuaXNhdGlvbi4iLCJleHBlY3RlZCI6InRydWUiLCJpZCI6ImdpdGh1Yi5vcmcudHdvX2ZhY3Rvcl9yZXF1aXJlZCIsInRpdGxlIjoiT3JnYW5pc2F0aW9uIHJlcXVpcmVzIDJGQSIsInZlcnNpb24iOiIxLjAuMCJ9LCJlcnJvcnMiOltdLCJvYnNlcnZhdGlvbnMiOnsibm90ZSI6IlNhbXBsZSBkYXRhIGdlbmVyYXRlZCBieSBUcnVzdEV2aWRlbmNlIGZvciBkZW1vbnN0cmF0aW9uLiBObyByZWFsIHN5c3RlbSB3YXMgY29udGFjdGVkLiJ9LCJyZXNvdXJjZXMiOlt7ImlkIjoic2FtcGxlLWNvIiwib2JzZXJ2ZWQiOnsidHdvX2ZhY3Rvcl9yZXF1aXJlbWVudF9lbmFibGVkIjp0cnVlfSwicmVhc29uIjoiTWVldHMgdGhlIHJlcXVpcmVtZW50OiB0cnVlIiwicmVnaW9uIjpudWxsLCJzdGF0dXMiOiJQQVNTIiwidHlwZSI6IkdpdEh1Yjo6T3JnYW5pemF0aW9uIn1dLCJyZXN1bHQiOnsic3RhdHVzIjoiUEFTUyIsInN1bW1hcnkiOiJBbGwgMSByZXNvdXJjZXMgcGFzcy4gKFNhbXBsZSBkYXRhLikifX0=", "evidence/915d6815-1b0b-4139-a371-77e7be5b5740/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiIxMjM0NTY3ODkwMTIiLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiQVdTIHByb2R1Y3Rpb24iLCJwcm92aWRlciI6ImF3cyJ9LCJhcGlfb3BlcmF0aW9ucyI6WyJOb25lOiBzYW1wbGUgZGF0YSJdLCJjaGFpbl9oYXNoIjoiMGYzZWNjYTQzYjdjYzI2MmY5NDg2M2ZiZjkyMmJiNDNkYzljNWYxNGY3MmFiYTcwNWIzZDIzZGE0MzE5NzdhMCIsImNoZWNrX2lkIjoiYXdzLmlhbS5jb25zb2xlX3VzZXJzX21mYSIsImNoZWNrX3ZlcnNpb24iOiIxLjAuMCIsImNvbGxlY3RlZF9hdCI6IjIwMjYtMTAtMjZUMTQ6MjU6NTUrMDA6MDAiLCJjb2xsZWN0aW9uX2Vycm9ycyI6W10sImNvbGxlY3Rpb25fbWV0aG9kIjoiUmVhZC1vbmx5IEFXUyBBUEkgY2FsbHMuIFBlci1jYWxsIHRpbWVvdXRzOiBBV1MgMTBzIGNvbm5lY3QvMzBzIHJlYWQ7IEdpdEh1YiAyMHMuIiwiY29udGVudF9zaGEyNTYiOiI4ZDA3YWZiYzIwOTBkNjNiZWFhYWFmYWQ2YzZjNTUyOWYwYTQ4ZjJiOTY4NTdlYmMwNjMxODE0OGRlNjI2ZWRkIiwiY29udHJvbF9pZHMiOlsiVEUtQUMtMDEiXSwiY3JlYXRlZF9ieSI6bnVsbCwiZG9jdW1lbnRfaWQiOm51bGwsImlkIjoiOTE1ZDY4MTUtMWIwYi00MTM5LWEzNzEtNzdlN2JlNWI1NzQwIiwiaW50ZWdyYXRpb25faWQiOiI3NDRhMGViNC0xM2U4LTQ0MmEtODg0MC0yM2I5YWYyZDllYWYiLCJwYWdpbmF0aW9uX2NvbXBsZXRlIjp0cnVlLCJwcmV2X2NoYWluX2hhc2giOiI2YmEyZjI1ODlhOTU3NDJmMDQ5M2U1NTA5NTA2ODAzMjY2NTQxNDZhOGQ4OTRlMDhkMmJlMzU3NzE5OGFkNmM4IiwicHJvdmlkZXJfcmVxdWVzdF9pZHMiOltdLCJyZXNvdXJjZV9pZHMiOlsiYXJuOmF3czppYW06OjEyMzQ1Njc4OTAxMjp1c2VyL2FsaWNlLmNoZW4iLCJhcm46YXdzOmlhbTo6MTIzNDU2Nzg5MDEyOnVzZXIvYmVuLm9rYWZvciIsImFybjphd3M6aWFtOjoxMjM0NTY3ODkwMTI6dXNlci9ncmFjZS53YW5qaXJ1IiwiYXJuOmF3czppYW06OjEyMzQ1Njc4OTAxMjp1c2VyL2NpLWRlcGxveSJdLCJzY2FuX3J1bl9pZCI6IjNiZTQzZjA5LWI5NWItNDgxNC04N2FhLWIyMzQxZGQyOTcxYiIsInNlcXVlbmNlIjoxMzAsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJwcm92aWRlcl9hcGkiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6IklBTSBjb25zb2xlIHVzZXJzIGhhdmUgTUZBIOKAlCAxMjM0NTY3ODkwMTIiLCJ2IjoxfQ==", "evidence/915d6815-1b0b-4139-a371-77e7be5b5740/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiRXZhbHVhdGVzIGV2ZXJ5IElBTSB1c2VyIHdpdGggYSBjb25zb2xlIHBhc3N3b3JkIGZyb20gdGhlIGNyZWRlbnRpYWwgcmVwb3J0LiIsImV4cGVjdGVkIjoibWZhX2FjdGl2ZSA9IHRydWUgZm9yIGV2ZXJ5IHVzZXIgd2l0aCBwYXNzd29yZF9lbmFibGVkID0gdHJ1ZSIsImlkIjoiYXdzLmlhbS5jb25zb2xlX3VzZXJzX21mYSIsInRpdGxlIjoiSUFNIGNvbnNvbGUgdXNlcnMgaGF2ZSBNRkEiLCJ2ZXJzaW9uIjoiMS4wLjAifSwiZXJyb3JzIjpbXSwib2JzZXJ2YXRpb25zIjp7Im5vdGUiOiJTYW1wbGUgZGF0YSBnZW5lcmF0ZWQgYnkgVHJ1c3RFdmlkZW5jZSBmb3IgZGVtb25zdHJhdGlvbi4gTm8gcmVhbCBzeXN0ZW0gd2FzIGNvbnRhY3RlZC4ifSwicmVzb3VyY2VzIjpbeyJpZCI6ImFybjphd3M6aWFtOjoxMjM0NTY3ODkwMTI6dXNlci9hbGljZS5jaGVuIiwib2JzZXJ2ZWQiOnsibWZhX2FjdGl2ZSI6dHJ1ZSwicGFzc3dvcmRfZW5hYmxlZCI6dHJ1ZSwicGFzc3dvcmRfbGFzdF91c2VkIjoiMjAyNi0xMC0xOSIsInVzZXIiOiJhbGljZS5jaGVuIn0sInJlYXNvbiI6Ik1lZXRzIHRoZSByZXF1aXJlbWVudDogbWZhX2FjdGl2ZSA9IHRydWUgZm9yIGV2ZXJ5IHVzZXIgd2l0aCBwYXNzd29yZF9lbmFibGVkID0gdHJ1ZSIsInJlZ2lvbiI6bnVsbCwic3RhdHVzIjoiUEFTUyIsInR5cGUiOiJBV1M6OklBTTo6VXNlciJ9LHsiaWQiOiJhcm46YXdzOmlhbTo6MTIzNDU2Nzg5MDEyOnVzZXIvYmVuLm9rYWZvciIsIm9ic2VydmVkIjp7Im1mYV9hY3RpdmUiOmZhbHNlLCJwYXNzd29yZF9lbmFibGVkIjp0cnVlLCJwYXNzd29yZF9sYXN0X3VzZWQiOiIyMDI2LTEwLTIzIiwidXNlciI6ImJlbi5va2Fmb3IifSwicmVhc29uIjoiRG9lcyBub3QgbWVldCB0aGUgcmVxdWlyZW1lbnQ6IG1mYV9hY3RpdmUgPSB0cnVlIGZvciBldmVyeSB1c2VyIHdpdGggcGFzc3dvcmRfZW5hYmxlZCA9IHRydWUiLCJyZWdpb24iOm51bGwsInN0YXR1cyI6IkZBSUwiLCJ0eXBlIjoiQVdTOjpJQU06OlVzZXIifSx7ImlkIjoiYXJuOmF3czppYW06OjEyMzQ1Njc4OTAxMjp1c2VyL2dyYWNlLndhbmppcnUiLCJvYnNlcnZlZCI6eyJtZmFfYWN0aXZlIjp0cnVlLCJwYXNzd29yZF9lbmFibGVkIjp0cnVlLCJwYXNzd29yZF9sYXN0X3VzZWQiOiIyMDI2LTEwLTE3IiwidXNlciI6ImdyYWNlLndhbmppcnUifSwicmVhc29uIjoiTWVldHMgdGhlIHJlcXVpcmVtZW50OiBtZmFfYWN0aXZlID0gdHJ1ZSBmb3IgZXZlcnkgdXNlciB3aXRoIHBhc3N3b3JkX2VuYWJsZWQgPSB0cnVlIiwicmVnaW9uIjpudWxsLCJzdGF0dXMiOiJQQVNTIiwidHlwZSI6IkFXUzo6SUFNOjpVc2VyIn0seyJpZCI6ImFybjphd3M6aWFtOjoxMjM0NTY3ODkwMTI6dXNlci9jaS1kZXBsb3kiLCJvYnNlcnZlZCI6eyJtZmFfYWN0aXZlIjp0cnVlLCJwYXNzd29yZF9lbmFibGVkIjp0cnVlLCJwYXNzd29yZF9sYXN0X3VzZWQiOiIyMDI2LTEwLTIzIiwidXNlciI6ImNpLWRlcGxveSJ9LCJyZWFzb24iOiJNZWV0cyB0aGUgcmVxdWlyZW1lbnQ6IG1mYV9hY3RpdmUgPSB0cnVlIGZvciBldmVyeSB1c2VyIHdpdGggcGFzc3dvcmRfZW5hYmxlZCA9IHRydWUiLCJyZWdpb24iOm51bGwsInN0YXR1cyI6IlBBU1MiLCJ0eXBlIjoiQVdTOjpJQU06OlVzZXIifV0sInJlc3VsdCI6eyJzdGF0dXMiOiJGQUlMIiwic3VtbWFyeSI6IjEgb2YgNCByZXNvdXJjZXMgZmFpbC4gKFNhbXBsZSBkYXRhLikifX0=", "evidence/c6899d8a-3555-4cef-8690-b29028fafa6e/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiIxMjM0NTY3ODkwMTIiLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiQVdTIHByb2R1Y3Rpb24iLCJwcm92aWRlciI6ImF3cyJ9LCJhcGlfb3BlcmF0aW9ucyI6WyJOb25lOiBzYW1wbGUgZGF0YSJdLCJjaGFpbl9oYXNoIjoiMzFhNjg3NjcxNzJmN2YzMTIzOTBkYWI2NTIxNWIyMGIxOGYwZjY1MmJiODMwMDYzNmRhZGM2MTEwNzg1OGVkOSIsImNoZWNrX2lkIjoiYXdzLnJkcy5zdG9yYWdlX2VuY3J5cHRlZCIsImNoZWNrX3ZlcnNpb24iOiIxLjAuMCIsImNvbGxlY3RlZF9hdCI6IjIwMjYtMTAtMjZUMTQ6MjU6NTUrMDA6MDAiLCJjb2xsZWN0aW9uX2Vycm9ycyI6W10sImNvbGxlY3Rpb25fbWV0aG9kIjoiUmVhZC1vbmx5IEFXUyBBUEkgY2FsbHMuIFBlci1jYWxsIHRpbWVvdXRzOiBBV1MgMTBzIGNvbm5lY3QvMzBzIHJlYWQ7IEdpdEh1YiAyMHMuIiwiY29udGVudF9zaGEyNTYiOiJiYTk4ZGY5ZWFhMWRmMjlmMTBiNDZmNDY0ZmM2OTg4ZTJjNDg5Mjg5YzQ1NGJlN2IyMTk1OTE0OWQ5NmQwNmU0IiwiY29udHJvbF9pZHMiOlsiVEUtRFAtMDEiXSwiY3JlYXRlZF9ieSI6bnVsbCwiZG9jdW1lbnRfaWQiOm51bGwsImlkIjoiYzY4OTlkOGEtMzU1NS00Y2VmLTg2OTAtYjI5MDI4ZmFmYTZlIiwiaW50ZWdyYXRpb25faWQiOiI3NDRhMGViNC0xM2U4LTQ0MmEtODg0MC0yM2I5YWYyZDllYWYiLCJwYWdpbmF0aW9uX2NvbXBsZXRlIjp0cnVlLCJwcmV2X2NoYWluX2hhc2giOiI1MDJiYWUyYWNlYTU1YjY4NzgyM2MyZDE3MjBhZDZiMTYwNDBmOTQ2MWZjNWQ0MTUxNGMyMWNlODIwMGMyNzBmIiwicHJvdmlkZXJfcmVxdWVzdF9pZHMiOltdLCJyZXNvdXJjZV9pZHMiOlsiYXJuOmF3czpyZHM6ZXUtd2VzdC0xOjEyMzQ1Njc4OTAxMjpkYjpwYXltZW50cy1wcm9kIiwiYXJuOmF3czpyZHM6ZXUtd2VzdC0xOjEyMzQ1Njc4OTAxMjpkYjphbmFseXRpY3MtcmVwbGljYSJdLCJzY2FuX3J1bl9pZCI6IjNiZTQzZjA5LWI5NWItNDgxNC04N2FhLWIyMzQxZGQyOTcxYiIsInNlcXVlbmNlIjoxNTYsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJwcm92aWRlcl9hcGkiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6IlJEUyBzdG9yYWdlIGVuY3J5cHRlZCDigJQgMTIzNDU2Nzg5MDEyIiwidiI6MX0=", "evidence/c6899d8a-3555-4cef-8690-b29028fafa6e/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiQ2hlY2tzIFN0b3JhZ2VFbmNyeXB0ZWQgb24gZXZlcnkgREIgaW5zdGFuY2UuIiwiZXhwZWN0ZWQiOiJTdG9yYWdlRW5jcnlwdGVkID0gdHJ1ZS4iLCJpZCI6ImF3cy5yZHMuc3RvcmFnZV9lbmNyeXB0ZWQiLCJ0aXRsZSI6IlJEUyBzdG9yYWdlIGVuY3J5cHRlZCIsInZlcnNpb24iOiIxLjAuMCJ9LCJlcnJvcnMiOltdLCJvYnNlcnZhdGlvbnMiOnsibm90ZSI6IlNhbXBsZSBkYXRhIGdlbmVyYXRlZCBieSBUcnVzdEV2aWRlbmNlIGZvciBkZW1vbnN0cmF0aW9uLiBObyByZWFsIHN5c3RlbSB3YXMgY29udGFjdGVkLiJ9LCJyZXNvdXJjZXMiOlt7ImlkIjoiYXJuOmF3czpyZHM6ZXUtd2VzdC0xOjEyMzQ1Njc4OTAxMjpkYjpwYXltZW50cy1wcm9kIiwib2JzZXJ2ZWQiOnsiS21zS2V5SWQiOiJhcm46YXdzOmttczpldS13ZXN0LTE6MTIzNDU2Nzg5MDEyOmtleS81ZjFjMmE5ZS0wYjdkLTRjM2UtOWE4Zi0xZDJlM2M0YjVhNjAiLCJTdG9yYWdlRW5jcnlwdGVkIjp0cnVlLCJkYiI6InBheW1lbnRzLXByb2QiLCJlbmdpbmUiOiJwb3N0Z3JlcyJ9LCJyZWFzb24iOiJNZWV0cyB0aGUgcmVxdWlyZW1lbnQ6IFN0b3JhZ2VFbmNyeXB0ZWQgPSB0cnVlLiIsInJlZ2lvbiI6ImV1LXdlc3QtMSIsInN0YXR1cyI6IlBBU1MiLCJ0eXBlIjoiQVdTOjpSRFM6OkRCSW5zdGFuY2UifSx7ImlkIjoiYXJuOmF3czpyZHM6ZXUtd2VzdC0xOjEyMzQ1Njc4OTAxMjpkYjphbmFseXRpY3MtcmVwbGljYSIsIm9ic2VydmVkIjp7Ikttc0tleUlkIjoiYXJuOmF3czprbXM6ZXUtd2VzdC0xOjEyMzQ1Njc4OTAxMjprZXkvNWYxYzJhOWUtMGI3ZC00YzNlLTlhOGYtMWQyZTNjNGI1YTYwIiwiU3RvcmFnZUVuY3J5cHRlZCI6dHJ1ZSwiZGIiOiJhbmFseXRpY3MtcmVwbGljYSIsImVuZ2luZSI6ImF1cm9yYS1wb3N0Z3Jlc3FsIn0sInJlYXNvbiI6Ik1lZXRzIHRoZSByZXF1aXJlbWVudDogU3RvcmFnZUVuY3J5cHRlZCA9IHRydWUuIiwicmVnaW9uIjoiZXUtd2VzdC0xIiwic3RhdHVzIjoiUEFTUyIsInR5cGUiOiJBV1M6OlJEUzo6REJJbnN0YW5jZSJ9XSwicmVzdWx0Ijp7InN0YXR1cyI6IlBBU1MiLCJzdW1tYXJ5IjoiQWxsIDIgcmVzb3VyY2VzIHBhc3MuIChTYW1wbGUgZGF0YS4pIn19", "evidence/f3df6500-b4d2-4b6f-a91a-abb1c27a80e7/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiIxMjM0NTY3ODkwMTIiLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiQVdTIHByb2R1Y3Rpb24iLCJwcm92aWRlciI6ImF3cyJ9LCJhcGlfb3BlcmF0aW9ucyI6WyJOb25lOiBzYW1wbGUgZGF0YSJdLCJjaGFpbl9oYXNoIjoiNTFiNzJiZDUwMTg5YzI2ZmEwZDljZTBmYjlhZjE0MWExM2M1NGMxYzEyMDUxZDllMTFlNTg5MmRhZmY5MTIxNSIsImNoZWNrX2lkIjoiYXdzLnMzLmJ1Y2tldF9lbmNyeXB0aW9uIiwiY2hlY2tfdmVyc2lvbiI6IjEuMC4wIiwiY29sbGVjdGVkX2F0IjoiMjAyNi0xMC0yNlQxNDoyNTo1NSswMDowMCIsImNvbGxlY3Rpb25fZXJyb3JzIjpbXSwiY29sbGVjdGlvbl9tZXRob2QiOiJSZWFkLW9ubHkgQVdTIEFQSSBjYWxscy4gUGVyLWNhbGwgdGltZW91dHM6IEFXUyAxMHMgY29ubmVjdC8zMHMgcmVhZDsgR2l0SHViIDIwcy4iLCJjb250ZW50X3NoYTI1NiI6IjhkZDJlYThhYmZhY2I2ZDI2NWNlYzBjNjc5MmNhMDUzZTY4ZDhlMzhjY2QzNGYxMGEwZDY3YzkzMWQ2ZDdlNGQiLCJjb250cm9sX2lkcyI6WyJURS1EUC0wMSJdLCJjcmVhdGVkX2J5IjpudWxsLCJkb2N1bWVudF9pZCI6bnVsbCwiaWQiOiJmM2RmNjUwMC1iNGQyLTRiNmYtYTkxYS1hYmIxYzI3YTgwZTciLCJpbnRlZ3JhdGlvbl9pZCI6Ijc0NGEwZWI0LTEzZTgtNDQyYS04ODQwLTIzYjlhZjJkOWVhZiIsInBhZ2luYXRpb25fY29tcGxldGUiOnRydWUsInByZXZfY2hhaW5faGFzaCI6ImNmNDliOGYyNzZiYTZhODU5ZDMwZmQ1ZjU0OWE1NTQzMzQ2M2Q1NTIwMjQyNTVlYjM0MDc5NzQwYTEwNTQxZjYiLCJwcm92aWRlcl9yZXF1ZXN0X2lkcyI6W10sInJlc291cmNlX2lkcyI6WyJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLWFwcC1hc3NldHMiLCJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLWF1ZGl0LWxvZ3MiLCJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLWN1c3RvbWVyLWV4cG9ydHMiLCJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLXRlcnJhZm9ybS1zdGF0ZSJdLCJzY2FuX3J1bl9pZCI6IjNiZTQzZjA5LWI5NWItNDgxNC04N2FhLWIyMzQxZGQyOTcxYiIsInNlcXVlbmNlIjoxNDcsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJwcm92aWRlcl9hcGkiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6IkJ1Y2tldHMgaGF2ZSBkZWZhdWx0IGVuY3J5cHRpb24g4oCUIDEyMzQ1Njc4OTAxMiIsInYiOjF9", "evidence/f3df6500-b4d2-4b6f-a91a-abb1c27a80e7/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiUmVhZHMgZGVmYXVsdCBlbmNyeXB0aW9uIGZvciBldmVyeSBidWNrZXQuIiwiZXhwZWN0ZWQiOiJBIGRlZmF1bHQgU1NFIGFsZ29yaXRobSBpcyBjb25maWd1cmVkLiIsImlkIjoiYXdzLnMzLmJ1Y2tldF9lbmNyeXB0aW9uIiwidGl0bGUiOiJCdWNrZXRzIGhhdmUgZGVmYXVsdCBlbmNyeXB0aW9uIiwidmVyc2lvbiI6IjEuMC4wIn0sImVycm9ycyI6W10sIm9ic2VydmF0aW9ucyI6eyJub3RlIjoiU2FtcGxlIGRhdGEgZ2VuZXJhdGVkIGJ5IFRydXN0RXZpZGVuY2UgZm9yIGRlbW9uc3RyYXRpb24uIE5vIHJlYWwgc3lzdGVtIHdhcyBjb250YWN0ZWQuIn0sInJlc291cmNlcyI6W3siaWQiOiJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLWFwcC1hc3NldHMiLCJvYnNlcnZlZCI6eyJhbGdvcml0aG1zIjpbIkFFUzI1NiJdLCJidWNrZXQiOiJzYW1wbGUtY28tYXBwLWFzc2V0cyIsImJ1Y2tldF9rZXlfZW5hYmxlZCI6dHJ1ZX0sInJlYXNvbiI6Ik1lZXRzIHRoZSByZXF1aXJlbWVudDogQSBkZWZhdWx0IFNTRSBhbGdvcml0aG0gaXMgY29uZmlndXJlZC4iLCJyZWdpb24iOiJldS13ZXN0LTEiLCJzdGF0dXMiOiJQQVNTIiwidHlwZSI6IkFXUzo6UzM6OkJ1Y2tldCJ9LHsiaWQiOiJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLWF1ZGl0LWxvZ3MiLCJvYnNlcnZlZCI6eyJhbGdvcml0aG1zIjpbIkFFUzI1NiJdLCJidWNrZXQiOiJzYW1wbGUtY28tYXVkaXQtbG9ncyIsImJ1Y2tldF9rZXlfZW5hYmxlZCI6dHJ1ZX0sInJlYXNvbiI6Ik1lZXRzIHRoZSByZXF1aXJlbWVudDogQSBkZWZhdWx0IFNTRSBhbGdvcml0aG0gaXMgY29uZmlndXJlZC4iLCJyZWdpb24iOiJldS13ZXN0LTEiLCJzdGF0dXMiOiJQQVNTIiwidHlwZSI6IkFXUzo6UzM6OkJ1Y2tldCJ9LHsiaWQiOiJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLWN1c3RvbWVyLWV4cG9ydHMiLCJvYnNlcnZlZCI6eyJhbGdvcml0aG1zIjpbImF3czprbXMiXSwiYnVja2V0Ijoic2FtcGxlLWNvLWN1c3RvbWVyLWV4cG9ydHMiLCJidWNrZXRfa2V5X2VuYWJsZWQiOnRydWV9LCJyZWFzb24iOiJNZWV0cyB0aGUgcmVxdWlyZW1lbnQ6IEEgZGVmYXVsdCBTU0UgYWxnb3JpdGhtIGlzIGNvbmZpZ3VyZWQuIiwicmVnaW9uIjoiZXUtd2VzdC0xIiwic3RhdHVzIjoiUEFTUyIsInR5cGUiOiJBV1M6OlMzOjpCdWNrZXQifSx7ImlkIjoiYXJuOmF3czpzMzo6OnNhbXBsZS1jby10ZXJyYWZvcm0tc3RhdGUiLCJvYnNlcnZlZCI6eyJhbGdvcml0aG1zIjpbImF3czprbXMiXSwiYnVja2V0Ijoic2FtcGxlLWNvLXRlcnJhZm9ybS1zdGF0ZSIsImJ1Y2tldF9rZXlfZW5hYmxlZCI6dHJ1ZX0sInJlYXNvbiI6Ik1lZXRzIHRoZSByZXF1aXJlbWVudDogQSBkZWZhdWx0IFNTRSBhbGdvcml0aG0gaXMgY29uZmlndXJlZC4iLCJyZWdpb24iOiJldS13ZXN0LTEiLCJzdGF0dXMiOiJQQVNTIiwidHlwZSI6IkFXUzo6UzM6OkJ1Y2tldCJ9XSwicmVzdWx0Ijp7InN0YXR1cyI6IlBBU1MiLCJzdW1tYXJ5IjoiQWxsIDQgcmVzb3VyY2VzIHBhc3MuIChTYW1wbGUgZGF0YS4pIn19", "evidence/879397d0-c5a3-4063-b1cc-0fd39562a165/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiIxMjM0NTY3ODkwMTIiLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiQVdTIHByb2R1Y3Rpb24iLCJwcm92aWRlciI6ImF3cyJ9LCJhcGlfb3BlcmF0aW9ucyI6WyJOb25lOiBzYW1wbGUgZGF0YSJdLCJjaGFpbl9oYXNoIjoiODU1MGU1MTczYzdjNzI1ZmZhNTdlZGU2MWRmYjA5ZTU4ODJkNzY5MzkyNmRhZDgxYzZlYTI4MTUwZWYyMTA1MiIsImNoZWNrX2lkIjoiYXdzLmNsb3VkdHJhaWwua21zX2VuY3J5cHRpb24iLCJjaGVja192ZXJzaW9uIjoiMS4wLjAiLCJjb2xsZWN0ZWRfYXQiOiIyMDI2LTEwLTI2VDE0OjI1OjU1KzAwOjAwIiwiY29sbGVjdGlvbl9lcnJvcnMiOltdLCJjb2xsZWN0aW9uX21ldGhvZCI6IlJlYWQtb25seSBBV1MgQVBJIGNhbGxzLiBQZXItY2FsbCB0aW1lb3V0czogQVdTIDEwcyBjb25uZWN0LzMwcyByZWFkOyBHaXRIdWIgMjBzLiIsImNvbnRlbnRfc2hhMjU2IjoiMzMyYjRlYWI0YWNmYzRkZjg2MDExZDIxZTNiNDNhZGFiNzc5ZTk1NTZjYTU0YjZmZjI3NzNlM2ZmNjAxNWE1OCIsImNvbnRyb2xfaWRzIjpbIlRFLUxNLTAxIl0sImNyZWF0ZWRfYnkiOm51bGwsImRvY3VtZW50X2lkIjpudWxsLCJpZCI6Ijg3OTM5N2QwLWM1YTMtNDA2My1iMWNjLTBmZDM5NTYyYTE2NSIsImludGVncmF0aW9uX2lkIjoiNzQ0YTBlYjQtMTNlOC00NDJhLTg4NDAtMjNiOWFmMmQ5ZWFmIiwicGFnaW5hdGlvbl9jb21wbGV0ZSI6dHJ1ZSwicHJldl9jaGFpbl9oYXNoIjoiNWI2OGE1MGUxNWY4NTQ0NzlhMjc5YzNjMGEzNjNjYmMzYmMyODUxMWJjYTdmNTYzNjAzOWNjMDZkY2M5ZmQxNSIsInByb3ZpZGVyX3JlcXVlc3RfaWRzIjpbXSwicmVzb3VyY2VfaWRzIjpbImFybjphd3M6Y2xvdWR0cmFpbDpldS13ZXN0LTE6MTIzNDU2Nzg5MDEyOnRyYWlsL29yZy10cmFpbCJdLCJzY2FuX3J1bl9pZCI6IjNiZTQzZjA5LWI5NWItNDgxNC04N2FhLWIyMzQxZGQyOTcxYiIsInNlcXVlbmNlIjoxMzgsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJwcm92aWRlcl9hcGkiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6IkNsb3VkVHJhaWwgbG9ncyBlbmNyeXB0ZWQgd2l0aCBLTVMg4oCUIDEyMzQ1Njc4OTAxMiIsInYiOjF9", "evidence/879397d0-c5a3-4063-b1cc-0fd39562a165/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiQ2hlY2tzIEttc0tleUlkIGZvciBldmVyeSB0cmFpbC4iLCJleHBlY3RlZCI6IkVhY2ggdHJhaWwgdXNlcyBhIEtNUyBrZXkuIiwiaWQiOiJhd3MuY2xvdWR0cmFpbC5rbXNfZW5jcnlwdGlvbiIsInRpdGxlIjoiQ2xvdWRUcmFpbCBsb2dzIGVuY3J5cHRlZCB3aXRoIEtNUyIsInZlcnNpb24iOiIxLjAuMCJ9LCJlcnJvcnMiOltdLCJvYnNlcnZhdGlvbnMiOnsibm90ZSI6IlNhbXBsZSBkYXRhIGdlbmVyYXRlZCBieSBUcnVzdEV2aWRlbmNlIGZvciBkZW1vbnN0cmF0aW9uLiBObyByZWFsIHN5c3RlbSB3YXMgY29udGFjdGVkLiJ9LCJyZXNvdXJjZXMiOlt7ImlkIjoiYXJuOmF3czpjbG91ZHRyYWlsOmV1LXdlc3QtMToxMjM0NTY3ODkwMTI6dHJhaWwvb3JnLXRyYWlsIiwib2JzZXJ2ZWQiOnsiS21zS2V5SWQiOiJhcm46YXdzOmttczpldS13ZXN0LTE6MTIzNDU2Nzg5MDEyOmtleS81ZjFjMmE5ZS0wYjdkLTRjM2UtOWE4Zi0xZDJlM2M0YjVhNjAiLCJ0cmFpbCI6Im9yZy10cmFpbCJ9LCJyZWFzb24iOiJNZWV0cyB0aGUgcmVxdWlyZW1lbnQ6IEVhY2ggdHJhaWwgdXNlcyBhIEtNUyBrZXkuIiwicmVnaW9uIjoiZXUtd2VzdC0xIiwic3RhdHVzIjoiUEFTUyIsInR5cGUiOiJBV1M6OkNsb3VkVHJhaWw6OlRyYWlsIn1dLCJyZXN1bHQiOnsic3RhdHVzIjoiUEFTUyIsInN1bW1hcnkiOiJBbGwgMSByZXNvdXJjZXMgcGFzcy4gKFNhbXBsZSBkYXRhLikifX0=", "evidence/378e6eb3-3a76-4283-baf8-64bb6098ee34/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiIxMjM0NTY3ODkwMTIiLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiQVdTIHByb2R1Y3Rpb24iLCJwcm92aWRlciI6ImF3cyJ9LCJhcGlfb3BlcmF0aW9ucyI6WyJOb25lOiBzYW1wbGUgZGF0YSJdLCJjaGFpbl9oYXNoIjoiYWVhN2ZhY2QyNDk1MDQyYThlYjRlNDNiNjk5MTAyZjA0M2I5Y2IwOTIxNzllYzIwMjViZWEzZWM0ZDc2YWNiMiIsImNoZWNrX2lkIjoiYXdzLmVjMi5lYnNfdm9sdW1lc19lbmNyeXB0ZWQiLCJjaGVja192ZXJzaW9uIjoiMS4wLjAiLCJjb2xsZWN0ZWRfYXQiOiIyMDI2LTEwLTI2VDE0OjI1OjU1KzAwOjAwIiwiY29sbGVjdGlvbl9lcnJvcnMiOltdLCJjb2xsZWN0aW9uX21ldGhvZCI6IlJlYWQtb25seSBBV1MgQVBJIGNhbGxzLiBQZXItY2FsbCB0aW1lb3V0czogQVdTIDEwcyBjb25uZWN0LzMwcyByZWFkOyBHaXRIdWIgMjBzLiIsImNvbnRlbnRfc2hhMjU2IjoiNGVkZGU4NzYwNGIyMzU0ZTEzOTAzZjQwMzM4YmM3ZDFhZDA2MWNhMzdjMzJkMWRkZTQxMmM1ZmQ3NjFmYzZhNSIsImNvbnRyb2xfaWRzIjpbIlRFLURQLTAxIl0sImNyZWF0ZWRfYnkiOm51bGwsImRvY3VtZW50X2lkIjpudWxsLCJpZCI6IjM3OGU2ZWIzLTNhNzYtNDI4My1iYWY4LTY0YmI2MDk4ZWUzNCIsImludGVncmF0aW9uX2lkIjoiNzQ0YTBlYjQtMTNlOC00NDJhLTg4NDAtMjNiOWFmMmQ5ZWFmIiwicGFnaW5hdGlvbl9jb21wbGV0ZSI6dHJ1ZSwicHJldl9jaGFpbl9oYXNoIjoiZWVmN2YyMTZiYTBlODYzNmEwOWMxNDBlNDQ4MTU5ODgzMTM1NTQ3ZjdmNzUwOGYyYjUzOWM5NjMwODI0YjI2YiIsInByb3ZpZGVyX3JlcXVlc3RfaWRzIjpbXSwicmVzb3VyY2VfaWRzIjpbInZvbC0wMWM5ZTJiN2E0ZDZmODAxIiwidm9sLTAyYzllMmI3YTRkNmY4MDIiLCJ2b2wtMDNjOWUyYjdhNGQ2ZjgwMyJdLCJzY2FuX3J1bl9pZCI6IjNiZTQzZjA5LWI5NWItNDgxNC04N2FhLWIyMzQxZGQyOTcxYiIsInNlcXVlbmNlIjoxNTIsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJwcm92aWRlcl9hcGkiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6IkVCUyB2b2x1bWVzIGVuY3J5cHRlZCDigJQgMTIzNDU2Nzg5MDEyIiwidiI6MX0=", "evidence/378e6eb3-3a76-4283-baf8-64bb6098ee34/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiQ2hlY2tzIEVuY3J5cHRlZCBvbiBldmVyeSB2b2x1bWUuIiwiZXhwZWN0ZWQiOiJBbGwgdm9sdW1lcyBlbmNyeXB0ZWQuIiwiaWQiOiJhd3MuZWMyLmVic192b2x1bWVzX2VuY3J5cHRlZCIsInRpdGxlIjoiRUJTIHZvbHVtZXMgZW5jcnlwdGVkIiwidmVyc2lvbiI6IjEuMC4wIn0sImVycm9ycyI6W10sIm9ic2VydmF0aW9ucyI6eyJub3RlIjoiU2FtcGxlIGRhdGEgZ2VuZXJhdGVkIGJ5IFRydXN0RXZpZGVuY2UgZm9yIGRlbW9uc3RyYXRpb24uIE5vIHJlYWwgc3lzdGVtIHdhcyBjb250YWN0ZWQuIn0sInJlc291cmNlcyI6W3siaWQiOiJ2b2wtMDFjOWUyYjdhNGQ2ZjgwMSIsIm9ic2VydmVkIjp7ImF0dGFjaGVkX3RvIjoiaS0wM2E3YzNlNWY5YjJkNDEzIiwiZW5jcnlwdGVkIjp0cnVlLCJrbXNfa2V5IjoiYXJuOmF3czprbXM6ZXUtd2VzdC0xOjEyMzQ1Njc4OTAxMjprZXkvNWYxYzJhOWUtMGI3ZC00YzNlLTlhOGYtMWQyZTNjNGI1YTYwIiwic2l6ZV9naWIiOjIwMCwidm9sdW1lX2lkIjoidm9sLTAxYzllMmI3YTRkNmY4MDEifSwicmVhc29uIjoiTWVldHMgdGhlIHJlcXVpcmVtZW50OiBBbGwgdm9sdW1lcyBlbmNyeXB0ZWQuIiwicmVnaW9uIjoiZXUtd2VzdC0xIiwic3RhdHVzIjoiUEFTUyIsInR5cGUiOiJBV1M6OkVDMjo6Vm9sdW1lIn0seyJpZCI6InZvbC0wMmM5ZTJiN2E0ZDZmODAyIiwib2JzZXJ2ZWQiOnsiYXR0YWNoZWRfdG8iOiJpLTAzYTdjM2U1ZjliMmQ0MTMiLCJlbmNyeXB0ZWQiOmZhbHNlLCJrbXNfa2V5IjpudWxsLCJzaXplX2dpYiI6MjAwLCJ2b2x1bWVfaWQiOiJ2b2wtMDJjOWUyYjdhNGQ2ZjgwMiJ9LCJyZWFzb24iOiJEb2VzIG5vdCBtZWV0IHRoZSByZXF1aXJlbWVudDogQWxsIHZvbHVtZXMgZW5jcnlwdGVkLiIsInJlZ2lvbiI6ImV1LXdlc3QtMSIsInN0YXR1cyI6IkZBSUwiLCJ0eXBlIjoiQVdTOjpFQzI6OlZvbHVtZSJ9LHsiaWQiOiJ2b2wtMDNjOWUyYjdhNGQ2ZjgwMyIsIm9ic2VydmVkIjp7ImF0dGFjaGVkX3RvIjoiaS0wM2E3YzNlNWY5YjJkNDEzIiwiZW5jcnlwdGVkIjp0cnVlLCJrbXNfa2V5IjoiYXJuOmF3czprbXM6ZXUtd2VzdC0xOjEyMzQ1Njc4OTAxMjprZXkvNWYxYzJhOWUtMGI3ZC00YzNlLTlhOGYtMWQyZTNjNGI1YTYwIiwic2l6ZV9naWIiOjIwMCwidm9sdW1lX2lkIjoidm9sLTAzYzllMmI3YTRkNmY4MDMifSwicmVhc29uIjoiTWVldHMgdGhlIHJlcXVpcmVtZW50OiBBbGwgdm9sdW1lcyBlbmNyeXB0ZWQuIiwicmVnaW9uIjoiZXUtd2VzdC0xIiwic3RhdHVzIjoiUEFTUyIsInR5cGUiOiJBV1M6OkVDMjo6Vm9sdW1lIn1dLCJyZXN1bHQiOnsic3RhdHVzIjoiRkFJTCIsInN1bW1hcnkiOiIxIG9mIDMgcmVzb3VyY2VzIGZhaWwuIChTYW1wbGUgZGF0YS4pIn19", "evidence/4047a3da-539a-4761-aad9-ece063c814f5/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiIxMjM0NTY3ODkwMTIiLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiQVdTIHByb2R1Y3Rpb24iLCJwcm92aWRlciI6ImF3cyJ9LCJhcGlfb3BlcmF0aW9ucyI6WyJOb25lOiBzYW1wbGUgZGF0YSJdLCJjaGFpbl9oYXNoIjoiZWVmN2YyMTZiYTBlODYzNmEwOWMxNDBlNDQ4MTU5ODgzMTM1NTQ3ZjdmNzUwOGYyYjUzOWM5NjMwODI0YjI2YiIsImNoZWNrX2lkIjoiYXdzLmVjMi5lYnNfZGVmYXVsdF9lbmNyeXB0aW9uIiwiY2hlY2tfdmVyc2lvbiI6IjEuMC4wIiwiY29sbGVjdGVkX2F0IjoiMjAyNi0xMC0yNlQxNDoyNTo1NSswMDowMCIsImNvbGxlY3Rpb25fZXJyb3JzIjpbXSwiY29sbGVjdGlvbl9tZXRob2QiOiJSZWFkLW9ubHkgQVdTIEFQSSBjYWxscy4gUGVyLWNhbGwgdGltZW91dHM6IEFXUyAxMHMgY29ubmVjdC8zMHMgcmVhZDsgR2l0SHViIDIwcy4iLCJjb250ZW50X3NoYTI1NiI6ImFmMmVmM2UzOGY1MDFkODY2YzljMmY0OWVhZmNkOTlmNjY3NzI0MWVkMmQ2YmY5ZjZiZjU2YzJkZDNiZDdiYmMiLCJjb250cm9sX2lkcyI6WyJURS1EUC0wMSJdLCJjcmVhdGVkX2J5IjpudWxsLCJkb2N1bWVudF9pZCI6bnVsbCwiaWQiOiI0MDQ3YTNkYS01MzlhLTQ3NjEtYWFkOS1lY2UwNjNjODE0ZjUiLCJpbnRlZ3JhdGlvbl9pZCI6Ijc0NGEwZWI0LTEzZTgtNDQyYS04ODQwLTIzYjlhZjJkOWVhZiIsInBhZ2luYXRpb25fY29tcGxldGUiOnRydWUsInByZXZfY2hhaW5faGFzaCI6IjEzYjI4ZDZmMWE3Mzc2ZjY4MWMzZTZhMmU2ZDQxNzBiYTIzZjk5YmZkYjE3Y2QzNmQzYTA0NGZiZjRmNDVhZDMiLCJwcm92aWRlcl9yZXF1ZXN0X2lkcyI6W10sInJlc291cmNlX2lkcyI6WyIxMjM0NTY3ODkwMTIvZXUtd2VzdC0xIiwiMTIzNDU2Nzg5MDEyL3VzLWVhc3QtMSJdLCJzY2FuX3J1bl9pZCI6IjNiZTQzZjA5LWI5NWItNDgxNC04N2FhLWIyMzQxZGQyOTcxYiIsInNlcXVlbmNlIjoxNTEsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJwcm92aWRlcl9hcGkiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6IkVCUyBlbmNyeXB0aW9uIGJ5IGRlZmF1bHQg4oCUIDEyMzQ1Njc4OTAxMiIsInYiOjF9", "evidence/4047a3da-539a-4761-aad9-ece063c814f5/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiQ2hlY2tzIHRoZSByZWdpb25hbCBFQlMgZGVmYXVsdC1lbmNyeXB0aW9uIHNldHRpbmcuIiwiZXhwZWN0ZWQiOiJFbmFibGVkIGluIGV2ZXJ5IGFzc2Vzc2VkIHJlZ2lvbi4iLCJpZCI6ImF3cy5lYzIuZWJzX2RlZmF1bHRfZW5jcnlwdGlvbiIsInRpdGxlIjoiRUJTIGVuY3J5cHRpb24gYnkgZGVmYXVsdCIsInZlcnNpb24iOiIxLjAuMCJ9LCJlcnJvcnMiOltdLCJvYnNlcnZhdGlvbnMiOnsibm90ZSI6IlNhbXBsZSBkYXRhIGdlbmVyYXRlZCBieSBUcnVzdEV2aWRlbmNlIGZvciBkZW1vbnN0cmF0aW9uLiBObyByZWFsIHN5c3RlbSB3YXMgY29udGFjdGVkLiJ9LCJyZXNvdXJjZXMiOlt7ImlkIjoiMTIzNDU2Nzg5MDEyL2V1LXdlc3QtMSIsIm9ic2VydmVkIjp7IkVic0VuY3J5cHRpb25CeURlZmF1bHQiOnRydWUsInJlZ2lvbiI6ImV1LXdlc3QtMSJ9LCJyZWFzb24iOiJNZWV0cyB0aGUgcmVxdWlyZW1lbnQ6IEVuYWJsZWQgaW4gZXZlcnkgYXNzZXNzZWQgcmVnaW9uLiIsInJlZ2lvbiI6ImV1LXdlc3QtMSIsInN0YXR1cyI6IlBBU1MiLCJ0eXBlIjoiQVdTOjpBY2NvdW50OjpSZWdpb24ifSx7ImlkIjoiMTIzNDU2Nzg5MDEyL3VzLWVhc3QtMSIsIm9ic2VydmVkIjp7IkVic0VuY3J5cHRpb25CeURlZmF1bHQiOmZhbHNlLCJyZWdpb24iOiJ1cy1lYXN0LTEifSwicmVhc29uIjoiRG9lcyBub3QgbWVldCB0aGUgcmVxdWlyZW1lbnQ6IEVuYWJsZWQgaW4gZXZlcnkgYXNzZXNzZWQgcmVnaW9uLiIsInJlZ2lvbiI6InVzLWVhc3QtMSIsInN0YXR1cyI6IkZBSUwiLCJ0eXBlIjoiQVdTOjpBY2NvdW50OjpSZWdpb24ifV0sInJlc3VsdCI6eyJzdGF0dXMiOiJGQUlMIiwic3VtbWFyeSI6IjEgb2YgMiByZXNvdXJjZXMgZmFpbC4gKFNhbXBsZSBkYXRhLikifX0=", "evidence/7449ab57-9f7c-4332-8ab6-cfc8106c2ef0/record.json": "eyJhY2NvdW50X3Njb3BlIjpudWxsLCJhcGlfb3BlcmF0aW9ucyI6W10sImNoYWluX2hhc2giOiJlODBhZDlhMTQyYTkyMDBkNmVkZWQ1MTcyMzRmOGVjOWM4N2FlYzA4MmI4YjkyMjA4MjdlMzMxMDdiMjNkNjU0IiwiY2hlY2tfaWQiOm51bGwsImNoZWNrX3ZlcnNpb24iOm51bGwsImNvbGxlY3RlZF9hdCI6IjIwMjYtMTAtMjZUMTY6MjU6NTUrMDA6MDAiLCJjb2xsZWN0aW9uX2Vycm9ycyI6W10sImNvbGxlY3Rpb25fbWV0aG9kIjoiUnVsZSBhcHBsaWVkIHRvIHRoZSByZWdpc3RlciBpbiBUcnVzdEV2aWRlbmNlOyBzbmFwc2hvdCBzdG9yZWQgZW5jcnlwdGVkIChzYW1wbGUgZGF0YSkiLCJjb250ZW50X3NoYTI1NiI6ImM2ZjlkZDNmNmQzZTIwOTM2NjE3NGIyZjQxMWE2MzJmMjk2NjFlZGNlYjJiZTcyZjcxYTgyMWM1YzBlMGQ0ZTEiLCJjb250cm9sX2lkcyI6WyJURS1IUi0wMiJdLCJjcmVhdGVkX2J5IjoiNjc4ZDA3MjUtMjQ4MC00ODE3LTg4NjktMjFlMjk5ZTBkOWU5IiwiZG9jdW1lbnRfaWQiOiIxNTA1YTY5My1iM2IwLTQ0MjAtOTUwYy04MzYzN2QwYWRlYzkiLCJpZCI6Ijc0NDlhYjU3LTlmN2MtNDMzMi04YWI2LWNmYzgxMDZjMmVmMCIsImludGVncmF0aW9uX2lkIjpudWxsLCJwYWdpbmF0aW9uX2NvbXBsZXRlIjpudWxsLCJwcmV2X2NoYWluX2hhc2giOiIzOTU0ZGVkYWYxYjI2YzQ0NDg1MjgwYTFjOGNiYjBhZmM1ZWU3YTc5MjEwODI3NGZkODJlYTI2ODNiODY1ZGIzIiwicHJvdmlkZXJfcmVxdWVzdF9pZHMiOltdLCJyZXNvdXJjZV9pZHMiOltdLCJzY2FuX3J1bl9pZCI6bnVsbCwic2VxdWVuY2UiOjI0NCwic291cmNlX2V2ZW50X2F0IjpudWxsLCJzb3VyY2VfdHlwZSI6Imh1bWFuX3JldmlldyIsInRlbmFudF9pZCI6IjI2NDlmZTk0LTYwYjYtNDRhYi04ZWU1LTIxMmE5NDBlNWIxOSIsInRpdGxlIjoiUmVnaXN0ZXIgcmV2aWV3OiBTZWN1cml0eSBhd2FyZW5lc3MgdHJhaW5pbmciLCJ2IjoxfQ==", "evidence/7449ab57-9f7c-4332-8ab6-cfc8106c2ef0/content.json": "eyJjYXRhbG9nX3ZlcnNpb24iOiIyMDI2LjA5IiwiY29udHJvbF9pZCI6IlRFLUhSLTAyIiwiZG9jdW1lbnRzIjpbeyJmaWxlbmFtZSI6IlBlb3BsZV9yZWdpc3Rlcl9URS1IUi0wMl8yMDI2LTEwLTI2LmNzdiIsImlkIjoiMTUwNWE2OTMtYjNiMC00NDIwLTk1MGMtODM2MzdkMGFkZWM5Iiwic2hhMjU2IjoiNmU2OTE4ZDI0NzljZDQwZDA0Y2ZhODc0MjhjZmEzNDZhYmM0Y2Q3MTY1NzQ1ZGM3MmRhMjExZTExNmI4Y2RkMSIsInZlcnNpb24iOjF9XSwibm90ZXMiOiJSZWNvcmRlZCBmcm9tIHRoZSBwZW9wbGUgcmVnaXN0ZXI6IEV2ZXJ5b25lIHRyYWluZWQgaW4gdGhlIGxhc3QgMTIgbW9udGhzIChuZXcgam9pbmVycyB3aXRoaW4gMzAgZGF5cykuIDcgb2YgNyBtZWV0IGl0LiIsInBhc3NpbmciOjcsInJlc3VsdCI6IlBBU1MiLCJyZXZpZXdlciI6ImFuYWx5c3RAc2FtcGxlLWNvLmV4YW1wbGUiLCJ0b3RhbCI6NywidmFsaWRfdW50aWwiOiIyMDI3LTEwLTI2In0=", "evidence/a813ea01-cc40-40df-88dc-07b906eb6a6a/record.json": "eyJhY2NvdW50X3Njb3BlIjpudWxsLCJhcGlfb3BlcmF0aW9ucyI6W10sImNoYWluX2hhc2giOiJjNzA1ZjE1OTEyYjM2NmMxZDA0NzFkMGJhNGYyM2NhYTM0YzI0YTY3NTI5Y2IxMzU3MTY1ODVjYzU5MjZmMzE3IiwiY2hlY2tfaWQiOm51bGwsImNoZWNrX3ZlcnNpb24iOm51bGwsImNvbGxlY3RlZF9hdCI6IjIwMjYtMTAtMjZUMTY6MjU6NTUrMDA6MDAiLCJjb2xsZWN0aW9uX2Vycm9ycyI6W10sImNvbGxlY3Rpb25fbWV0aG9kIjoiSHVtYW4gcmV2aWV3IHJlY29yZGVkIGluIFRydXN0RXZpZGVuY2UgKHNhbXBsZSBkYXRhKSIsImNvbnRlbnRfc2hhMjU2IjoiYzI2ZGVmZWVlN2M3M2IzNjJhNmQ3NWQxZjU3NmQ5ZTdlOWEzMGFmNTNiNmFjYjQ3ZDY2MGYwMTdmZWU5YmViOCIsImNvbnRyb2xfaWRzIjpbIlRFLUhSLTAyIl0sImNyZWF0ZWRfYnkiOiI2NzhkMDcyNS0yNDgwLTQ4MTctODg2OS0yMWUyOTllMGQ5ZTkiLCJkb2N1bWVudF9pZCI6bnVsbCwiaWQiOiJhODEzZWEwMS1jYzQwLTQwZGYtODhkYy0wN2I5MDZlYjZhNmEiLCJpbnRlZ3JhdGlvbl9pZCI6bnVsbCwicGFnaW5hdGlvbl9jb21wbGV0ZSI6bnVsbCwicHJldl9jaGFpbl9oYXNoIjoiMTBkOGI5ODBhNTYyZDFmZGVjN2Y2NGE4YTU3MTA5ZjM2YzM0ODZlZGMzZTczM2MzY2Y5ODg4MTI5NmJhZjFmZCIsInByb3ZpZGVyX3JlcXVlc3RfaWRzIjpbXSwicmVzb3VyY2VfaWRzIjpbXSwic2Nhbl9ydW5faWQiOm51bGwsInNlcXVlbmNlIjoyMTQsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJodW1hbl9yZXZpZXciLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6Ik1hbnVhbCByZXZpZXc6IFNlY3VyaXR5IGF3YXJlbmVzcyB0cmFpbmluZyIsInYiOjF9", "evidence/a813ea01-cc40-40df-88dc-07b906eb6a6a/content.json": "eyJjYXRhbG9nX3ZlcnNpb24iOiIyMDI2LjA5IiwiY29udHJvbF9pZCI6IlRFLUhSLTAyIiwiZG9jdW1lbnRzIjpbeyJmaWxlbmFtZSI6IlNhbXBsZV9Db19QZW9wbGVfU2VjdXJpdHlfUG9saWN5LmRvY3giLCJpZCI6IjkwMTMyNWRlLWI5ZGItNDY5Mi05ZGYzLWNiYjM1NTdlMmQxNyIsInNoYTI1NiI6IjFhMTc3NGRmNzhkN2Y5MmFiZTc2YmMxYjNmNTA4MzNiNzIyNWEyMjAxNGYxZjE4NTEyNGY5NzQxN2M4ZmU2ZGIiLCJ2ZXJzaW9uIjoxfV0sImdlbmVyYXRlZCI6InNhbXBsZSBkYXRhIiwibm90ZXMiOiJTYW1wbGUgZGF0YTogcmV2aWV3ZWQgc2VjdXJpdHkgYXdhcmVuZXNzIHRyYWluaW5nIGFnYWluc3QgdGhlIGFwcHJvdmVkIHBvbGljeSBhbmQgcmVjb3Jkczsgb3BlcmF0aW5nIGFzIGRlc2NyaWJlZC4iLCJyZXN1bHQiOiJQQVNTIiwicmV2aWV3ZXIiOiJhbmFseXN0QHNhbXBsZS1jby5leGFtcGxlIiwidmFsaWRfdW50aWwiOiIyMDI3LTA5LTE2In0=", "evidence/4926f461-5d3b-45a6-8bd0-efb3557a7abf/record.json": "eyJhY2NvdW50X3Njb3BlIjpudWxsLCJhcGlfb3BlcmF0aW9ucyI6W10sImNoYWluX2hhc2giOiIxMmYzM2RhMmQzNmQwZTAwMjcxZjUzZTNlMTJlYTc4OTI4YThlZTM1ZjNjYjIxYTlmZTJjNjYyMzEyMGIyZTU5IiwiY2hlY2tfaWQiOm51bGwsImNoZWNrX3ZlcnNpb24iOm51bGwsImNvbGxlY3RlZF9hdCI6IjIwMjYtMTAtMjZUMTY6MjU6NTUrMDA6MDAiLCJjb2xsZWN0aW9uX2Vycm9ycyI6W10sImNvbGxlY3Rpb25fbWV0aG9kIjoiR2VuZXJhdGVkIGZyb20gdGhlIFRydXN0RXZpZGVuY2UgcG9saWN5IHBhY2s7IHN0b3JlZCBlbmNyeXB0ZWQiLCJjb250ZW50X3NoYTI1NiI6ImQyMjA1NTQ2MDczYTI4MGVmZmZhMzNjMmRiY2ZhMzk2OGVjZDkxNTg0MDhmZmYwNjI4M2ZmODY0YjhmYmY4ZmMiLCJjb250cm9sX2lkcyI6WyJURS1JUi0wMSIsIlRFLUlSLTAyIiwiVEUtUFItMDUiXSwiY3JlYXRlZF9ieSI6IjY3OGQwNzI1LTI0ODAtNDgxNy04ODY5LTIxZTI5OWUwZDllOSIsImRvY3VtZW50X2lkIjoiZTEwOWQwOTQtNDYwYi00YmI0LWFlZGYtODk5ODcyZWIxYThhIiwiaWQiOiI0OTI2ZjQ2MS01ZDNiLTQ1YTYtOGJkMC1lZmIzNTU3YTdhYmYiLCJpbnRlZ3JhdGlvbl9pZCI6bnVsbCwicGFnaW5hdGlvbl9jb21wbGV0ZSI6bnVsbCwicHJldl9jaGFpbl9oYXNoIjoiMzQ1MjcwNzhlM2U1NmE0ZWJhMjE3MDA1ZTExNjg5MDhkMDM3NzhhZGJmMDI3MmFhY2VjYzQwMWI2NmRiZDlkNiIsInByb3ZpZGVyX3JlcXVlc3RfaWRzIjpbXSwicmVzb3VyY2VfaWRzIjpbXSwic2Nhbl9ydW5faWQiOm51bGwsInNlcXVlbmNlIjoxOTksInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJodW1hbl91cGxvYWQiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6IkRyYWZ0ZWQgcG9saWN5OiBTYW1wbGVfQ29fSW5jaWRlbnRfUmVzcG9uc2VfUGxhbi5kb2N4IiwidiI6MX0=", "evidence/4926f461-5d3b-45a6-8bd0-efb3557a7abf/content.json": "eyJjYXRlZ29yeSI6InBvbGljeSIsImRlc2NyaXB0aW9uIjoiSW5jaWRlbnQgUmVzcG9uc2UgUGxhbiAoZ2VuZXJhdGVkIGZyb20gdGhlIHBvbGljeSBwYWNrKSIsImRvY3VtZW50X2lkIjoiZTEwOWQwOTQtNDYwYi00YmI0LWFlZGYtODk5ODcyZWIxYThhIiwiZmlsZW5hbWUiOiJTYW1wbGVfQ29fSW5jaWRlbnRfUmVzcG9uc2VfUGxhbi5kb2N4Iiwic2hhMjU2IjoiN2MyMzcxZTQzYTFjZTVkODA2MGNmMzE3ZWVkZGQzM2EyMWE4Y2I2OTVhNTgwYTI2ODk4NzYxZGYzOGNlYjRmOSIsInNpemVfYnl0ZXMiOjQ0NTcsInVwbG9hZGVkX2J5IjoiYW5hbHlzdEBzYW1wbGUtY28uZXhhbXBsZSIsInZlcnNpb24iOjF9", "evidence/c86ddd33-3ddb-4fb3-9a17-2278eaee94f6/record.json": "eyJhY2NvdW50X3Njb3BlIjpudWxsLCJhcGlfb3BlcmF0aW9ucyI6W10sImNoYWluX2hhc2giOiJkMGZiOTI0Y2UzOTBjZWY4YjgyN2FiNTg1N2Q1YWE0MzYwYzNhZGM4ZTgwNTk1ZjM1OTU0MGM2NDk4YTdhNTM2IiwiY2hlY2tfaWQiOm51bGwsImNoZWNrX3ZlcnNpb24iOm51bGwsImNvbGxlY3RlZF9hdCI6IjIwMjYtMTAtMjZUMTY6MjU6NTUrMDA6MDAiLCJjb2xsZWN0aW9uX2Vycm9ycyI6W10sImNvbGxlY3Rpb25fbWV0aG9kIjoiSHVtYW4gcmV2aWV3IHJlY29yZGVkIGluIFRydXN0RXZpZGVuY2UgKHNhbXBsZSBkYXRhKSIsImNvbnRlbnRfc2hhMjU2IjoiMDk3ZTMxM2EzMjMzMGQwYTRlYTNhZmEzZWQ2MTVlYjJkNjNjM2RlNGJlYjBiYmVmNjM5N2UxMmUyNTQwZDJhNSIsImNvbnRyb2xfaWRzIjpbIlRFLUlSLTAxIl0sImNyZWF0ZWRfYnkiOiI2NzhkMDcyNS0yNDgwLTQ4MTctODg2OS0yMWUyOTllMGQ5ZTkiLCJkb2N1bWVudF9pZCI6bnVsbCwiaWQiOiJjODZkZGQzMy0zZGRiLTRmYjMtOWExNy0yMjc4ZWFlZTk0ZjYiLCJpbnRlZ3JhdGlvbl9pZCI6bnVsbCwicGFnaW5hdGlvbl9jb21wbGV0ZSI6bnVsbCwicHJldl9jaGFpbl9oYXNoIjoiOWM1MTJhM2YzZDQxMjI0ZmIxNTMyNGNhNTEyYmNjODBlYTRiNDExOGYzNWNiYzYxMjU2YTQ5NTJlMmVlYmE1NCIsInByb3ZpZGVyX3JlcXVlc3RfaWRzIjpbXSwicmVzb3VyY2VfaWRzIjpbXSwic2Nhbl9ydW5faWQiOm51bGwsInNlcXVlbmNlIjoyMjAsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJodW1hbl9yZXZpZXciLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6Ik1hbnVhbCByZXZpZXc6IEluY2lkZW50IHJlc3BvbnNlIHBsYW4iLCJ2IjoxfQ==", "evidence/c86ddd33-3ddb-4fb3-9a17-2278eaee94f6/content.json": "eyJjYXRhbG9nX3ZlcnNpb24iOiIyMDI2LjA5IiwiY29udHJvbF9pZCI6IlRFLUlSLTAxIiwiZG9jdW1lbnRzIjpbeyJmaWxlbmFtZSI6IlNhbXBsZV9Db19JbmNpZGVudF9SZXNwb25zZV9QbGFuLmRvY3giLCJpZCI6ImUxMDlkMDk0LTQ2MGItNGJiNC1hZWRmLTg5OTg3MmViMWE4YSIsInNoYTI1NiI6IjdjMjM3MWU0M2ExY2U1ZDgwNjBjZjMxN2VlZGRkMzNhMjFhOGNiNjk1YTU4MGEyNjg5ODc2MWRmMzhjZWI0ZjkiLCJ2ZXJzaW9uIjoxfV0sImdlbmVyYXRlZCI6InNhbXBsZSBkYXRhIiwibm90ZXMiOiJTYW1wbGUgZGF0YTogcmV2aWV3ZWQgaW5jaWRlbnQgcmVzcG9uc2UgcGxhbiBhZ2FpbnN0IHRoZSBhcHByb3ZlZCBwb2xpY3kgYW5kIHJlY29yZHM7IG9wZXJhdGluZyBhcyBkZXNjcmliZWQuIiwicmVzdWx0IjoiUEFTUyIsInJldmlld2VyIjoiYW5hbHlzdEBzYW1wbGUtY28uZXhhbXBsZSIsInZhbGlkX3VudGlsIjoiMjAyNy0wOS0xNiJ9", "evidence/008f8135-e48c-4eb2-88f1-9261340aee2f/record.json": "eyJhY2NvdW50X3Njb3BlIjpudWxsLCJhcGlfb3BlcmF0aW9ucyI6W10sImNoYWluX2hhc2giOiI0MGYwYWM3Nzc4MjRlNzY2Y2I1YTI5MGQ5MDIwMjM5MTE0MDE1ZDQ1ZThkNDU5ZDIwYzRiOGM3ZjI4ZTdiZDdiIiwiY2hlY2tfaWQiOm51bGwsImNoZWNrX3ZlcnNpb24iOm51bGwsImNvbGxlY3RlZF9hdCI6IjIwMjYtMTAtMjZUMTY6MjU6NTUrMDA6MDAiLCJjb2xsZWN0aW9uX2Vycm9ycyI6W10sImNvbGxlY3Rpb25fbWV0aG9kIjoiSHVtYW4gcmV2aWV3IHJlY29yZGVkIGluIFRydXN0RXZpZGVuY2UgKHNhbXBsZSBkYXRhKSIsImNvbnRlbnRfc2hhMjU2IjoiYzRlYmI1ZDY4OGVjZDI2YzA2OGVjMGFhMGU5MTgyZTczYzA5N2ZmOWMzZmQ4MGVjOGZlZWU2MzI5NWZlYjhhMiIsImNvbnRyb2xfaWRzIjpbIlRFLUFDLTA1Il0sImNyZWF0ZWRfYnkiOiI2NzhkMDcyNS0yNDgwLTQ4MTctODg2OS0yMWUyOTllMGQ5ZTkiLCJkb2N1bWVudF9pZCI6bnVsbCwiaWQiOiIwMDhmODEzNS1lNDhjLTRlYjItODhmMS05MjYxMzQwYWVlMmYiLCJpbnRlZ3JhdGlvbl9pZCI6bnVsbCwicGFnaW5hdGlvbl9jb21wbGV0ZSI6bnVsbCwicHJldl9jaGFpbl9oYXNoIjoiNTYxZDNjMmM0OGViNDlmOGRjMTgyOWQwYjE4NTZhYWQ0M2UzOTY3OGFlOGE4ZTU5ZmEzNDI3MzMyMGRlYjdhMiIsInByb3ZpZGVyX3JlcXVlc3RfaWRzIjpbXSwicmVzb3VyY2VfaWRzIjpbXSwic2Nhbl9ydW5faWQiOm51bGwsInNlcXVlbmNlIjoyMTYsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJodW1hbl9yZXZpZXciLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6Ik1hbnVhbCByZXZpZXc6IFBlcmlvZGljIHVzZXIgYWNjZXNzIHJldmlld3MiLCJ2IjoxfQ==", "evidence/008f8135-e48c-4eb2-88f1-9261340aee2f/content.json": "eyJjYXRhbG9nX3ZlcnNpb24iOiIyMDI2LjA5IiwiY29udHJvbF9pZCI6IlRFLUFDLTA1IiwiZG9jdW1lbnRzIjpbeyJmaWxlbmFtZSI6IlNhbXBsZV9Db19BY2Nlc3NfQ29udHJvbF9Qb2xpY3kuZG9jeCIsImlkIjoiMmFjNjU4OTctMmJkOC00ODM3LTk4Y2YtNjE0NDc1MDUyNWVkIiwic2hhMjU2IjoiOWY2Mzk2MGZhOWFjNzU4NWUzY2ExNDliYmYxOTZkMDA2YTk0NjMzMTExMjM3NDE4NDg5Y2VhYzkxMWMyZDJiNiIsInZlcnNpb24iOjF9XSwiZ2VuZXJhdGVkIjoic2FtcGxlIGRhdGEiLCJub3RlcyI6IlNhbXBsZSBkYXRhOiByZXZpZXdlZCBwZXJpb2RpYyB1c2VyIGFjY2VzcyByZXZpZXdzIGFnYWluc3QgdGhlIGFwcHJvdmVkIHBvbGljeSBhbmQgcmVjb3Jkczsgb3BlcmF0aW5nIGFzIGRlc2NyaWJlZC4iLCJyZXN1bHQiOiJQQVNTIiwicmV2aWV3ZXIiOiJhbmFseXN0QHNhbXBsZS1jby5leGFtcGxlIiwidmFsaWRfdW50aWwiOiIyMDI2LTEyLTI1In0=", "evidence/b3ef6eb2-0cc7-444d-af3e-fdcdff5b2b73/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiJzYW1wbGUtY28iLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiR2l0SHViIMK3IHNhbXBsZS1jbyIsInByb3ZpZGVyIjoiZ2l0aHViIn0sImFwaV9vcGVyYXRpb25zIjpbIk5vbmU6IHNhbXBsZSBkYXRhIl0sImNoYWluX2hhc2giOiI3OGRhYTY0MTkwNGFjMDQ3MzIyYTRhNzU2MTY4ODU1NTRhOGI5ZWNkMWZjMDk4YmVhODQ4ZjhlMmZiNWE3ZjNjIiwiY2hlY2tfaWQiOiJnaXRodWIub3JnLm91dHNpZGVfY29sbGFib3JhdG9ycyIsImNoZWNrX3ZlcnNpb24iOiIxLjAuMCIsImNvbGxlY3RlZF9hdCI6IjIwMjYtMTAtMjZUMTQ6MjU6NTUrMDA6MDAiLCJjb2xsZWN0aW9uX2Vycm9ycyI6W10sImNvbGxlY3Rpb25fbWV0aG9kIjoiUmVhZC1vbmx5IEdJVEhVQiBBUEkgY2FsbHMuIFBlci1jYWxsIHRpbWVvdXRzOiBBV1MgMTBzIGNvbm5lY3QvMzBzIHJlYWQ7IEdpdEh1YiAyMHMuIiwiY29udGVudF9zaGEyNTYiOiIwM2VhMGM4ODU2OTQ2N2NmOWJmYTk5NjQ2YWZmOGZjZGQwOGRkZTk2NDYwODkyNjIzNWI0ODRhZjc2YmYzZTk1IiwiY29udHJvbF9pZHMiOlsiVEUtQUMtMDUiXSwiY3JlYXRlZF9ieSI6bnVsbCwiZG9jdW1lbnRfaWQiOm51bGwsImlkIjoiYjNlZjZlYjItMGNjNy00NDRkLWFmM2UtZmRjZGZmNWIyYjczIiwiaW50ZWdyYXRpb25faWQiOiIzY2QxZjk5Mi01NTZmLTQ2ODYtODVlNy0yYzBkOGQ0OGRhZTgiLCJwYWdpbmF0aW9uX2NvbXBsZXRlIjp0cnVlLCJwcmV2X2NoYWluX2hhc2giOiJlNjYxNDIyZWZhYzBjNjMyZTgzMzU1NzI4ZjdiZGYyYTBkYmNiMGQ5NWJkZWYwODhiOTk5OTdmOWFjMzU3ZjNiIiwicHJvdmlkZXJfcmVxdWVzdF9pZHMiOltdLCJyZXNvdXJjZV9pZHMiOlsic2FtcGxlLWNvIl0sInNjYW5fcnVuX2lkIjoiM2JlNDNmMDktYjk1Yi00ODE0LTg3YWEtYjIzNDFkZDI5NzFiIiwic2VxdWVuY2UiOjE3MCwic291cmNlX2V2ZW50X2F0IjpudWxsLCJzb3VyY2VfdHlwZSI6InByb3ZpZGVyX2FwaSIsInRlbmFudF9pZCI6IjI2NDlmZTk0LTYwYjYtNDRhYi04ZWU1LTIxMmE5NDBlNWIxOSIsInRpdGxlIjoiT3V0c2lkZSBjb2xsYWJvcmF0b3JzIGFyZSByZXZpZXdlZCDigJQgc2FtcGxlLWNvIiwidiI6MX0=", "evidence/b3ef6eb2-0cc7-444d-af3e-fdcdff5b2b73/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiTGlzdHMgb3V0c2lkZSBjb2xsYWJvcmF0b3JzLiIsImV4cGVjdGVkIjoiTm9uZSwgb3IgZWFjaCByZXZpZXdlZCBhbmQganVzdGlmaWVkLiIsImlkIjoiZ2l0aHViLm9yZy5vdXRzaWRlX2NvbGxhYm9yYXRvcnMiLCJ0aXRsZSI6Ik91dHNpZGUgY29sbGFib3JhdG9ycyBhcmUgcmV2aWV3ZWQiLCJ2ZXJzaW9uIjoiMS4wLjAifSwiZXJyb3JzIjpbXSwib2JzZXJ2YXRpb25zIjp7Im5vdGUiOiJTYW1wbGUgZGF0YSBnZW5lcmF0ZWQgYnkgVHJ1c3RFdmlkZW5jZSBmb3IgZGVtb25zdHJhdGlvbi4gTm8gcmVhbCBzeXN0ZW0gd2FzIGNvbnRhY3RlZC4ifSwicmVzb3VyY2VzIjpbeyJpZCI6InNhbXBsZS1jbyIsIm9ic2VydmVkIjp7Im91dHNpZGVfY29sbGFib3JhdG9ycyI6W119LCJyZWFzb24iOiJNZWV0cyB0aGUgcmVxdWlyZW1lbnQ6IE5vbmUsIG9yIGVhY2ggcmV2aWV3ZWQgYW5kIGp1c3RpZmllZC4iLCJyZWdpb24iOm51bGwsInN0YXR1cyI6IlBBU1MiLCJ0eXBlIjoiR2l0SHViOjpPcmdhbml6YXRpb24ifV0sInJlc3VsdCI6eyJzdGF0dXMiOiJQQVNTIiwic3VtbWFyeSI6IkFsbCAxIHJlc291cmNlcyBwYXNzLiAoU2FtcGxlIGRhdGEuKSJ9fQ==", "evidence/5ba1df6a-6587-4438-a5d2-8706085cef8c/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiIxMjM0NTY3ODkwMTIiLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiQVdTIHByb2R1Y3Rpb24iLCJwcm92aWRlciI6ImF3cyJ9LCJhcGlfb3BlcmF0aW9ucyI6WyJOb25lOiBzYW1wbGUgZGF0YSJdLCJjaGFpbl9oYXNoIjoiNWJlZjM0YTJjNDk2YjFiMDFiMGZhY2JlMWE2NzMzMzYzMDE5ODllN2VkNDE3MWQzNzZjZmYzYzVlNzczMGUzNSIsImNoZWNrX2lkIjoiYXdzLmlhbS51bnVzZWRfY3JlZGVudGlhbHMiLCJjaGVja192ZXJzaW9uIjoiMS4wLjAiLCJjb2xsZWN0ZWRfYXQiOiIyMDI2LTEwLTI2VDE0OjI1OjU1KzAwOjAwIiwiY29sbGVjdGlvbl9lcnJvcnMiOltdLCJjb2xsZWN0aW9uX21ldGhvZCI6IlJlYWQtb25seSBBV1MgQVBJIGNhbGxzLiBQZXItY2FsbCB0aW1lb3V0czogQVdTIDEwcyBjb25uZWN0LzMwcyByZWFkOyBHaXRIdWIgMjBzLiIsImNvbnRlbnRfc2hhMjU2IjoiYzBhYTExODc0M2RlYTdkYWJhMDA5YWJkNTcxYjdhYTJlMzc0ZDRhNWMxYTIyMWM4NTk3YTVmODBhYzU4MGFmNiIsImNvbnRyb2xfaWRzIjpbIlRFLUFDLTAzIiwiVEUtQUMtMDUiXSwiY3JlYXRlZF9ieSI6bnVsbCwiZG9jdW1lbnRfaWQiOm51bGwsImlkIjoiNWJhMWRmNmEtNjU4Ny00NDM4LWE1ZDItODcwNjA4NWNlZjhjIiwiaW50ZWdyYXRpb25faWQiOiI3NDRhMGViNC0xM2U4LTQ0MmEtODg0MC0yM2I5YWYyZDllYWYiLCJwYWdpbmF0aW9uX2NvbXBsZXRlIjp0cnVlLCJwcmV2X2NoYWluX2hhc2giOiJiYTIyODMwMjdlMWQwY2U1MzYyYmNiOWM3MDQ0MTY0NzljZWZkMDM5MTUzNWFkNDAyMzhmNDg0YTQ3NThlMjM5IiwicHJvdmlkZXJfcmVxdWVzdF9pZHMiOltdLCJyZXNvdXJjZV9pZHMiOlsiYXJuOmF3czppYW06OjEyMzQ1Njc4OTAxMjp1c2VyL2FsaWNlLmNoZW4iLCJhcm46YXdzOmlhbTo6MTIzNDU2Nzg5MDEyOnVzZXIvYmVuLm9rYWZvciIsImFybjphd3M6aWFtOjoxMjM0NTY3ODkwMTI6dXNlci9ncmFjZS53YW5qaXJ1IiwiYXJuOmF3czppYW06OjEyMzQ1Njc4OTAxMjp1c2VyL2NpLWRlcGxveSJdLCJzY2FuX3J1bl9pZCI6IjNiZTQzZjA5LWI5NWItNDgxNC04N2FhLWIyMzQxZGQyOTcxYiIsInNlcXVlbmNlIjoxMzMsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJwcm92aWRlcl9hcGkiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6IlVudXNlZCBjcmVkZW50aWFscyBhcmUgcmVtb3ZlZCDigJQgMTIzNDU2Nzg5MDEyIiwidiI6MX0=", "evidence/5ba1df6a-6587-4438-a5d2-8706085cef8c/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiRmluZHMgcGFzc3dvcmRzIGFuZCBhY3RpdmUga2V5cyB1bnVzZWQgZm9yIDkwKyBkYXlzLiIsImV4cGVjdGVkIjoiTm8gY3JlZGVudGlhbCB1bnVzZWQgZm9yIG1vcmUgdGhhbiA5MCBkYXlzICh1c2VycyBjcmVhdGVkIGluIHRoZSBsYXN0IDkwIGRheXMgYXJlIGV4Y2x1ZGVkKS4iLCJpZCI6ImF3cy5pYW0udW51c2VkX2NyZWRlbnRpYWxzIiwidGl0bGUiOiJVbnVzZWQgY3JlZGVudGlhbHMgYXJlIHJlbW92ZWQiLCJ2ZXJzaW9uIjoiMS4wLjAifSwiZXJyb3JzIjpbXSwib2JzZXJ2YXRpb25zIjp7Im5vdGUiOiJTYW1wbGUgZGF0YSBnZW5lcmF0ZWQgYnkgVHJ1c3RFdmlkZW5jZSBmb3IgZGVtb25zdHJhdGlvbi4gTm8gcmVhbCBzeXN0ZW0gd2FzIGNvbnRhY3RlZC4ifSwicmVzb3VyY2VzIjpbeyJpZCI6ImFybjphd3M6aWFtOjoxMjM0NTY3ODkwMTI6dXNlci9hbGljZS5jaGVuIiwib2JzZXJ2ZWQiOnsidGhyZXNob2xkX2RheXMiOjkwLCJ1bnVzZWQiOltdLCJ1c2VyIjoiYWxpY2UuY2hlbiJ9LCJyZWFzb24iOiJNZWV0cyB0aGUgcmVxdWlyZW1lbnQ6IE5vIGNyZWRlbnRpYWwgdW51c2VkIGZvciBtb3JlIHRoYW4gOTAgZGF5cyAodXNlcnMgY3JlYXRlZCBpbiB0aGUgbGFzdCA5MCBkYXlzIGFyZSBleGNsdWRlZCkuIiwicmVnaW9uIjpudWxsLCJzdGF0dXMiOiJQQVNTIiwidHlwZSI6IkFXUzo6SUFNOjpVc2VyIn0seyJpZCI6ImFybjphd3M6aWFtOjoxMjM0NTY3ODkwMTI6dXNlci9iZW4ub2thZm9yIiwib2JzZXJ2ZWQiOnsidGhyZXNob2xkX2RheXMiOjkwLCJ1bnVzZWQiOltdLCJ1c2VyIjoiYmVuLm9rYWZvciJ9LCJyZWFzb24iOiJNZWV0cyB0aGUgcmVxdWlyZW1lbnQ6IE5vIGNyZWRlbnRpYWwgdW51c2VkIGZvciBtb3JlIHRoYW4gOTAgZGF5cyAodXNlcnMgY3JlYXRlZCBpbiB0aGUgbGFzdCA5MCBkYXlzIGFyZSBleGNsdWRlZCkuIiwicmVnaW9uIjpudWxsLCJzdGF0dXMiOiJQQVNTIiwidHlwZSI6IkFXUzo6SUFNOjpVc2VyIn0seyJpZCI6ImFybjphd3M6aWFtOjoxMjM0NTY3ODkwMTI6dXNlci9ncmFjZS53YW5qaXJ1Iiwib2JzZXJ2ZWQiOnsidGhyZXNob2xkX2RheXMiOjkwLCJ1bnVzZWQiOltdLCJ1c2VyIjoiZ3JhY2Uud2FuamlydSJ9LCJyZWFzb24iOiJNZWV0cyB0aGUgcmVxdWlyZW1lbnQ6IE5vIGNyZWRlbnRpYWwgdW51c2VkIGZvciBtb3JlIHRoYW4gOTAgZGF5cyAodXNlcnMgY3JlYXRlZCBpbiB0aGUgbGFzdCA5MCBkYXlzIGFyZSBleGNsdWRlZCkuIiwicmVnaW9uIjpudWxsLCJzdGF0dXMiOiJQQVNTIiwidHlwZSI6IkFXUzo6SUFNOjpVc2VyIn0seyJpZCI6ImFybjphd3M6aWFtOjoxMjM0NTY3ODkwMTI6dXNlci9jaS1kZXBsb3kiLCJvYnNlcnZlZCI6eyJ0aHJlc2hvbGRfZGF5cyI6OTAsInVudXNlZCI6W10sInVzZXIiOiJjaS1kZXBsb3kifSwicmVhc29uIjoiTWVldHMgdGhlIHJlcXVpcmVtZW50OiBObyBjcmVkZW50aWFsIHVudXNlZCBmb3IgbW9yZSB0aGFuIDkwIGRheXMgKHVzZXJzIGNyZWF0ZWQgaW4gdGhlIGxhc3QgOTAgZGF5cyBhcmUgZXhjbHVkZWQpLiIsInJlZ2lvbiI6bnVsbCwic3RhdHVzIjoiUEFTUyIsInR5cGUiOiJBV1M6OklBTTo6VXNlciJ9XSwicmVzdWx0Ijp7InN0YXR1cyI6IlBBU1MiLCJzdW1tYXJ5IjoiQWxsIDQgcmVzb3VyY2VzIHBhc3MuIChTYW1wbGUgZGF0YS4pIn19", "evidence/a471f2a4-0742-419b-91b5-a0081786b201/record.json": "eyJhY2NvdW50X3Njb3BlIjp7ImFjY291bnQiOiIxMjM0NTY3ODkwMTIiLCJnZW5lcmF0ZWQiOiJzYW1wbGUgZGF0YSIsImludGVncmF0aW9uIjoiQVdTIHByb2R1Y3Rpb24iLCJwcm92aWRlciI6ImF3cyJ9LCJhcGlfb3BlcmF0aW9ucyI6WyJOb25lOiBzYW1wbGUgZGF0YSJdLCJjaGFpbl9oYXNoIjoiY2Y0OWI4ZjI3NmJhNmE4NTlkMzBmZDVmNTQ5YTU1NDMzNDYzZDU1MjAyNDI1NWViMzQwNzk3NDBhMTA1NDFmNiIsImNoZWNrX2lkIjoiYXdzLnMzLmJ1Y2tldF9wdWJsaWNfYWNjZXNzX2Jsb2NrIiwiY2hlY2tfdmVyc2lvbiI6IjEuMC4wIiwiY29sbGVjdGVkX2F0IjoiMjAyNi0xMC0yNlQxNDoyNTo1NSswMDowMCIsImNvbGxlY3Rpb25fZXJyb3JzIjpbXSwiY29sbGVjdGlvbl9tZXRob2QiOiJSZWFkLW9ubHkgQVdTIEFQSSBjYWxscy4gUGVyLWNhbGwgdGltZW91dHM6IEFXUyAxMHMgY29ubmVjdC8zMHMgcmVhZDsgR2l0SHViIDIwcy4iLCJjb250ZW50X3NoYTI1NiI6IjQwNmM5ZDhlYzMwMjMxNzlhODZhYzc4NTZlYzQ2ZjllMzMzYzg3ZGI0YjFmZWZiNTNkZmY0NmQ4OTg1M2EzMjMiLCJjb250cm9sX2lkcyI6WyJURS1EUC0wMyJdLCJjcmVhdGVkX2J5IjpudWxsLCJkb2N1bWVudF9pZCI6bnVsbCwiaWQiOiJhNDcxZjJhNC0wNzQyLTQxOWItOTFiNS1hMDA4MTc4NmIyMDEiLCJpbnRlZ3JhdGlvbl9pZCI6Ijc0NGEwZWI0LTEzZTgtNDQyYS04ODQwLTIzYjlhZjJkOWVhZiIsInBhZ2luYXRpb25fY29tcGxldGUiOnRydWUsInByZXZfY2hhaW5faGFzaCI6ImJmYWYzMTY0MmE0OWVmYzE1MjQ5MTE4OGIzYzEyM2QyNzFkOTNhZmRhYTUyY2E2ZDEwYzEyZGM3YzI2ZDEyYWMiLCJwcm92aWRlcl9yZXF1ZXN0X2lkcyI6W10sInJlc291cmNlX2lkcyI6WyJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLWFwcC1hc3NldHMiLCJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLWF1ZGl0LWxvZ3MiLCJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLWN1c3RvbWVyLWV4cG9ydHMiLCJhcm46YXdzOnMzOjo6c2FtcGxlLWNvLXRlcnJhZm9ybS1zdGF0ZSJdLCJzY2FuX3J1bl9pZCI6IjNiZTQzZjA5LWI5NWItNDgxNC04N2FhLWIyMzQxZGQyOTcxYiIsInNlcXVlbmNlIjoxNDYsInNvdXJjZV9ldmVudF9hdCI6bnVsbCwic291cmNlX3R5cGUiOiJwcm92aWRlcl9hcGkiLCJ0ZW5hbnRfaWQiOiIyNjQ5ZmU5NC02MGI2LTQ0YWItOGVlNS0yMTJhOTQwZTViMTkiLCJ0aXRsZSI6IkJ1Y2tldHMgYmxvY2sgcHVibGljIGFjY2VzcyDigJQgMTIzNDU2Nzg5MDEyIiwidiI6MX0=", "evidence/a471f2a4-0742-419b-91b5-a0081786b201/content.json": "eyJjaGVjayI6eyJldmFsdWF0aW9uX2xvZ2ljIjoiRXZhbHVhdGVzIGV2ZXJ5IGJ1Y2tldCdzIHB1YmxpYyBhY2Nlc3MgYmxvY2sgYW5kIHBvbGljeSBzdGF0dXMgKHNraXBwZWQgd2hlbiB0aGUgYWNjb3VudC1sZXZlbCBibG9jayBpcyBvbikuIiwiZXhwZWN0ZWQiOiJCbG9jayBQdWJsaWMgQWNjZXNzIGVuYWJsZWQgYW5kIHBvbGljeSBub3QgcHVibGljLiIsImlkIjoiYXdzLnMzLmJ1Y2tldF9wdWJsaWNfYWNjZXNzX2Jsb2NrIiwidGl0bGUiOiJCdWNrZXRzIGJsb2NrIHB1YmxpYyBhY2Nlc3MiLCJ2ZXJzaW9uIjoiMS4wLjAifSwiZXJyb3JzIjpbXSwib2JzZXJ2YXRpb25zIjp7Im5vdGUiOiJTYW1wbGUgZGF0YSBnZW5lcmF0ZWQgYnkgVHJ1c3RFdmlkZW5jZSBmb3IgZGVtb25zdHJhdGlvbi4gTm8gcmVhbCBzeXN0ZW0gd2FzIGNvbnRhY3RlZC4ifSwicmVzb3VyY2VzIjpbeyJpZCI6ImFybjphd3M6czM6OjpzYW1wbGUtY28tYXBwLWFzc2V0cyIsIm9ic2VydmVkIjp7IlB1YmxpY0FjY2Vzc0Jsb2NrQ29uZmlndXJhdGlvbiI6eyJCbG9ja1B1YmxpY0FjbHMiOnRydWUsIkJsb2NrUHVibGljUG9saWN5Ijp0cnVlLCJJZ25vcmVQdWJsaWNBY2xzIjp0cnVlLCJSZXN0cmljdFB1YmxpY0J1Y2tldHMiOnRydWV9LCJidWNrZXQiOiJzYW1wbGUtY28tYXBwLWFzc2V0cyIsInBvbGljeV9pc19wdWJsaWMiOmZhbHNlfSwicmVhc29uIjoiTWVldHMgdGhlIHJlcXVpcmVtZW50OiBCbG9jayBQdWJsaWMgQWNjZXNzIGVuYWJsZWQgYW5kIHBvbGljeSBub3QgcHVibGljLiIsInJlZ2lvbiI6ImV1LXdlc3QtMSIsInN0YXR1cyI6IlBBU1MiLCJ0eXBlIjoiQVdTOjpTMzo6QnVja2V0In0seyJpZCI6ImFybjphd3M6czM6OjpzYW1wbGUtY28tYXVkaXQtbG9ncyIsIm9ic2VydmVkIjp7IlB1YmxpY0FjY2Vzc0Jsb2NrQ29uZmlndXJhdGlvbiI6eyJCbG9ja1B1YmxpY0FjbHMiOnRydWUsIkJsb2NrUHVibGljUG9saWN5IjpmYWxzZSwiSWdub3JlUHVibGljQWNscyI6dHJ1ZSwiUmVzdHJpY3RQdWJsaWNCdWNrZXRzIjpmYWxzZX0sImJ1Y2tldCI6InNhbXBsZS1jby1hdWRpdC1sb2dzIiwicG9saWN5X2lzX3B1YmxpYyI6dHJ1ZX0sInJlYXNvbiI6IkRvZXMgbm90IG1lZXQgdGhlIHJlcXVpcmVtZW50OiBCbG9jayBQdWJsaWMgQWNjZXNzIGVuYWJsZWQgYW5kIHBvbGljeSBub3QgcHVibGljLiIsInJlZ2lvbiI6ImV1LXdlc3QtMSIsInN0YXR1cyI6IkZBSUwiLCJ0eXBlIjoiQVdTOjpTMzo6QnVja2V0In0seyJpZCI6ImFybjphd3M6czM6OjpzYW1wbGUtY28tY3VzdG9tZXItZXhwb3J0cyIsIm9ic2VydmVkIjp7IlB1YmxpY0FjY2Vzc0Jsb2NrQ29uZmlndXJhdGlvbiI6eyJCbG9ja1B1YmxpY0FjbHMiOnRydWUsIkJsb2NrUHVibGljUG9saWN5Ijp0cnVlLCJJZ25vcmVQdWJsaWNBY2xzIjp0cnVlLCJSZXN0cmljdFB1YmxpY0J1Y2tldHMiOnRydWV9LCJidWNrZXQiOiJzYW1wbGUtY28tY3VzdG9tZXItZXhwb3J0cyIsInBvbGljeV9pc19wdWJsaWMiOmZhbHNlfSwicmVhc29uIjoiTWVldHMgdGhlIHJlcXVpcmVtZW50OiBCbG9jayBQdWJsaWMgQWNjZXNzIGVuYWJsZWQgYW5kIHBvbGljeSBub3QgcHVibGljLiIsInJlZ2lvbiI6ImV1LXdlc3QtMSIsInN0YXR1cyI6IlBBU1MiLCJ0eXBlIjoiQVdTOjpTMzo6QnVja2V0In0seyJpZCI6ImFybjphd3M6czM6OjpzYW1wbGUtY28tdGVycmFmb3JtLXN0YXRlIiwib2JzZXJ2ZWQiOnsiUHVibGljQWNjZXNzQmxvY2tDb25maWd1cmF0aW9uIjp7IkJsb2NrUHVibGljQWNscyI6dHJ1ZSwiQmxvY2tQdWJsaWNQb2xpY3kiOnRydWUsIklnbm9yZVB1YmxpY0FjbHMiOnRydWUsIlJlc3RyaWN0UHVibGljQnVja2V0cyI6dHJ1ZX0sImJ1Y2tldCI6InNhbXBsZS1jby10ZXJyYWZvcm0tc3RhdGUiLCJwb2xpY3lfaXNfcHVibGljIjpmYWxzZX0sInJlYXNvbiI6Ik1lZXRzIHRoZSByZXF1aXJlbWVudDogQmxvY2sgUHVibGljIEFjY2VzcyBlbmFibGVkIGFuZCBwb2xpY3kgbm90IHB1YmxpYy4iLCJyZWdpb24iOiJldS13ZXN0LTEiLCJzdGF0dXMiOiJQQVNTIiwidHlwZSI6IkFXUzo6UzM6OkJ1Y2tldCJ9XSwicmVzdWx0Ijp7InN0YXR1cyI6IkZBSUwiLCJzdW1tYXJ5IjoiMSBvZiA0IHJlc291cmNlcyBmYWlsLiAoU2FtcGxlIGRhdGEuKSJ9fQ=="}}</script>
+<script>
+"use strict";
+const DATA = JSON.parse(document.getElementById("pack-data").textContent);
+const A = DATA.answers;
+const $ = (id) => document.getElementById(id);
+function el(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") e.className = v; else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) e.append(k instanceof Node ? k : String(k));  // text only: never parsed as HTML
+  return e;
+}
+
+// ---------------------------------------------------------------- hashing (WebCrypto, with a plain-JS fallback)
+const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+const hex = (u) => Array.from(u, (b) => b.toString(16).padStart(2, "0")).join("");
+const unhex = (h) => new Uint8Array((h.match(/../g) || []).map((x) => parseInt(x, 16)));
+const cat = (...parts) => { const o = new Uint8Array(parts.reduce((n, p) => n + p.length, 0)); let i = 0; for (const p of parts) { o.set(p, i); i += p.length; } return o; };
+const same = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
+const utf8 = new TextEncoder(), fromUtf8 = new TextDecoder();
+
+function sha256js(data) {
+  const K = new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+  const H = new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
+  const len = data.length, padded = new Uint8Array(((len + 9 + 63) >> 6) << 6);
+  padded.set(data); padded[len] = 0x80;
+  const view = new DataView(padded.buffer);
+  view.setUint32(padded.length - 8, Math.floor(len / 0x20000000)); view.setUint32(padded.length - 4, (len << 3) >>> 0);
+  const W = new Uint32Array(64), rotr = (x, n) => (x >>> n) | (x << (32 - n));
+  for (let off = 0; off < padded.length; off += 64) {
+    for (let i = 0; i < 16; i++) W[i] = view.getUint32(off + i * 4);
+    for (let i = 16; i < 64; i++) {
+      const s0 = rotr(W[i-15], 7) ^ rotr(W[i-15], 18) ^ (W[i-15] >>> 3), s1 = rotr(W[i-2], 17) ^ rotr(W[i-2], 19) ^ (W[i-2] >>> 10);
+      W[i] = (W[i-16] + s0 + W[i-7] + s1) >>> 0;
+    }
+    let [a, b, c, d, e, f, g, h] = H;
+    for (let i = 0; i < 64; i++) {
+      const t1 = (h + (rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + W[i]) >>> 0;
+      const t2 = ((rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) >>> 0;
+      h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+    }
+    H[0] += a; H[1] += b; H[2] += c; H[3] += d; H[4] += e; H[5] += f; H[6] += g; H[7] += h;
+  }
+  const out = new Uint8Array(32), ov = new DataView(out.buffer);
+  H.forEach((x, i) => ov.setUint32(i * 4, x));
+  return out;
+}
+const subtle = (globalThis.crypto && crypto.subtle) || null;
+async function sha(bytes) { return subtle ? new Uint8Array(await subtle.digest("SHA-256", bytes)) : sha256js(bytes); }
+const node = (l, r) => sha(cat([1], l, r));
+async function leafHash(recordBytes) { return sha(cat([0], await sha(recordBytes))); }
+
+// RFC 9162 section 2.1.3.2, the same algorithm as verify_pack.py.
+async function verifyInclusion(leaf, index, size, path, root) {
+  if (index >= size) return false;
+  let fn = index, sn = size - 1, r = leaf;
+  for (const p of path) {
+    if (sn === 0) return false;
+    if ((fn & 1) || fn === sn) {
+      r = await node(p, r);
+      if (!(fn & 1)) while (!(fn & 1) && fn !== 0) { fn >>= 1; sn >>= 1; }
+    } else r = await node(r, p);
+    fn >>= 1; sn >>= 1;
+  }
+  return sn === 0 && same(r, root);
+}
+
+const roots = {};
+for (const b of A.batches) {
+  const st = typeof b.statement === "string" ? JSON.parse(b.statement) : b.statement;
+  roots[b.batch_index] = { root: unhex(st.root_sha256), size: st.leaf_count, hex: st.root_sha256, signed: !!b.signature };
+}
+const keys = Object.fromEntries((A.keys || []).map((k) => [k.key_id, k]));
+let batchSig = {};  // batch_index -> true (valid), false (invalid), null (unsigned), "unchecked" (this browser cannot check)
+const b64any = (s) => b64(s.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (s.length % 4)) % 4));
+
+// The batch statement's signature, as verify_pack.py checks it: Ed25519 or ES256 (ECDSA P-256, SHA-256, raw r||s).
+async function checkSignature(b) {
+  if (!b.signature) return null;
+  const k = keys[b.signing_key_id];
+  if (!k) return false;
+  if (!subtle) return "unchecked";
+  const data = utf8.encode(typeof b.statement === "string" ? b.statement : JSON.stringify(b.statement));
+  let key;
+  try {
+    if (b.signature_alg === "Ed25519" && k.alg === "Ed25519") {
+      const raw = b64any(k.public_key);
+      if (hex(await sha(raw)) !== k.fingerprint_sha256) return false;
+      key = await subtle.importKey("raw", raw, { name: "Ed25519" }, false, ["verify"]);
+      return await subtle.verify({ name: "Ed25519" }, key, b64any(b.signature), data);
+    }
+    if (b.signature_alg === "ES256" && k.alg === "ES256") {
+      if (hex(await sha(cat([4], b64any(k.jwk.x), b64any(k.jwk.y)))) !== k.fingerprint_sha256) return false;
+      key = await subtle.importKey("jwk", { kty: "EC", crv: "P-256", x: k.jwk.x, y: k.jwk.y, ext: true },
+                                   { name: "ECDSA", namedCurve: "P-256" }, false, ["verify"]);
+      return await subtle.verify({ name: "ECDSA", hash: "SHA-256" }, key, b64any(b.signature), data);
+    }
+    return false;
+  } catch (e) {
+    return e && e.name === "NotSupportedError" && !key ? "unchecked" : false;  // an older browser without Ed25519
+  }
+}
+const evidence = Object.fromEntries(A.evidence.map((e) => [e.evidence_id, e]));
+const original = {};
+for (const e of A.evidence) original[e.evidence_id] = { record: b64(DATA.files[e.path + "/record.json"]), content: b64(DATA.files[e.path + "/content.json"]) };
+let bytes = structuredClone(original);
+let results = {};
+let approvals = {};
+const originalQuestions = structuredClone(A.questions);
+
+// Approval records: the same canonical JSON and fingerprint as verify_pack.py (sorted keys, no spaces, UTF-8).
+function canonical(v) {
+  if (v === null || typeof v !== "object") return JSON.stringify(v);
+  if (Array.isArray(v)) return "[" + v.map(canonical).join(",") + "]";
+  return "{" + Object.keys(v).sort().map((k) => JSON.stringify(k) + ":" + canonical(v[k])).join(",") + "}";
+}
+const hashText = async (s) => hex(await sha(utf8.encode(s)));
+const answerDigest = (q) => hashText(canonical({ question: q.question, answer: q.answer,
+  claims: q.claims.map((c) => ({ text: c.text, evidence_ids: c.evidence_ids || [] })), caveats: q.caveats || "", missing: q.missing || [] }));
+async function checkApproval(q) {
+  const e = q.approval;
+  if (!e) return { ok: false, why: "marked approved, but no approval record is attached" };
+  const { hash, ...rest } = e;
+  if (hash !== await hashText(canonical(rest)) || e.action !== "approved" || e.subject !== q.id)
+    return { ok: false, why: "the approval record was altered or belongs to another answer" };
+  if ((e.details || {}).digest !== await answerDigest(q)) return { ok: false, why: "the answer was changed after it was approved" };
+  return { ok: true, by: e.actor, at: e.at };
+}
+
+async function checkRecord(ev) {
+  const { record: rb, content: cb } = bytes[ev.evidence_id];
+  let rec = {}, content = null;
+  try { rec = JSON.parse(fromUtf8.decode(rb)); } catch (_) {}
+  try { content = JSON.parse(fromUtf8.decode(cb)); } catch (_) {}
+  const contentHash = hex(await sha(cb));
+  const chainInput = `${rec.prev_chain_hash || "GENESIS"}|${rec.content_sha256}|${rec.id}|${rec.collected_at}`;
+  const chainHash = hex(await sha(utf8.encode(chainInput)));
+  const leaf = await leafHash(rb);
+  const batch = roots[ev.batch_index];
+  const inclusion = !!batch && rec.id === ev.evidence_id && await verifyInclusion(leaf, ev.leaf_index, batch.size, (ev.audit_path || []).map(unhex), batch.root);
+  const r = { rec, content, contentHash, chainHash, leafHex: hex(leaf), batch,
+              contentOk: contentHash === rec.content_sha256, chainOk: chainHash === rec.chain_hash, inclusion };
+  r.signature = batchSig[ev.batch_index] === undefined ? null : batchSig[ev.batch_index];
+  r.ok = r.contentOk && r.chainOk && r.inclusion && r.signature !== false;
+  return r;
+}
+
+// ---------------------------------------------------------------- interface helpers
+const statements = Object.fromEntries(A.batches.map((b) => [b.batch_index, typeof b.statement === "string" ? JSON.parse(b.statement) : b.statement]));
+const NS = "http://www.w3.org/2000/svg";
+const ICON = {
+  shield: ["M12 3l7 3v5.5c0 4.6-3 8.5-7 9.5-4-1-7-4.9-7-9.5V6z"],
+  shieldCheck: ["M12 3l7 3v5.5c0 4.6-3 8.5-7 9.5-4-1-7-4.9-7-9.5V6z", "M9 12l2 2 4-4"],
+  check: ["M5 12.5l4.5 4.5L19 7.5"],
+  x: ["M6 6l12 12", "M18 6L6 18"],
+  minus: ["M6 12h12"],
+  half: ["M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z", "M12 3v18"],
+  help: ["M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z", "M9.6 9.3a2.5 2.5 0 0 1 4.9.7c0 1.7-2.5 2.2-2.5 3.7", "M12 16.9h.01"],
+  key: ["M8 11a4.5 4.5 0 1 0 0 9a4.5 4.5 0 1 0 0-9z", "M11.2 12.3L20 3.5", "M16.5 7l2.5 2.5", "M18.5 5l2 2"],
+  copy: ["M9 9h11v11H9z", "M5 15H4V4h11v1"],
+  search: ["M11 4a7 7 0 1 0 0 14a7 7 0 1 0 0-14z", "M20 20l-3.6-3.6"],
+  moon: ["M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"],
+  sun: ["M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8z", "M12 2v2", "M12 20v2", "M4.9 4.9l1.4 1.4", "M17.7 17.7l1.4 1.4", "M2 12h2", "M20 12h2", "M4.9 19.1l1.4-1.4", "M17.7 6.3l1.4-1.4"],
+  printer: ["M7 8V3h10v5", "M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2", "M7 14h10v7H7z"],
+  alert: ["M12 4L2.5 20h19z", "M12 10v4", "M12 17h.01"],
+  doc: ["M14 3H6v18h12V7z", "M14 3v4h4", "M9 12h6", "M9 16h6"],
+  user: ["M12 4a4 4 0 1 0 0 8a4 4 0 1 0 0-8z", "M4 21a8 8 0 0 1 16 0"],
+  hash: ["M5 9h14", "M5 15h14", "M10 4L8 20", "M16 4l-2 16"],
+  undo: ["M4 9h11a5 5 0 0 1 0 10H8", "M8 5L4 9l4 4"],
+  edit: ["M12 20h8", "M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"],
+  msg: ["M4 5h16v11H8l-4 4z", "M9 10.5h6"],
+  calendar: ["M4 6h16v14H4z", "M4 10h16", "M8 3v4", "M16 3v4"],
+  zap: ["M13 2L4 14h7l-1 8 9-12h-7z"],
+  up: ["M12 19V5", "M5 12l7-7 7 7"],
+  info: ["M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z", "M12 11v5", "M12 7.5h.01"],
+};
+function icon(name, cls = "") {
+  const s = document.createElementNS(NS, "svg");
+  s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("class", ("i " + cls).trim()); s.setAttribute("aria-hidden", "true");
+  for (const d of ICON[name] || []) { const p = document.createElementNS(NS, "path"); p.setAttribute("d", d); s.append(p); }
+  return s;
+}
+const spinner = () => el("span", { class: "spin", "aria-hidden": "true" });
+const org = A.organization || "The company";
+const short = (id) => id.slice(0, 8);
+const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const reduceMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const groups = (h) => ((h || "").match(/.{1,4}/g) || []).join(" ");
+function fmtDate(iso) {
+  if (!iso) return "?";
+  const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso + "T00:00:00Z" : iso);
+  return isNaN(d) ? String(iso) : d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+}
+const personName = (actor) => String(actor || "").replace(/\s*<[^>]*>\s*/g, " ").trim();
+const initials = (name) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase() || "?";
+const stateClass = (st) => st === "pending" ? "pending" : st === true ? "ok" : st === false ? "bad" : "na";
+const stateIcon = (st) => st === "pending" ? spinner() : icon(st === true ? "check" : st === false ? "x" : "minus");
+const stateWord = (st, kind) => st === "pending" ? "checking" : st === true ? "passed" : st === false ? "failed"
+  : st === "unchecked" ? "not checked here" : st === "partial" ? "partly signed" : kind === "sig" ? "not signed" : "none";
+
+function copyButton(text, what) {
+  const label = el("span", {}, "Copy");
+  const b = el("button", { class: "copy", type: "button", "aria-label": `Copy the ${what}` }, icon("copy"), label);
+  b.addEventListener("click", async () => {
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (_) {
+      const t = el("textarea", { style: "position:fixed;opacity:0" }); t.value = text; document.body.append(t); t.select();
+      try { ok = document.execCommand("copy"); } catch (_) {}
+      t.remove();
+    }
+    if (ok) { b.classList.add("done"); label.textContent = "Copied"; setTimeout(() => { b.classList.remove("done"); label.textContent = "Copy"; }, 1500); }
+  });
+  return b;
+}
+
+let view = { filter: "all", query: "" };
+let progress = { done: 0, total: A.evidence.length, running: true };
+let animateCards = !reduceMotion;
+let runId = 0;
+
+function summary() {
+  const rs = A.evidence.map((e) => results[e.evidence_id]).filter(Boolean);
+  const cited = A.questions.flatMap((q) => q.claims.flatMap((c) => c.evidence_ids || []));
+  const missing = cited.filter((id) => !evidence[id]).length;
+  const ap = Object.values(approvals);
+  const sigs = A.batches.map((b) => batchSig[b.batch_index]);
+  const signature = sigs.some((s) => s === false) ? false : sigs.some((s) => s === "unchecked") ? "unchecked"
+    : sigs.length && sigs.every((s) => s === true) ? true : sigs.some((s) => s === true) ? "partial" : "none";
+  const complete = rs.length === A.evidence.length;
+  const failedRecords = rs.filter((r) => !r.ok).length + missing, failedApprovals = ap.filter((a) => !a.ok).length;
+  return { verified: rs.filter((r) => r.ok).length, failedRecords, failedApprovals, approvals: ap.length, signature,
+           content: complete && rs.every((r) => r.contentOk), chain: complete && rs.every((r) => r.chainOk),
+           merkle: complete && rs.every((r) => r.inclusion), ok: !failedRecords && !failedApprovals };
+}
+const checkItems = (s) => [["Content hashes", s.content], ["Hash chain links", s.chain], ["Merkle proofs", s.merkle],
+  ["Signature", s.signature, "sig"], ["Approvals", s.approvals ? !s.failedApprovals : "none"]];
+
+// ---------------------------------------------------------------- seal, status and verdict
+const sealRefs = {};
+function buildSeal() {
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", "0 0 132 132"); svg.setAttribute("class", "ring"); svg.setAttribute("aria-hidden", "true");
+  const circle = (cls) => { const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", "66"); c.setAttribute("cy", "66"); c.setAttribute("r", "56"); c.setAttribute("class", cls); return c; };
+  sealRefs.C = 2 * Math.PI * 56;
+  sealRefs.bar = circle("bar");
+  sealRefs.bar.setAttribute("stroke-dasharray", String(sealRefs.C));
+  sealRefs.bar.setAttribute("stroke-dashoffset", String(sealRefs.C));
+  svg.append(circle("track"), sealRefs.bar);
+  sealRefs.center = el("div", { class: "ring-center" });
+  sealRefs.list = el("ul", { class: "checks", "aria-label": "Checks run on this device" });
+  $("seal").replaceChildren(el("div", { class: "ring-wrap" }, svg, sealRefs.center), sealRefs.list);
+}
+function renderSeal(s) {
+  const running = progress.running, state = running ? "pending" : s.ok ? "ok" : "bad";
+  const n = running ? progress.done : s.verified, frac = progress.total ? n / progress.total : 1;
+  sealRefs.bar.setAttribute("class", `bar ${state}`);
+  sealRefs.bar.setAttribute("stroke-dashoffset", String(sealRefs.C * (1 - frac)));
+  const center = [el("strong", {}, `${n}/${progress.total}`), el("span", {}, running ? "records checked" : "records verified")];
+  if (!running) center.unshift(icon(s.ok ? "shieldCheck" : "alert", `seal-ic ${state}`));
+  sealRefs.center.replaceChildren(...center);
+  sealRefs.list.replaceChildren(...checkItems(s).map(([label, st, kind]) => {
+    const show = running ? "pending" : st;
+    return el("li", { class: `chk ${stateClass(show)}` }, stateIcon(show), el("span", {}, label), el("em", {}, stateWord(show, kind)));
+  }));
+}
+function renderStatus() {
+  const s = summary(), running = progress.running, state = running ? "pending" : s.ok ? "ok" : "bad";
+  const pill = $("status-pill");
+  pill.className = `status-pill ${state}`;
+  pill.replaceChildren(running ? spinner() : icon(s.ok ? "shieldCheck" : "alert"), el("span", {}, running ? "Verifying" : s.ok ? "Verified" : "Failed"));
+  renderSeal(s);
+  const v = $("verdict");
+  v.className = `verdict ${state}`;
+  v.setAttribute("aria-busy", String(running));
+  if (running) {
+    v.replaceChildren(spinner(), el("div", {}, el("strong", {}, "Verifying on your device…"),
+      el("span", { class: "sub" }, `${progress.done} of ${plural(progress.total, "evidence record")} checked`)));
+    return;
+  }
+  const parts = [];
+  if (s.failedRecords) parts.push(`${s.failedRecords} citation${s.failedRecords === 1 ? "" : "s"} FAILED verification`);
+  if (s.failedApprovals) parts.push(`${s.failedApprovals} approval${s.failedApprovals === 1 ? "" : "s"} FAILED`);
+  v.replaceChildren(icon(s.ok ? "shieldCheck" : "alert"), el("div", {},
+    el("strong", {}, parts.length ? parts.join(" · ")
+      : `All ${A.evidence.length} cited evidence records and ${s.approvals} approval${s.approvals === 1 ? "" : "s"} verified in your browser`),
+    el("span", { class: "sub" }, parts.length ? "Do not rely on the answers marked with ✗." :
+      "Each record's content hash, hash-chain link and Merkle proof to the sealed batch root checked out" +
+      (A.batches.some((b) => b.signature) ? ", the root's signature too," : "") + " and each approval matches its answer exactly.")));
+}
+
+// ---------------------------------------------------------------- stats and trust anchor
+function renderStats() {
+  const qs = A.questions, answered = qs.filter((q) => q.answer !== "Insufficient evidence").length;
+  const approvable = qs.filter((q) => q.status === "approved").length;
+  const apOk = Object.values(approvals).filter((a) => a.ok).length;
+  const s = summary(), done = !progress.running;
+  const tiles = [["Questions", qs.length, "doc", ""], ["Answered with evidence", answered, "check", "accent"], ["Insufficient evidence", qs.length - answered, "help", ""],
+                 ["Evidence records cited", A.evidence.length, "hash", done ? (s.failedRecords ? "bad" : "ok") : ""],
+                 ["Approvals verified", done ? `${apOk}/${approvable}` : "…", "user", done && approvable ? (apOk === approvable ? "ok" : "bad") : ""]];
+  $("stats").replaceChildren(...tiles.map(([label, n, ic, tone]) =>
+    el("div", { class: "card stat" }, el("span", { class: `stat-ic ${tone}` }, icon(ic)), el("div", {}, el("b", {}, n), el("span", { class: "l" }, label)))));
+}
+function renderAnchor() {
+  const states = A.batches.map((b) => batchSig[b.batch_index]);
+  const st = progress.running ? "pending" : states.some((s) => s === false) ? false : states.some((s) => s === "unchecked") ? "unchecked"
+    : states.length && states.every((s) => s === true) ? true : states.some((s) => s === true) ? "partial" : "none";
+  const fps = [...new Set(A.batches.filter((b) => b.signature && keys[b.signing_key_id]).map((b) => keys[b.signing_key_id].fingerprint_sha256))];
+  const TITLE = { pending: "Checking the signature…", true: "Sealed and signed", false: "Signature INVALID",
+                  unchecked: "Signed, but not checked in this browser", partial: "Partly signed", none: "Sealed, not signed" };
+  const NOTE = { pending: "Checking the signature on the sealed batch root…",
+    true: `Signed by the key with the fingerprint above. Signature verified in your browser.`,
+    false: "Signature INVALID: this batch's root was not signed by the key in this pack. Do not rely on its evidence.",
+    unchecked: "Signed, but this browser cannot check the signature: run verify_pack.py.",
+    partial: "Some batch roots are signed by the key above. Confirm the others with the company through a channel you trust.",
+    none: "Not signed: confirm the root below with the company through a channel you trust. Every proof leads to it." };
+  const card = $("anchor");
+  card.replaceChildren(el("div", { class: "anchor-head" }, el("span", { class: `anchor-ic ${stateClass(st)}` }, icon("key")),
+    el("div", {}, el("div", { class: "kicker" }, "Who sealed this evidence"), el("h2", {}, TITLE[String(st)]))));
+  for (const fp of fps) card.append(el("div", { class: "fp-row" },
+    el("div", {}, el("div", { class: "label" }, "Signing key fingerprint (SHA-256)"), el("code", { class: "fp" }, groups(fp))),
+    copyButton(fp, "fingerprint")));
+  card.append(el("p", { class: `anchor-note ${stateClass(st)}` }, stateIcon(st), el("span", {}, NOTE[String(st)])));
+  if (fps.length) card.append(el("p", { class: "muted small" },
+    `The page proves the signature matches this key. That the key is ${org}'s, you confirm by comparing the fingerprint with the one ${org} publishes.`));
+  for (const b of A.batches) {
+    const stmt = statements[b.batch_index] || {}, cited = A.evidence.filter((e) => e.batch_index === b.batch_index).length;
+    card.append(el("details", { class: "batch" },
+      el("summary", {}, `Batch ${b.batch_index} · sealed ${fmtDate(stmt.sealed_at)} · ${plural(stmt.leaf_count ?? 0, "record")}, ${cited} cited here`),
+      el("div", { class: "kv" }, el("div", { class: "label" }, "Merkle root: every proof leads here"), el("code", {}, roots[b.batch_index].hex))));
+  }
+  const cmd = `python verify_pack.py <this zip or folder>${fps.length === 1 ? " --key " + fps[0] : ""}`;
+  card.append(el("div", { class: "cmd" }, el("div", { class: "label" }, "Check it without a browser: Python standard library only"),
+    el("div", { class: "cmd-row" }, el("code", {}, cmd), copyButton(cmd, "command"))));
+}
+
+// ---------------------------------------------------------------- answers
+const ANS = { "Yes": ["yes", "check"], "No": ["no", "minus"], "Partially": ["part", "half"], "Insufficient evidence": ["none", "help"] };
+const FILTERS = [["all", "All"], ["Yes", "Yes"], ["Partially", "Partially"], ["No", "No"], ["Insufficient evidence", "Insufficient evidence"]];
+function buildToolbar() {
+  const seg = el("div", { class: "seg", role: "group", "aria-label": "Filter by answer" });
+  for (const [key, label] of FILTERS) seg.append(el("button", { type: "button", class: "seg-btn", "data-key": key,
+    onclick: () => { view.filter = key; updateToolbar(); renderQuestions(); } }, el("span", {}, label), el("span", { class: "count" }, "0")));
+  const input = el("input", { type: "search", id: "q-search", placeholder: "Search questions, claims and evidence", "aria-label": "Search the answers",
+    oninput: (e) => { view.query = e.target.value; renderQuestions(); } });
+  $("toolbar").replaceChildren(seg, el("label", { class: "search" }, icon("search"), input));
+}
+function updateToolbar() {
+  for (const b of document.querySelectorAll(".seg-btn")) {
+    const k = b.getAttribute("data-key");
+    const n = k === "all" ? A.questions.length : A.questions.filter((q) => q.answer === k).length;
+    b.setAttribute("aria-pressed", String(view.filter === k));
+    b.querySelector(".count").textContent = n;
+    b.hidden = k !== "all" && n === 0;
+  }
+}
+function matches(q) {
+  if (view.filter !== "all" && q.answer !== view.filter) return false;
+  const t = view.query.trim().toLowerCase();
+  if (!t) return true;
+  const hay = [q.id, q.question, q.answer, q.caveats, ...(q.missing || []), ...q.claims.map((c) => c.text),
+               ...q.claims.flatMap((c) => (c.evidence_ids || []).map((id) => `${id} ${(evidence[id] || {}).title || ""}`))].join(" ").toLowerCase();
+  return hay.includes(t);
+}
+function citeState(id) {
+  const r = results[id];
+  return !r ? (evidence[id] && progress.running ? "pending" : "bad") : r.ok ? "ok" : "bad";
+}
+function citeChip(id) {
+  const ev = evidence[id], st = citeState(id), title = ev ? ev.title : "not in this pack";
+  const word = st === "ok" ? "verified" : st === "bad" ? "FAILED verification" : "checking";
+  return el("button", { class: `cite ${st}`, type: "button", title: "Show this evidence record and its proof",
+    "aria-label": `Evidence ${short(id)}, ${title}: ${word}`, onclick: () => openEvidence(id) },
+    st === "pending" ? spinner() : icon(st === "ok" ? "check" : "x"), el("span", { class: "cid" }, short(id)), el("span", { class: "ct" }, title));
+}
+function approvalFoot(q) {
+  if (q.status !== "approved") return el("div", { class: "q-foot draft" }, icon("alert"), el("span", {}, "Draft: not approved by a person before export"));
+  const ap = approvals[q.id], e = q.approval, who = personName(e && e.actor) || "unknown", when = e && e.at ? fmtDate(e.at) : "";
+  const state = !ap ? "pending" : ap.ok ? "ok" : "bad";
+  const sub = state !== "bad" ? when : e ? `Recorded as approved by ${who}${when ? ", " + when : ""}` : "No approval record attached";
+  const person = el("div", { class: `who ${state}` }, el("span", { class: "avatar", "aria-hidden": "true" }, state === "bad" ? "!" : initials(who)),
+    el("div", {}, el("strong", {}, state === "bad" ? "This approval does not hold" : `Approved by ${who}`), el("span", {}, sub)));
+  const badge = state === "pending" ? el("span", { class: "badge pending" }, spinner(), "Checking the approval")
+    : state === "ok" ? el("span", { class: "badge ok" }, icon("check"), "Matches this exact answer")
+    : el("span", { class: "badge bad" }, icon("x"), `Approval check failed: ${ap.why}`);
+  return el("div", { class: "q-foot" }, person, badge);
+}
+function questionCard(q, i) {
+  const [cls, ic] = ANS[q.answer] || ["none", "help"];
+  const ids = q.claims.flatMap((c) => c.evidence_ids || []);
+  const bad = !progress.running && (ids.some((id) => citeState(id) === "bad") || (approvals[q.id] && !approvals[q.id].ok));
+  const card = el("article", { class: `card q${bad ? " q-bad" : ""}${animateCards ? " rise" : ""}`, id: "q-" + q.id, style: `--i:${i}` },
+    el("div", { class: "q-top" }, el("span", { class: "q-ref" }, q.id), el("h3", { class: "q-text" }, q.question),
+      el("span", { class: `answer ${cls}` }, icon(ic), q.answer)));
+  if (q.claims.length) {
+    card.append(el("ol", { class: "claims" }, ...q.claims.map((c) =>
+      el("li", { class: "claim" }, el("p", {}, c.text), el("div", { class: "cites" }, ...(c.evidence_ids || []).map(citeChip))))));
+  } else card.append(el("p", { class: "no-claims" }, "No sealed evidence covers this question, so the agent did not answer it."));
+  if ((q.missing || []).length) card.append(el("div", { class: "panel" },
+    el("div", { class: "panel-title" }, icon("doc"), "What would settle this"), el("ul", {}, ...q.missing.map((m) => el("li", {}, m)))));
+  for (const f of q.flags || []) card.append(el("div", { class: "panel flag" }, icon("alert"), el("span", {}, el("strong", {}, "Review: "), f)));
+  if (q.caveats) card.append(el("div", { class: "panel caveat" }, el("div", { class: "panel-title" }, "Caveats"), el("p", {}, q.caveats)));
+  if (q.reviewer_note) card.append(el("div", { class: "panel caveat" }, el("div", { class: "panel-title" }, "Reviewer's note"), el("p", {}, q.reviewer_note)));
+  card.append(approvalFoot(q));
+  return card;
+}
+function renderQuestions() {
+  const list = A.questions.filter(matches);
+  $("shown").textContent = list.length === A.questions.length ? plural(list.length, "question") : `${list.length} of ${A.questions.length} shown`;
+  const box = $("questions");
+  if (!list.length) { box.replaceChildren(el("div", { class: "card empty-state" }, icon("search"), el("p", {}, "No answers match."))); return; }
+  box.replaceChildren(...list.map(questionCard));
+}
+function showQuestion(qid) {
+  if (view.filter !== "all" || view.query) {
+    view = { filter: "all", query: "" }; $("q-search").value = ""; updateToolbar(); renderQuestions();
+  }
+  const card = document.getElementById("q-" + qid);
+  if (!card) return;
+  card.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+  card.classList.remove("flash", "rise"); void card.offsetWidth; card.classList.add("flash");
+}
+function render() { renderStats(); renderAnchor(); updateToolbar(); renderQuestions(); renderStatus(); animateCards = false; }
+
+// ---------------------------------------------------------------- the evidence drawer
+function kvs(v) {
+  const box = el("div", { class: "kvs" });
+  if (v && typeof v === "object" && !Array.isArray(v)) {
+    for (const [k, x] of Object.entries(v)) box.append(el("span", {}, el("b", {}, k + ": "), typeof x === "object" ? JSON.stringify(x) : String(x)));
+  } else box.append(el("span", {}, typeof v === "object" ? JSON.stringify(v) : String(v ?? "")));
+  return box;
+}
+function statusPill(s) {
+  const v = String(s ?? "—");
+  return el("span", { class: `status ${["PASS", "FAIL", "NEEDS_REVIEW", "WARN"].includes(v) ? v : "OTHER"}` }, v.replace(/_/g, " "));
+}
+function hashRows(state, rows) {
+  return el("div", { class: `hashes ${state}` }, ...rows.map(([label, value, diff]) =>
+    el("div", { class: "hrow" }, el("span", {}, label), el("code", { class: diff ? "diff" : "" }, value || "—"))));
+}
+function step(state, title, text, extra) {
+  const tag = state === "ok" ? "Passed" : state === "bad" ? "Failed" : "Not applicable";
+  return el("li", { class: `step ${state}` }, el("span", { class: "step-dot" }, icon(state === "ok" ? "check" : state === "bad" ? "x" : "minus")),
+    el("div", {}, el("div", { class: "step-title" }, title, el("span", { class: `tag ${state}` }, tag)), el("p", {}, text), extra || null));
+}
+const line = (...bits) => bits.filter(Boolean).join(" · ");
+function contentView(c, rec, r) {
+  const res = c.result && typeof c.result === "object" ? c.result.status : c.result;
+  if (c.check) return el("div", { class: "result" }, el("div", { class: "result-top" }, statusPill(res), el("h3", {}, c.check.title || "Automated check")),
+    c.check.expected ? el("p", {}, el("b", {}, "Expected: "), String(c.check.expected)) : null,
+    c.result && c.result.summary ? el("p", {}, c.result.summary) : null,
+    c.check.evaluation_logic ? el("p", { class: "faint" }, c.check.evaluation_logic) : null);
+  if (rec.source_type === "human_review" || c.reviewer) {
+    const meta = line(c.reviewer && `Reviewer: ${c.reviewer}`, c.valid_until && `valid until ${fmtDate(c.valid_until)}`);
+    return el("div", { class: "result" }, el("div", { class: "result-top" }, statusPill(res), el("h3", {}, "Reviewed by a person")),
+      c.notes ? el("p", {}, c.notes) : null, meta ? el("p", { class: "faint" }, meta) : null);
+  }
+  if (c.filename) {
+    const meta = line(c.uploaded_by && `Uploaded by ${c.uploaded_by}`, c.size_bytes != null && `${Math.max(1, Math.round(c.size_bytes / 1024))} KB`,
+                      c.version != null && `version ${c.version}`);
+    return el("div", { class: "result" }, el("div", { class: "result-top" }, statusPill(String(c.category || "document").toUpperCase()), el("h3", {}, c.filename)),
+      c.description ? el("p", {}, c.description) : null, meta ? el("p", { class: "faint" }, meta) : null,
+      c.sha256 ? el("p", { class: "faint" }, "Document SHA-256 ", el("code", {}, c.sha256)) : null);
+  }
+  if (!r.content) return el("div", { class: "result" }, el("div", { class: "result-top" }, statusPill("UNREADABLE"), el("h3", {}, "The content is not valid JSON")));
+  const { documents, ...rest } = c;
+  return el("table", { class: "tbl" }, ...Object.entries(rest).slice(0, 20).map(([k, v]) =>
+    el("tr", {}, el("th", {}, k), el("td", {}, typeof v === "object" ? JSON.stringify(v) : String(v)))));
+}
+function openEvidence(id) {
+  const ev = evidence[id], r = results[id], body = $("dlg-body"), dlg = $("dlg");
+  const close = el("button", { class: "icon-btn", type: "button", "aria-label": "Close", title: "Close (Esc)", onclick: () => dlg.close() }, icon("x"));
+  if (!ev || !r) {
+    body.replaceChildren(el("header", { class: "dr-head" }, el("div", {}, el("div", { class: "kicker" }, "Evidence"), el("h2", {}, ev ? "Still checking…" : "Not in this pack")), close),
+      el("p", { class: "muted" }, ev ? "This record is still being verified. Try again in a moment." : `The answer cites ${id}, but the pack does not contain it, so the citation fails.`));
+    dlg.showModal(); close.focus(); return;
+  }
+  const c = r.content || {}, rec = r.rec;
+  const kind = { provider_api: "Automated check", human_review: "Human review", human_upload: "Uploaded document" }[rec.source_type] || "Evidence record";
+  const parts = [el("header", { class: "dr-head" }, el("div", {}, el("div", { class: "kicker" }, kind), el("h2", {}, rec.title || ev.title)), close)];
+  parts.push(el("div", { class: `rec-verdict ${r.ok ? "ok" : "bad"}` }, icon(r.ok ? "shieldCheck" : "alert"),
+    el("span", {}, r.ok ? "This record verified in your browser" : "This record FAILED verification. Do not rely on it.")));
+  parts.push(el("div", { class: "dr-meta" },
+    el("span", { class: "chip" }, icon("hash"), el("code", {}, id)),
+    el("span", { class: "chip" }, icon("calendar"), `Collected ${fmtDate(rec.collected_at)}`),
+    ...(rec.control_ids || []).map((cid) => el("span", { class: "chip" }, icon("shield"), cid))));
+  parts.push(contentView(c, rec, r));
+  if (c.observations && c.observations.note) parts.push(el("div", { class: "panel caveat" }, el("p", {}, c.observations.note)));
+  if (Array.isArray(c.errors) && c.errors.length) parts.push(el("div", { class: "panel flag" }, icon("alert"),
+    el("span", {}, el("strong", {}, "Collection errors: "), c.errors.map((x) => typeof x === "object" ? JSON.stringify(x) : String(x)).join("; "))));
+  if (Array.isArray(c.resources) && c.resources.length) {
+    const t = el("table", { class: "tbl res" }, el("tr", {}, el("th", {}, "Resource"), el("th", {}, "Status"), el("th", {}, "Observed")));
+    for (const x of c.resources.slice(0, 25)) t.append(el("tr", {},
+      el("td", { class: "rid" }, x.id ?? "", x.reason ? el("span", {}, x.reason) : null), el("td", {}, statusPill(x.status)), el("td", {}, kvs(x.observed))));
+    parts.push(el("section", { class: "dr-section" }, el("h3", {}, `What was observed${c.resources.length > 25 ? " (first 25)" : ""}`), t));
+  }
+  const docs = Array.isArray(c.documents) ? c.documents : [];
+  if (docs.length) parts.push(el("section", { class: "dr-section" }, el("h3", {}, "Documents reviewed"),
+    el("div", { class: "docs" }, ...docs.map((d) => el("div", { class: "doc" }, icon("doc"), el("span", {}, d.filename || "document"),
+      d.sha256 ? el("code", { title: d.sha256 }, d.sha256.slice(0, 12) + "…") : null)))));
+  const path = ev.audit_path || [];
+  const mpath = el("div", { class: "mpath" },
+    el("div", { class: "mnode leaf" }, el("span", { class: "ml" }, `Leaf ${ev.leaf_index}`), el("code", { title: r.leafHex }, r.leafHex)),
+    ...path.map((h, i) => el("div", { class: "mnode" }, el("span", { class: "ml" }, `Sibling ${i + 1}`), el("code", { title: h }, h))),
+    el("div", { class: `mnode root ${r.inclusion ? "ok" : "bad"}` }, el("span", { class: "ml" }, "Sealed root"), el("code", {}, r.batch ? r.batch.hex : "missing")));
+  const b = A.batches.find((x) => x.batch_index === ev.batch_index) || {}, k = keys[b.signing_key_id];
+  const sigState = r.signature === true ? "ok" : r.signature === false ? "bad" : "na";
+  parts.push(el("section", { class: "dr-section" }, el("h3", {}, "How your browser verified it"), el("ol", { class: "steps" },
+    step(r.contentOk ? "ok" : "bad", "Content hash", r.contentOk ? "The SHA-256 of the record's content matches the hash sealed with it."
+      : "The SHA-256 of the record's content does NOT match the sealed hash: the content was changed.",
+      hashRows(r.contentOk ? "ok" : "bad", [["Computed", r.contentHash, !r.contentOk], ["Sealed", rec.content_sha256]])),
+    step(r.chainOk ? "ok" : "bad", "Hash chain link", r.chainOk ? "The record's link to the record sealed before it is intact."
+      : "The record's link to the record before it is BROKEN.",
+      hashRows(r.chainOk ? "ok" : "bad", [["Computed", r.chainHash, !r.chainOk], ["Sealed", rec.chain_hash]])),
+    step(r.inclusion ? "ok" : "bad", "Merkle proof", `Leaf ${ev.leaf_index} of ${r.batch ? r.batch.size : "?"} in batch ${ev.batch_index}: ${path.length} sibling hash${path.length === 1 ? "" : "es"} `
+      + (r.inclusion ? "lead from this record to the sealed root." : "do NOT lead to the sealed root."), mpath),
+    step(sigState, "Batch signature", r.signature === true ? `The sealed root is signed by the key ${k ? groups(k.fingerprint_sha256.slice(0, 16)) + "…" : "in this pack"}.`
+      : r.signature === false ? "The signature on this batch's root is INVALID."
+      : r.signature === "unchecked" ? "This browser cannot check the signature; run verify_pack.py."
+      : "This batch is not signed: confirm its root with the company."))));
+  body.replaceChildren(...parts);
+  dlg.showModal();
+  dlg.scrollTop = 0;
+  close.focus();
+}
+
+// ---------------------------------------------------------------- verification run
+async function verifyAll(pace = 0) {
+  const run = ++runId, stale = () => run !== runId;
+  progress = { done: 0, total: A.evidence.length, running: true };
+  batchSig = {}; results = {}; approvals = {};
+  renderStatus();
+  const sigs = {};
+  for (const b of A.batches) sigs[b.batch_index] = await checkSignature(b);
+  if (stale()) return false;
+  batchSig = sigs;
+  for (const ev of A.evidence) {
+    const r = await checkRecord(ev);
+    if (stale()) return false;
+    results[ev.evidence_id] = r;
+    progress.done++;
+    if (pace) { renderStatus(); await sleep(pace); if (stale()) return false; }
+  }
+  const aps = {};
+  for (const q of A.questions) if (q.status === "approved") aps[q.id] = await checkApproval(q);
+  if (stale()) return false;
+  approvals = aps;
+  progress.running = false;
+  render();
+  return true;
+}
+
+// ---------------------------------------------------------------- tamper lab (in memory only)
+function labResult(message, qid) {
+  const checks = el("div", { class: "lab-checks", "aria-label": "What the checks found" }, ...checkItems(summary()).map(([label, st, kind]) =>
+    el("span", { class: `lab-chk ${stateClass(st)}` }, stateIcon(st), `${label}: ${stateWord(st, kind)}`)));
+  const body = el("div", { class: "lab-body" }, el("p", {}, message), checks);
+  if (qid) body.append(el("button", { class: "ghost", type: "button", onclick: () => showQuestion(qid) }, icon("up"), `Show the affected answer (${qid})`));
+  $("tamper-msg").replaceChildren(icon("alert"), body);
+}
+const citing = (id) => (A.questions.find((q) => q.claims.some((c) => (c.evidence_ids || []).includes(id))) || {}).id;
+function tamperTarget() {
+  // Prefer a record with a failing result: forging FAIL into PASS is the edit a dishonest vendor would make.
+  for (const ev of A.evidence) {
+    const s = fromUtf8.decode(original[ev.evidence_id].content);
+    if (s.includes('"FAIL"')) return { ev, from: '"FAIL"', to: '"PASS"' };
+  }
+  const ev = A.evidence[0];
+  return ev ? { ev, from: '"PASS"', to: '"FAIL"' } : null;
+}
+async function tamper(fixHashes) {
+  const t = tamperTarget();
+  if (!t) return;
+  bytes = structuredClone(original); A.questions = structuredClone(originalQuestions);
+  const id = t.ev.evidence_id;
+  const text = fromUtf8.decode(original[id].content);
+  const forged = utf8.encode(text.includes(t.from) ? text.replace(t.from, t.to) : text + " ");
+  bytes[id].content = forged;
+  if (fixHashes) {
+    const rec = JSON.parse(fromUtf8.decode(original[id].record));
+    rec.content_sha256 = hex(await sha(forged));
+    rec.chain_hash = hex(await sha(utf8.encode(`${rec.prev_chain_hash || "GENESIS"}|${rec.content_sha256}|${rec.id}|${rec.collected_at}`)));
+    bytes[id].record = utf8.encode(JSON.stringify(rec));
+  }
+  if (!await verifyAll()) return;
+  const r = results[id], signed = roots[t.ev.batch_index] && roots[t.ev.batch_index].signed;
+  labResult(`Simulated: changed ${t.from} to ${t.to} in evidence ${short(id)} (${t.ev.title})` +
+    (fixHashes ? ", then recomputed its content hash and chain hash to match. " : ". ") +
+    (fixHashes ? `The record's own hashes now agree, but its Merkle proof no longer reaches the sealed root (${r.inclusion ? "unexpectedly passed" : "failed"}). ` +
+                 (signed ? "Hiding that would need a new root, and the root is signed with the key shown above."
+                         : "Hiding that would need a different root, and the root is what you confirm with the company.")
+               : `Its content hash no longer matches the sealed hash (${r.contentOk ? "unexpectedly passed" : "failed"}).`), citing(id));
+}
+$("t1").addEventListener("click", () => tamper(false));
+$("t2").addEventListener("click", () => tamper(true));
+$("t3").addEventListener("click", async () => {
+  bytes = structuredClone(original); A.questions = structuredClone(originalQuestions);
+  const q = A.questions.find((x) => x.status === "approved" && x.claims.length);
+  if (!q) return;
+  const before = q.claims[0].text;
+  q.claims[0].text = before.replace(/\.$/, "") + ", across every account and region.";
+  if (!await verifyAll()) return;
+  labResult(`Simulated: after approval, ${q.id}'s first claim was widened to "${q.claims[0].text}" The evidence still verifies, ` +
+    `but the approval no longer matches the answer (${approvals[q.id].ok ? "unexpectedly passed" : "failed"}), so nobody approved what you are reading.`, q.id);
+});
+$("t0").addEventListener("click", async () => {
+  bytes = structuredClone(original); A.questions = structuredClone(originalQuestions);
+  if (await verifyAll()) $("tamper-msg").replaceChildren();
+});
+
+// ---------------------------------------------------------------- start
+function currentTheme() {
+  return document.documentElement.getAttribute("data-theme") || (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+}
+function paintThemeButton() {
+  const dark = currentTheme() === "dark";
+  $("theme-btn").replaceChildren(icon(dark ? "sun" : "moon"));
+  $("theme-btn").setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+  $("theme-btn").setAttribute("title", dark ? "Light mode" : "Dark mode");
+}
+$("theme-btn").addEventListener("click", () => {
+  const next = currentTheme() === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  try { localStorage.setItem("vea-theme", next); } catch (_) {}
+  paintThemeButton();
+});
+$("print-btn").addEventListener("click", () => window.print());
+$("dlg").addEventListener("click", (e) => { if (e.target === $("dlg")) $("dlg").close(); });
+
+try { const t = localStorage.getItem("vea-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (_) {}
+for (const e of document.querySelectorAll("[data-icon]")) e.prepend(icon(e.getAttribute("data-icon")));
+paintThemeButton();
+document.title = `${org}: verified questionnaire answers`;
+$("brand-org").textContent = org;
+$("title").replaceChildren(el("span", { class: "org" }, org), /s$/i.test(org) ? "' answers, with proof" : "'s answers, with proof");
+$("lede").textContent = "Every answer below cites sealed evidence records. When this page opened, it re-checked every record, " +
+  "the signature that seals them and every approval, on your device. Nothing is sent anywhere.";
+$("meta").replaceChildren(
+  el("span", { class: "chip" }, icon("calendar"), `Evidence ${fmtDate(A.period && A.period.start)} – ${fmtDate(A.period && A.period.end)}`),
+  el("span", { class: "chip" }, icon("doc"), `Generated ${fmtDate(A.generated_at)}`),
+  el("span", { class: "chip" }, icon("shield"), A.generator || "Verifiable Evidence Agent"));
+$("foot-gen").textContent = [A.generator, A.format].filter(Boolean).join(" · ");
+buildSeal();
+buildToolbar();
+render();
+verifyAll(reduceMotion ? 0 : Math.min(70, 900 / Math.max(1, A.evidence.length))).catch((e) => {
+  progress.running = false;
+  $("verdict").className = "verdict bad";
+  $("verdict").setAttribute("aria-busy", "false");
+  $("verdict").replaceChildren(icon("alert"), el("div", {}, el("strong", {}, "Verification could not run"), el("span", { class: "sub" }, e.message)));
+});
+</script>
+</body>
+</html>
