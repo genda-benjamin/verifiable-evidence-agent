@@ -91,7 +91,11 @@ proof pack's anchor is the key, not the root.
 
 On open weights the agent matched Muse Spark's accuracy and answered two ordinary questions the Meta Model API's
 content filter refused (host vulnerability scanning, background checks). Because it runs on open weights, a bank or
-regulator can host it inside its own infrastructure, and the evidence never leaves.
+regulator can host it inside its own infrastructure, and the evidence never leaves. That takes serious hardware:
+Meta's model card asks for at least 700 GB of GPU memory for the 4-bit checkpoint. The weights are under Meta's Muse
+Model License, which allows commercial use inside your own products and requires this attribution:
+
+**Built with Muse Spark Open.**
 
 ## Questionnaires as PDFs and screenshots
 
