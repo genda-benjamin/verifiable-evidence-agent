@@ -3,122 +3,481 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>Verified questionnaire answers</title>
 <style>
 :root {
-  --bg: #f6f7f9; --surface: #ffffff; --text: #16191d; --muted: #5d6670; --line: #e2e5e9;
-  --accent: #2456c7; --ok: #137a3f; --ok-bg: #e6f4ec; --bad: #b42318; --bad-bg: #fdecea;
-  --warn: #8a5a00; --warn-bg: #fff4dc; --chip: #eef1f5; --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
-  --a-yes: #1d4ed8; --a-no: #334155; --a-part: #a16207; --a-none: #6b7280;
+  color-scheme: light;
+  --bg: #f4f6f9;
+  --glow: radial-gradient(1100px 440px at -5% -12%, rgba(99, 102, 241, .11), transparent 62%),
+          radial-gradient(900px 380px at 105% -8%, rgba(16, 185, 129, .10), transparent 58%);
+  --surface: #ffffff; --surface-2: #f7f8fb; --surface-3: #eef1f6; --bar: rgba(244, 246, 249, .82);
+  --text: #0c1324; --muted: #4f5b70; --faint: #6b7489;
+  --line: #e2e6ee; --line-2: #d2d8e3;
+  --accent: #4f46e5; --accent-soft: #eef0ff;
+  --ok: #067a52; --ok-soft: #e5f5ed; --ok-line: #a6dcc2;
+  --bad: #c42b1f; --bad-soft: #fdeceb; --bad-line: #f2bbb5;
+  --warn: #8a4f05; --warn-soft: #fff6e6; --warn-line: #efd39f;
+  --yes: #4338ca; --yes-soft: #eef0ff; --no: #334155; --no-soft: #eef1f6;
+  --part: #9a5204; --part-soft: #fff3df; --none: #5f6779; --none-soft: #f2f3f6;
+  --shadow: 0 1px 2px rgba(12, 19, 36, .04), 0 8px 24px rgba(12, 19, 36, .05);
+  --shadow-lg: 0 32px 90px rgba(12, 19, 36, .24);
+  --r: 18px; --r-sm: 11px;
+  --font: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", "Cascadia Code", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1216; --surface: #171b21; --text: #e6e9ed; --muted: #9aa4ae; --line: #2a3038;
-    --accent: #7aa2ff; --ok: #4ade80; --ok-bg: #12301f; --bad: #f87171; --bad-bg: #3a1614;
-    --warn: #fbbf24; --warn-bg: #33270d; --chip: #222831;
-    --a-yes: #7aa2ff; --a-no: #cbd5e1; --a-part: #fbbf24; --a-none: #9ca3af;
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #080b11;
+    --glow: radial-gradient(1100px 460px at -5% -12%, rgba(99, 102, 241, .20), transparent 62%),
+            radial-gradient(900px 380px at 105% -8%, rgba(16, 185, 129, .12), transparent 58%);
+    --surface: #0f131b; --surface-2: #141924; --surface-3: #1b2131; --bar: rgba(8, 11, 17, .78);
+    --text: #e9ecf3; --muted: #a2aabc; --faint: #7d87a0;
+    --line: #212838; --line-2: #2d3547;
+    --accent: #8e8fff; --accent-soft: rgba(142, 143, 255, .14);
+    --ok: #3ddc97; --ok-soft: rgba(61, 220, 151, .11); --ok-line: rgba(61, 220, 151, .34);
+    --bad: #ff7a70; --bad-soft: rgba(255, 122, 112, .11); --bad-line: rgba(255, 122, 112, .36);
+    --warn: #f6c453; --warn-soft: rgba(246, 196, 83, .10); --warn-line: rgba(246, 196, 83, .30);
+    --yes: #b4bcff; --yes-soft: rgba(142, 143, 255, .14); --no: #cdd5e2; --no-soft: rgba(205, 213, 226, .08);
+    --part: #f6c453; --part-soft: rgba(246, 196, 83, .11); --none: #9aa2b5; --none-soft: rgba(154, 162, 181, .09);
+    --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 12px 32px rgba(0, 0, 0, .35);
+    --shadow-lg: 0 32px 100px rgba(0, 0, 0, .65);
   }
 }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #080b11;
+  --glow: radial-gradient(1100px 460px at -5% -12%, rgba(99, 102, 241, .20), transparent 62%),
+          radial-gradient(900px 380px at 105% -8%, rgba(16, 185, 129, .12), transparent 58%);
+  --surface: #0f131b; --surface-2: #141924; --surface-3: #1b2131; --bar: rgba(8, 11, 17, .78);
+  --text: #e9ecf3; --muted: #a2aabc; --faint: #7d87a0;
+  --line: #212838; --line-2: #2d3547;
+  --accent: #8e8fff; --accent-soft: rgba(142, 143, 255, .14);
+  --ok: #3ddc97; --ok-soft: rgba(61, 220, 151, .11); --ok-line: rgba(61, 220, 151, .34);
+  --bad: #ff7a70; --bad-soft: rgba(255, 122, 112, .11); --bad-line: rgba(255, 122, 112, .36);
+  --warn: #f6c453; --warn-soft: rgba(246, 196, 83, .10); --warn-line: rgba(246, 196, 83, .30);
+  --yes: #b4bcff; --yes-soft: rgba(142, 143, 255, .14); --no: #cdd5e2; --no-soft: rgba(205, 213, 226, .08);
+  --part: #f6c453; --part-soft: rgba(246, 196, 83, .11); --none: #9aa2b5; --none-soft: rgba(154, 162, 181, .09);
+  --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 12px 32px rgba(0, 0, 0, .35);
+  --shadow-lg: 0 32px 100px rgba(0, 0, 0, .65);
+}
+
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-.wrap { max-width: 900px; margin: 0 auto; padding: 28px 16px 64px; }
-.kicker { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-h1 { font-size: 26px; line-height: 1.25; margin: 6px 0 4px; }
-.meta { color: var(--muted); margin: 0 0 18px; }
-.verdict { border-radius: 10px; padding: 14px 16px; font-weight: 600; display: flex; gap: 10px; align-items: center; }
-.verdict.pending { background: var(--chip); color: var(--muted); }
-.verdict.ok { background: var(--ok-bg); color: var(--ok); }
-.verdict.bad { background: var(--bad-bg); color: var(--bad); }
-.verdict small { font-weight: 400; color: inherit; opacity: .85; display: block; }
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
-.stat b { display: block; font-size: 22px; }
-.stat span { color: var(--muted); font-size: 13px; }
-.anchor { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--muted); }
-.anchor code { font-family: var(--mono); color: var(--text); word-break: break-all; }
-.q { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; margin-top: 14px; }
-.q-head { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
-.q-id { color: var(--muted); font-weight: 600; margin-right: 6px; }
-.q-text { font-weight: 600; }
-.badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
-.ans { border-radius: 999px; padding: 2px 10px; font-size: 13px; font-weight: 700; border: 1.5px solid currentColor; white-space: nowrap; }
-.ans.yes { color: var(--a-yes); } .ans.no { color: var(--a-no); } .ans.part { color: var(--a-part); } .ans.none { color: var(--a-none); border-style: dashed; }
-.draft { border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 700; color: var(--warn); background: var(--warn-bg); white-space: nowrap; }
-ul.claims { list-style: none; padding: 0; margin: 12px 0 0; }
-ul.claims li { padding: 8px 0; border-top: 1px solid var(--line); }
-.cites { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-button.cite { font: inherit; font-size: 12.5px; border: 1px solid var(--line); background: var(--chip); color: var(--text); border-radius: 7px; padding: 3px 8px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; max-width: 100%; }
-button.cite:hover { border-color: var(--accent); }
-button.cite .h { font-family: var(--mono); }
-button.cite .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px; color: var(--muted); }
-.mark { font-weight: 700; }
-.mark.ok { color: var(--ok); } .mark.bad { color: var(--bad); } .mark.pending { color: var(--muted); }
-.note { margin-top: 10px; border-radius: 8px; padding: 8px 10px; font-size: 13.5px; }
-.note.caveat { background: var(--chip); }
-.note.flag { background: var(--warn-bg); color: var(--warn); }
-.empty { color: var(--muted); margin-top: 10px; font-size: 14px; }
-.approval { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
-.approval.bad { color: var(--bad); font-weight: 600; }
-ul.missing { margin: 4px 0 0; padding-left: 20px; }
-.tools { margin-top: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
-.tools h2, dialog h2 { font-size: 16px; margin: 0 0 6px; }
-.tools p { color: var(--muted); margin: 6px 0; font-size: 14px; }
-.tools code { font-family: var(--mono); font-size: 13px; background: var(--chip); padding: 1px 5px; border-radius: 4px; }
-.btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-.btn { font: inherit; font-size: 14px; border-radius: 8px; padding: 7px 12px; border: 1px solid var(--line); background: var(--chip); color: var(--text); cursor: pointer; }
-.btn:hover { border-color: var(--accent); }
-#tamper-msg { margin-top: 10px; font-size: 14px; }
-dialog { border: 1px solid var(--line); border-radius: 14px; padding: 0; width: min(760px, calc(100vw - 32px)); max-height: calc(100vh - 48px); background: var(--surface); color: var(--text); }
-dialog::backdrop { background: rgba(10, 14, 20, .55); }
-.dlg { padding: 18px 20px 20px; }
-.dlg-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
-.x { font: inherit; font-size: 20px; line-height: 1; background: none; border: 0; color: var(--muted); cursor: pointer; padding: 2px 6px; }
-.grid { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; font-size: 14px; margin: 10px 0 14px; }
-.grid dt { color: var(--muted); } .grid dd { margin: 0; word-break: break-word; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th, td { text-align: left; padding: 6px 8px; border-top: 1px solid var(--line); vertical-align: top; word-break: break-word; }
-th { color: var(--muted); font-weight: 600; white-space: nowrap; }
-td.obs span { display: inline-block; margin-right: 10px; }
-td.obs b { font-weight: 500; color: var(--muted); }
-.steps { list-style: none; padding: 0; margin: 8px 0 0; }
-.steps li { border-top: 1px solid var(--line); padding: 8px 0; font-size: 14px; }
-.steps code { font-family: var(--mono); font-size: 12px; word-break: break-all; color: var(--muted); }
-h3 { font-size: 14px; margin: 16px 0 4px; }
-@media (max-width: 640px) {
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .q-head { flex-direction: column; }
-  .badges { justify-content: flex-start; }
-  button.cite .t { max-width: 180px; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { margin: 0; min-height: 100vh; background: var(--glow), var(--bg); background-attachment: fixed; color: var(--text);
+       font: 15px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+body:has(dialog[open]) { overflow: hidden; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code { font-family: var(--mono); font-size: .86em; }
+h1, h2, h3 { margin: 0; letter-spacing: -.01em; }
+p { margin: 0; }
+.i { width: 1em; height: 1em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.spin { width: 1em; height: 1em; flex-shrink: 0; display: inline-block; border: 2px solid currentColor; border-right-color: transparent;
+        border-radius: 50%; animation: rot .7s linear infinite; opacity: .75; }
+@keyframes rot { to { transform: rotate(360deg); } }
+.kicker { font-size: 11.5px; font-weight: 650; letter-spacing: .09em; text-transform: uppercase; color: var(--faint); }
+.label { font-size: 11.5px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); margin-bottom: 4px; }
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+.small { font-size: 13px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
+
+/* top bar */
+.topbar { position: sticky; top: 0; z-index: 20; background: var(--bar); border-bottom: 1px solid var(--line);
+          backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px); }
+.topbar-in { max-width: 1120px; margin: 0 auto; padding: 0 20px; height: 60px; display: flex; align-items: center; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+.brand-mark { width: 32px; height: 32px; flex-shrink: 0; border-radius: 10px; display: grid; place-items: center; color: #fff; font-size: 18px;
+              background: linear-gradient(135deg, #6366f1, #10b981); box-shadow: 0 6px 16px rgba(99, 102, 241, .35); }
+.brand-name { font-weight: 700; white-space: nowrap; }
+.brand-sep { color: var(--line-2); }
+.brand-org { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top-actions { display: flex; align-items: center; gap: 8px; }
+.top-link { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px; border-radius: 10px; font-size: 13.5px;
+            font-weight: 600; color: var(--muted); text-decoration: none; }
+.top-link:hover { color: var(--text); background: var(--surface-3); }
+.status-pill { display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px; border-radius: 999px; font-size: 13px;
+               font-weight: 650; border: 1px solid var(--line); background: var(--surface); color: var(--muted); }
+.status-pill .i, .status-pill .spin { font-size: 15px; }
+.status-pill.ok { color: var(--ok); background: var(--ok-soft); border-color: var(--ok-line); }
+.status-pill.bad { color: var(--bad); background: var(--bad-soft); border-color: var(--bad-line); }
+.icon-btn { width: 34px; height: 34px; flex-shrink: 0; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--line);
+            background: var(--surface); color: var(--muted); font-size: 17px; transition: color .15s, border-color .15s; }
+.icon-btn:hover { color: var(--text); border-color: var(--line-2); }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 30px 20px 72px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 22px; align-items: stretch; }
+.hero-text { padding: 8px 0; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+.hero h1 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.12; font-weight: 750; letter-spacing: -.025em; }
+.hero h1 .org { background: linear-gradient(120deg, var(--accent), #10b981); -webkit-background-clip: text; background-clip: text;
+                color: transparent; -webkit-text-fill-color: transparent; }
+.lede { color: var(--muted); font-size: 16px; max-width: 58ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 12.5px;
+        background: var(--surface); border: 1px solid var(--line); color: var(--muted); max-width: 100%; }
+.chip .i { font-size: 14px; }
+.chip code { color: var(--text); font-size: 12px; overflow-wrap: anywhere; }
+
+.seal { padding: 22px; display: flex; gap: 22px; align-items: center; }
+.ring-wrap { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
+.ring { width: 132px; height: 132px; transform: rotate(-90deg); display: block; }
+.ring circle { fill: none; stroke-width: 9; }
+.ring .track { stroke: var(--surface-3); }
+.ring .bar { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset .3s ease, stroke .3s; }
+.ring .bar.ok { stroke: var(--ok); } .ring .bar.bad { stroke: var(--bad); }
+.ring-center { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; }
+.ring-center strong { font-size: 25px; line-height: 1.15; font-weight: 750; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.ring-center span { font-size: 11px; color: var(--muted); line-height: 1.2; }
+.seal-ic { font-size: 22px; margin-bottom: 2px; }
+.seal-ic.ok { color: var(--ok); } .seal-ic.bad { color: var(--bad); }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; flex: 1; min-width: 0; }
+.chk { display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 8px; font-size: 13.5px; }
+.chk .i, .chk .spin { font-size: 16px; justify-self: center; }
+.chk em { font-style: normal; font-size: 12px; color: var(--faint); white-space: nowrap; }
+.chk.ok .i { color: var(--ok); } .chk.bad, .chk.bad .i, .chk.bad em { color: var(--bad); } .chk.bad em { font-weight: 650; }
+.chk.na .i { color: var(--faint); } .chk.pending { color: var(--muted); }
+
+/* verdict */
+.verdict { margin-top: 18px; padding: 16px 18px; border-radius: var(--r); display: flex; gap: 14px; align-items: center;
+           border: 1px solid var(--line); background: var(--surface); color: var(--muted); }
+.verdict > .i, .verdict > .spin { font-size: 26px; }
+.verdict strong { display: block; font-size: 16px; letter-spacing: -.01em; color: var(--text); }
+.verdict .sub { display: block; font-size: 13.5px; color: var(--muted); }
+.verdict.ok { background: var(--ok-soft); border-color: var(--ok-line); }
+.verdict.ok > .i, .verdict.ok strong { color: var(--ok); }
+.verdict.bad { background: var(--bad-soft); border-color: var(--bad-line); }
+.verdict.bad > .i, .verdict.bad strong { color: var(--bad); }
+
+/* stats */
+.stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.stat { display: flex; gap: 12px; align-items: center; padding: 14px 16px; }
+.stat-ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--surface-3); color: var(--muted);
+           font-size: 18px; flex-shrink: 0; }
+.stat-ic.accent { background: var(--accent-soft); color: var(--accent); }
+.stat-ic.ok { background: var(--ok-soft); color: var(--ok); }
+.stat-ic.bad { background: var(--bad-soft); color: var(--bad); }
+.stat b { display: block; font-size: 22px; line-height: 1.1; font-weight: 750; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.stat .l { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.3; }
+
+/* trust anchor */
+.anchor { margin-top: 14px; padding: 20px; display: grid; gap: 14px; }
+.anchor-head { display: flex; gap: 14px; align-items: center; }
+.anchor-ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; background: var(--surface-3);
+             color: var(--muted); flex-shrink: 0; }
+.anchor-ic.ok { background: var(--ok-soft); color: var(--ok); } .anchor-ic.bad { background: var(--bad-soft); color: var(--bad); }
+.anchor h2 { font-size: 18px; }
+.fp-row { display: flex; align-items: center; gap: 12px; justify-content: space-between; padding: 12px 14px; border-radius: var(--r-sm);
+          background: var(--surface-2); border: 1px solid var(--line); }
+.fp { display: block; font-size: 14px; letter-spacing: .04em; word-spacing: .15em; line-height: 1.7; color: var(--text); overflow-wrap: anywhere; }
+.anchor-note { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--muted); }
+.anchor-note .i, .anchor-note .spin { margin-top: 3px; font-size: 16px; }
+.anchor-note.ok { color: var(--text); } .anchor-note.ok .i { color: var(--ok); }
+.anchor-note.bad { color: var(--bad); font-weight: 600; }
+details.batch { border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--surface-2); }
+details.batch summary { cursor: pointer; padding: 10px 14px; font-size: 13.5px; color: var(--muted); list-style: none; display: flex; gap: 8px; align-items: center; }
+details.batch summary::-webkit-details-marker { display: none; }
+details.batch summary::before { content: "›"; font-size: 17px; line-height: 1; transition: transform .15s; }
+details.batch[open] summary::before { transform: rotate(90deg); }
+details.batch .kv { padding: 0 14px 12px; }
+details.batch code { overflow-wrap: anywhere; color: var(--text); }
+.cmd { border-radius: var(--r-sm); background: #0b1020; color: #dfe5f5; padding: 12px 14px; border: 1px solid transparent; }
+:root[data-theme="dark"] .cmd { background: #05070c; border-color: var(--line); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cmd { background: #05070c; border-color: var(--line); } }
+.cmd .label { color: #8f9ab8; }
+.cmd-row { display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+.cmd code { font-size: 12.5px; overflow-wrap: anywhere; color: #e7ecff; }
+.copy { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 9px; font-size: 12.5px; font-weight: 600;
+        border: 1px solid var(--line-2); background: var(--surface); color: var(--muted); flex-shrink: 0; transition: color .15s, border-color .15s; }
+.copy:hover { color: var(--text); }
+.copy.done { color: var(--ok); border-color: var(--ok-line); }
+.cmd .copy { background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .14); color: #c7cfe6; }
+.cmd .copy.done { color: #3ddc97; }
+
+/* answers */
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 36px 0 12px; }
+.section-head h2 { font-size: 22px; letter-spacing: -.02em; }
+.toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 13px; background: var(--surface); border: 1px solid var(--line); }
+.seg-btn { display: inline-flex; gap: 7px; align-items: center; border: 0; background: transparent; color: var(--muted); padding: 6px 11px;
+           border-radius: 9px; font-size: 13.5px; font-weight: 550; }
+.seg-btn:hover { color: var(--text); }
+.seg-btn .count { font-size: 11.5px; font-variant-numeric: tabular-nums; padding: 0 6px; border-radius: 999px; background: var(--surface-3); color: var(--muted); }
+.seg-btn[aria-pressed="true"] { background: var(--text); color: var(--surface); }
+.seg-btn[aria-pressed="true"] .count { background: rgba(127, 127, 127, .28); color: var(--surface); }
+.search { flex: 1; min-width: 220px; display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 12px; border-radius: 13px;
+          background: var(--surface); border: 1px solid var(--line); color: var(--faint); }
+.search input { flex: 1; border: 0; outline: 0; background: transparent; color: var(--text); min-width: 0; }
+.search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.questions { display: grid; gap: 14px; }
+.q { padding: 20px 22px; scroll-margin-top: 84px; transition: border-color .2s; }
+.q.q-bad { border-color: var(--bad-line); box-shadow: inset 3px 0 0 var(--bad), var(--shadow); }
+.q.rise { animation: rise .45s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+.q.flash { animation: flash 1.8s ease; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes flash { 0%, 55% { box-shadow: 0 0 0 4px var(--accent-soft), 0 0 0 1px var(--accent); } 100% { box-shadow: var(--shadow); } }
+.q-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+.q-ref { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--muted); padding: 3px 8px; border-radius: 8px; background: var(--surface-3); margin-top: 2px; }
+.q-text { font-size: 16.5px; line-height: 1.45; font-weight: 650; letter-spacing: -.01em; }
+.answer { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 700;
+          white-space: nowrap; border: 1px solid transparent; }
+.answer .i { font-size: 15px; }
+.answer.yes { color: var(--yes); background: var(--yes-soft); }
+.answer.no { color: var(--no); background: var(--no-soft); }
+.answer.part { color: var(--part); background: var(--part-soft); }
+.answer.none { color: var(--none); background: var(--none-soft); border: 1px dashed var(--line-2); }
+.claims { list-style: none; margin: 16px 0 0; padding: 0; display: grid; counter-reset: claim; }
+.claim { position: relative; padding: 12px 0 12px 32px; border-top: 1px solid var(--line); }
+.claim::before { counter-increment: claim; content: counter(claim); position: absolute; left: 0; top: 14px; width: 21px; height: 21px; border-radius: 50%;
+                 display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--muted); background: var(--surface-3); }
+.cites { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.cite { display: inline-flex; align-items: center; gap: 7px; max-width: 100%; padding: 5px 10px 5px 8px; border-radius: 10px; font-size: 12.5px;
+        border: 1px solid var(--line); background: var(--surface-2); color: var(--text); transition: border-color .15s, transform .15s; }
+.cite:hover { border-color: var(--accent); transform: translateY(-1px); }
+.cite .i, .cite .spin { font-size: 15px; }
+.cite.ok .i { color: var(--ok); }
+.cite.bad { border-color: var(--bad-line); background: var(--bad-soft); }
+.cite.bad .i { color: var(--bad); }
+.cite.pending { color: var(--muted); }
+.cite .cid { font-family: var(--mono); font-weight: 600; }
+.cite .ct { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 330px; }
+.no-claims { margin-top: 14px; color: var(--muted); font-size: 14.5px; }
+.panel { margin-top: 12px; padding: 12px 14px; border-radius: var(--r-sm); font-size: 14px; background: var(--surface-2); border: 1px solid var(--line); }
+.panel-title { display: flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+               color: var(--muted); margin-bottom: 6px; }
+.panel ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; }
+.panel.caveat { color: var(--muted); }
+.panel.flag { display: flex; gap: 9px; align-items: flex-start; background: var(--warn-soft); border-color: var(--warn-line); color: var(--warn); }
+.panel.flag .i { margin-top: 3px; font-size: 16px; }
+.q-foot { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between;
+          gap: 12px; flex-wrap: wrap; }
+.q-foot.draft { color: var(--warn); font-weight: 600; justify-content: flex-start; font-size: 14px; }
+.who { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.avatar { width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; display: grid; place-items: center; font-size: 12.5px; font-weight: 750;
+          color: #fff; background: linear-gradient(135deg, #6366f1, #0ea5e9); letter-spacing: .02em; }
+.who > div > strong { display: block; font-size: 14px; }
+.who > div > span { display: block; font-size: 12.5px; color: var(--muted); }
+.who.bad .avatar { background: var(--bad-soft); color: var(--bad); }
+.who.bad > div > strong { color: var(--bad); }
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 12.5px; font-weight: 650; }
+.badge .i, .badge .spin { font-size: 15px; }
+.badge.ok { color: var(--ok); background: var(--ok-soft); }
+.badge.bad { color: var(--bad); background: var(--bad-soft); }
+.badge.pending { color: var(--muted); background: var(--surface-3); }
+.empty-state { padding: 40px; text-align: center; color: var(--muted); display: grid; gap: 8px; justify-items: center; }
+.empty-state .i { font-size: 28px; }
+
+/* tamper lab */
+.lab { margin-top: 36px; padding: 22px; scroll-margin-top: 84px; }
+.lab-head { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
+.lab-head h2 { font-size: 20px; letter-spacing: -.02em; }
+.lab-head p { color: var(--muted); font-size: 14px; max-width: 78ch; margin-top: 4px; }
+.lab-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.lab-card { text-align: left; display: grid; gap: 8px; align-content: start; padding: 16px; border-radius: var(--r-sm); border: 1px solid var(--line);
+            background: var(--surface-2); transition: border-color .15s, transform .15s, box-shadow .15s; }
+.lab-card:hover { border-color: var(--bad-line); transform: translateY(-2px); box-shadow: var(--shadow); }
+.lab-ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--bad-soft); color: var(--bad); font-size: 17px; }
+.lab-card strong { font-size: 14.5px; }
+.lab-card .d { font-size: 13px; color: var(--muted); }
+.ghost { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line-2);
+         background: var(--surface); color: var(--text); font-weight: 600; font-size: 13.5px; }
+.ghost:hover { border-color: var(--accent); }
+.lab-result { margin-top: 14px; display: flex; gap: 12px; align-items: flex-start; padding: 15px 16px; border-radius: var(--r-sm);
+              background: var(--bad-soft); border: 1px solid var(--bad-line); font-size: 14px; }
+.lab-result:empty { display: none; }
+.lab-result > .i { color: var(--bad); font-size: 19px; margin-top: 2px; }
+.lab-body { display: grid; gap: 10px; min-width: 0; }
+.lab-checks { display: flex; flex-wrap: wrap; gap: 6px; }
+.lab-chk { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 650;
+           background: var(--surface); border: 1px solid var(--line); color: var(--muted); }
+.lab-chk .i { font-size: 13px; }
+.lab-chk.ok .i { color: var(--ok); }
+.lab-chk.bad { color: var(--bad); border-color: var(--bad-line); }
+.lab-result .ghost { justify-self: start; height: 32px; font-size: 13px; }
+
+.foot { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; color: var(--faint); font-size: 12.5px; }
+
+/* evidence drawer */
+dialog.drawer { position: fixed; inset: 0 0 0 auto; margin: 0 0 0 auto; padding: 0; border: 0; height: 100%; max-height: 100%;
+                width: min(620px, 100vw); max-width: 100vw; overflow-y: auto; overscroll-behavior: contain;
+                background: var(--surface); color: var(--text); box-shadow: var(--shadow-lg); border-left: 1px solid var(--line); }
+dialog.drawer[open] { animation: slide .26s cubic-bezier(.2, .8, .2, 1); }
+@keyframes slide { from { transform: translateX(28px); } to { transform: none; } }
+dialog.drawer::backdrop { background: rgba(6, 9, 16, .5); }
+.drawer-in { min-height: 100%; padding: 0 24px 40px; display: grid; gap: 18px; align-content: start; }
+.dr-head { position: sticky; top: 0; z-index: 2; display: flex; gap: 14px; align-items: flex-start; justify-content: space-between;
+           padding: 20px 0 12px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.dr-head h2 { font-size: 20px; line-height: 1.3; margin-top: 4px; }
+.dr-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.rec-verdict { display: flex; gap: 10px; align-items: center; padding: 11px 14px; border-radius: var(--r-sm); font-weight: 650; font-size: 14px; }
+.rec-verdict .i { font-size: 18px; }
+.rec-verdict.ok { color: var(--ok); background: var(--ok-soft); border: 1px solid var(--ok-line); }
+.rec-verdict.bad { color: var(--bad); background: var(--bad-soft); border: 1px solid var(--bad-line); }
+.result { display: grid; gap: 6px; padding: 16px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--surface-2); }
+.result-top { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.result h3 { font-size: 15px; }
+.result p { font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
+.result p.faint { font-size: 13px; color: var(--faint); }
+.result b { color: var(--text); font-weight: 600; }
+.status { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 750; letter-spacing: .04em; white-space: nowrap; }
+.status.PASS { color: var(--ok); background: var(--ok-soft); }
+.status.FAIL { color: var(--bad); background: var(--bad-soft); }
+.status.NEEDS_REVIEW, .status.WARN { color: var(--warn); background: var(--warn-soft); }
+.status.OTHER { color: var(--muted); background: var(--surface-3); }
+.dr-section h3 { font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: 10px; }
+.tbl { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; border: 1px solid var(--line); border-radius: var(--r-sm); overflow: hidden; }
+.tbl th { text-align: left; font-weight: 650; color: var(--muted); background: var(--surface-2); padding: 9px 12px; white-space: nowrap; font-size: 12px; }
+.tbl td { padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+.tbl td.rid { font-family: var(--mono); font-size: 12px; max-width: 210px; }
+.tbl td.rid span { display: block; margin-top: 4px; font-family: var(--font); color: var(--muted); font-size: 12px; }
+.kvs { display: flex; flex-wrap: wrap; gap: 4px; }
+.kvs span { font-size: 12px; padding: 2px 7px; border-radius: 7px; background: var(--surface-3); }
+.kvs b { font-weight: 550; color: var(--muted); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; }
+.step { position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; padding-bottom: 20px; }
+.step:not(:last-child)::before { content: ""; position: absolute; left: 14px; top: 30px; bottom: 0; width: 2px; background: var(--line); }
+.step-dot { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; background: var(--surface-3); color: var(--muted); z-index: 1; }
+.step.ok .step-dot { background: var(--ok-soft); color: var(--ok); }
+.step.bad .step-dot { background: var(--bad-soft); color: var(--bad); }
+.step-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 650; font-size: 14.5px; }
+.tag { font-size: 11px; font-weight: 750; padding: 1px 8px; border-radius: 999px; background: var(--surface-3); color: var(--muted); letter-spacing: .03em; }
+.tag.ok { color: var(--ok); background: var(--ok-soft); } .tag.bad { color: var(--bad); background: var(--bad-soft); }
+.step p { font-size: 13.5px; color: var(--muted); margin-top: 3px; }
+.hashes { margin-top: 8px; display: grid; gap: 4px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); }
+.hrow { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 8px; font-size: 12px; }
+.hrow span { color: var(--faint); }
+.hrow code { overflow-wrap: anywhere; color: var(--text); font-size: 11.5px; }
+.hashes.ok code { color: var(--ok); } .hashes.bad code.diff { color: var(--bad); }
+.mpath { margin-top: 10px; display: grid; }
+.mnode { position: relative; display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 10px; padding: 7px 10px;
+         border-radius: 9px; border: 1px solid var(--line); background: var(--surface-2); font-size: 12px; }
+.mnode + .mnode { margin-top: 10px; }
+.mnode + .mnode::before { content: ""; position: absolute; left: 22px; top: -11px; height: 10px; width: 2px; background: var(--line-2); }
+.mnode .ml { color: var(--muted); font-weight: 600; }
+.mnode code { color: var(--text); font-size: 11.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mnode.leaf { border-color: var(--accent); }
+.mnode.root.ok { border-color: var(--ok-line); background: var(--ok-soft); }
+.mnode.root.bad { border-color: var(--bad-line); background: var(--bad-soft); }
+.docs { display: grid; gap: 6px; }
+.doc { display: flex; gap: 10px; align-items: center; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); font-size: 13px; min-width: 0; }
+.doc span { overflow-wrap: anywhere; }
+.doc code { color: var(--muted); font-size: 11.5px; margin-left: auto; white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lab-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .topbar-in { padding: 0 14px; gap: 10px; }
+  .brand-org, .brand-sep, .top-link { display: none; }
+  .wrap { padding: 20px 16px 56px; }
+  .seal { flex-direction: column; align-items: stretch; padding: 18px; }
+  .ring-wrap { margin: 0 auto; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat:last-child { grid-column: 1 / -1; }
+  .q { padding: 16px; }
+  .q-top { grid-template-columns: auto minmax(0, 1fr); }
+  .q-top .answer { grid-column: 1 / -1; justify-self: start; }
+  .cite .ct { max-width: 170px; }
+  .fp-row, .cmd-row { flex-direction: column; align-items: stretch; }
+  .fp-row .copy, .cmd-row .copy { align-self: flex-start; }
+  .drawer-in { padding: 0 16px 32px; }
+  .tbl.res { display: block; }
+  .tbl.res tr:first-child { display: none; }
+  .tbl.res tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; border-top: 1px solid var(--line); }
+  .tbl.res tr:nth-child(2) { border-top: 0; }
+  .tbl.res td { border-top: 0; }
+  .tbl.res td:last-child { grid-column: 1 / -1; padding-top: 0; }
+  .tbl.res td.rid { max-width: none; }
+  .mnode { grid-template-columns: 84px minmax(0, 1fr); }
+  .hrow { grid-template-columns: 62px minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@media print {
+  :root { color-scheme: light; }
+  body { background: #fff; }
+  .top-actions, .toolbar, .lab, dialog, .copy, .cmd { display: none !important; }
+  .topbar { position: static; backdrop-filter: none; -webkit-backdrop-filter: none; background: none; }
+  .hero h1 .org { background: none; color: inherit; -webkit-text-fill-color: currentColor; }
+  .card, .verdict { box-shadow: none; break-inside: avoid; }
+  .q.rise { animation: none; }
 }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="kicker">Verified questionnaire answers</div>
-  <h1 id="title"></h1>
-  <p class="meta" id="meta"></p>
-  <div class="verdict pending" id="verdict"><span>Verifying citations in your browser…</span></div>
-  <div class="stats" id="stats"></div>
-  <div class="anchor" id="anchor"></div>
-  <main id="questions"></main>
-
-  <section class="tools">
-    <h2>Check it yourself</h2>
-    <p>This page recomputed every hash and Merkle proof on your device when it opened. Nothing was sent anywhere.
-       To check without a browser, run <code>python verify_pack.py &lt;this zip&gt;</code>: it needs only Python's standard library.</p>
-    <h2 style="margin-top:14px">See what tampering does</h2>
-    <p>These buttons change a cited record <em>in this page's memory only</em> and re-run every check.</p>
-    <div class="btns">
-      <button class="btn" id="t1">Edit a record's content</button>
-      <button class="btn" id="t2">Edit it and recompute its hashes</button>
-      <button class="btn" id="t3">Change an approved answer</button>
-      <button class="btn" id="t0">Restore the original</button>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="brand-mark" data-icon="shieldCheck"></span>
+      <span class="brand-name">Verified answers</span>
+      <span class="brand-sep">/</span>
+      <span class="brand-org" id="brand-org"></span>
     </div>
-    <div id="tamper-msg"></div>
-  </section>
-</div>
+    <div class="top-actions">
+      <a class="top-link" href="#lab" data-icon="zap">Try to break it</a>
+      <span class="status-pill" id="status-pill"></span>
+      <button class="icon-btn" id="theme-btn" type="button"></button>
+      <button class="icon-btn" id="print-btn" type="button" aria-label="Print or save as PDF" title="Print or save as PDF" data-icon="printer"></button>
+    </div>
+  </div>
+</header>
 
-<dialog id="dlg"><div class="dlg" id="dlg-body"></div></dialog>
+<main class="wrap">
+  <section class="hero">
+    <div class="hero-text">
+      <div class="kicker">Proof pack · Security questionnaire</div>
+      <h1 id="title"></h1>
+      <p class="lede" id="lede"></p>
+      <div class="meta-row" id="meta"></div>
+    </div>
+    <div class="card seal" id="seal"></div>
+  </section>
+
+  <div class="verdict pending" id="verdict" role="status" aria-live="polite"></div>
+  <section class="stats" id="stats" aria-label="Summary"></section>
+  <section class="card anchor" id="anchor" aria-label="Who sealed this evidence"></section>
+
+  <div class="section-head"><h2>Answers</h2><span class="muted small" id="shown"></span></div>
+  <section class="toolbar" id="toolbar"></section>
+  <section class="questions" id="questions"></section>
+
+  <section class="card lab" id="lab" aria-labelledby="lab-title">
+    <div class="lab-head">
+      <div>
+        <div class="kicker">Tamper lab</div>
+        <h2 id="lab-title">Try to break it</h2>
+        <p>Each button changes a cited record or an approved answer in this page's memory only, then re-runs every check.
+           Nothing is saved or sent. A forger faces exactly these checks.</p>
+      </div>
+      <button class="ghost" id="t0" type="button" data-icon="undo">Restore the original</button>
+    </div>
+    <div class="lab-grid">
+      <button class="lab-card" id="t1" type="button"><span class="lab-ic" data-icon="edit"></span><strong>Edit a record's content</strong>
+        <span class="d">Turn a failing check into a pass: the edit a dishonest vendor would make.</span></button>
+      <button class="lab-card" id="t2" type="button"><span class="lab-ic" data-icon="hash"></span><strong>Edit it and recompute its hashes</strong>
+        <span class="d">A careful forger also recomputes the record's content hash and its chain link.</span></button>
+      <button class="lab-card" id="t3" type="button"><span class="lab-ic" data-icon="msg"></span><strong>Change an approved answer</strong>
+        <span class="d">Widen a claim after a person approved it.</span></button>
+    </div>
+    <div class="lab-result" id="tamper-msg" role="status" aria-live="polite"></div>
+  </section>
+
+  <footer class="foot">
+    <span id="foot-gen"></span>
+    <span>No network needed: every check on this page ran on your device. Independent check: <code>verify_pack.py</code></span>
+  </footer>
+</main>
+
+<dialog class="drawer" id="dlg" aria-label="Evidence record"><div class="drawer-in" id="dlg-body"></div></dialog>
 
 <script type="application/json" id="pack-data">/*__PACK_DATA__*/</script>
 <script>
@@ -269,154 +628,420 @@ async function checkRecord(ev) {
   return r;
 }
 
-// ---------------------------------------------------------------- rendering
-const ANS = { "Yes": "yes", "No": "no", "Partially": "part", "Insufficient evidence": "none" };
+// ---------------------------------------------------------------- interface helpers
+const statements = Object.fromEntries(A.batches.map((b) => [b.batch_index, typeof b.statement === "string" ? JSON.parse(b.statement) : b.statement]));
+const NS = "http://www.w3.org/2000/svg";
+const ICON = {
+  shield: ["M12 3l7 3v5.5c0 4.6-3 8.5-7 9.5-4-1-7-4.9-7-9.5V6z"],
+  shieldCheck: ["M12 3l7 3v5.5c0 4.6-3 8.5-7 9.5-4-1-7-4.9-7-9.5V6z", "M9 12l2 2 4-4"],
+  check: ["M5 12.5l4.5 4.5L19 7.5"],
+  x: ["M6 6l12 12", "M18 6L6 18"],
+  minus: ["M6 12h12"],
+  half: ["M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z", "M12 3v18"],
+  help: ["M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z", "M9.6 9.3a2.5 2.5 0 0 1 4.9.7c0 1.7-2.5 2.2-2.5 3.7", "M12 16.9h.01"],
+  key: ["M8 11a4.5 4.5 0 1 0 0 9a4.5 4.5 0 1 0 0-9z", "M11.2 12.3L20 3.5", "M16.5 7l2.5 2.5", "M18.5 5l2 2"],
+  copy: ["M9 9h11v11H9z", "M5 15H4V4h11v1"],
+  search: ["M11 4a7 7 0 1 0 0 14a7 7 0 1 0 0-14z", "M20 20l-3.6-3.6"],
+  moon: ["M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"],
+  sun: ["M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8z", "M12 2v2", "M12 20v2", "M4.9 4.9l1.4 1.4", "M17.7 17.7l1.4 1.4", "M2 12h2", "M20 12h2", "M4.9 19.1l1.4-1.4", "M17.7 6.3l1.4-1.4"],
+  printer: ["M7 8V3h10v5", "M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2", "M7 14h10v7H7z"],
+  alert: ["M12 4L2.5 20h19z", "M12 10v4", "M12 17h.01"],
+  doc: ["M14 3H6v18h12V7z", "M14 3v4h4", "M9 12h6", "M9 16h6"],
+  user: ["M12 4a4 4 0 1 0 0 8a4 4 0 1 0 0-8z", "M4 21a8 8 0 0 1 16 0"],
+  hash: ["M5 9h14", "M5 15h14", "M10 4L8 20", "M16 4l-2 16"],
+  undo: ["M4 9h11a5 5 0 0 1 0 10H8", "M8 5L4 9l4 4"],
+  edit: ["M12 20h8", "M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"],
+  msg: ["M4 5h16v11H8l-4 4z", "M9 10.5h6"],
+  calendar: ["M4 6h16v14H4z", "M4 10h16", "M8 3v4", "M16 3v4"],
+  zap: ["M13 2L4 14h7l-1 8 9-12h-7z"],
+  up: ["M12 19V5", "M5 12l7-7 7 7"],
+  info: ["M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18z", "M12 11v5", "M12 7.5h.01"],
+};
+function icon(name, cls = "") {
+  const s = document.createElementNS(NS, "svg");
+  s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("class", ("i " + cls).trim()); s.setAttribute("aria-hidden", "true");
+  for (const d of ICON[name] || []) { const p = document.createElementNS(NS, "path"); p.setAttribute("d", d); s.append(p); }
+  return s;
+}
+const spinner = () => el("span", { class: "spin", "aria-hidden": "true" });
+const org = A.organization || "The company";
 const short = (id) => id.slice(0, 8);
+const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const reduceMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const groups = (h) => ((h || "").match(/.{1,4}/g) || []).join(" ");
+function fmtDate(iso) {
+  if (!iso) return "?";
+  const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso + "T00:00:00Z" : iso);
+  return isNaN(d) ? String(iso) : d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+}
+const personName = (actor) => String(actor || "").replace(/\s*<[^>]*>\s*/g, " ").trim();
+const initials = (name) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase() || "?";
+const stateClass = (st) => st === "pending" ? "pending" : st === true ? "ok" : st === false ? "bad" : "na";
+const stateIcon = (st) => st === "pending" ? spinner() : icon(st === true ? "check" : st === false ? "x" : "minus");
+const stateWord = (st, kind) => st === "pending" ? "checking" : st === true ? "passed" : st === false ? "failed"
+  : st === "unchecked" ? "not checked here" : st === "partial" ? "partly signed" : kind === "sig" ? "not signed" : "none";
 
-function render() {
-  $("title").textContent = `${A.organization || "Company"}: security questionnaire answers`;
-  $("meta").textContent = `Evidence period ${A.period.start || "?"} to ${A.period.end || "?"} · generated ${A.generated_at.slice(0, 10)} · ${A.generator}`;
-  const answered = A.questions.filter((q) => q.answer !== "Insufficient evidence").length;
-  const claims = A.questions.reduce((n, q) => n + q.claims.length, 0);
-  $("stats").replaceChildren(...[[A.questions.length, "questions"], [answered, "answered with evidence"],
-    [A.questions.length - answered, "insufficient evidence"], [A.evidence.length, "evidence records cited"]]
-    .map(([n, l]) => el("div", { class: "stat" }, el("b", {}, n), el("span", {}, l))));
-  const anchor = $("anchor"); anchor.replaceChildren();
-  const org = A.organization || "the company";
-  for (const b of A.batches) {
-    const st = batchSig[b.batch_index], k = keys[b.signing_key_id];
-    anchor.append(el("div", {}, `Sealed batch ${b.batch_index} root: `, el("code", {}, roots[b.batch_index].hex)));
-    if (st === true) anchor.append(el("div", {}, el("span", { class: "mark ok" }, "✓ "),
-      "Signed by the key with fingerprint ", el("code", {}, k.fingerprint_sha256), ". Signature verified in your browser."));
-    else if (st === false) anchor.append(el("div", { class: "approval bad" }, el("span", { class: "mark bad" }, "✗ "),
-      "Signature INVALID: this batch's root was not signed by the key in this pack. Do not rely on its evidence."));
-    else if (st === "unchecked") anchor.append(el("div", {}, "Signed, but this browser cannot check the signature: run verify_pack.py."));
-    else anchor.append(el("div", {}, "Not signed: confirm this root with the company through a channel you trust. Every proof below leads to it."));
-  }
-  if (A.batches.some((b) => b.signature)) anchor.append(el("div", { style: "margin-top:4px" },
-    `Compare the fingerprint with the one ${org} publishes, or check it in one step: `,
-    el("code", {}, "python verify_pack.py <this zip> --key <fingerprint>")));
-
-  const qs = $("questions"); qs.replaceChildren();
-  for (const q of A.questions) {
-    const badges = el("div", { class: "badges" }, el("span", { class: `ans ${ANS[q.answer] || "none"}` }, q.answer));
-    if (q.status !== "approved") badges.prepend(el("span", { class: "draft", title: "Not approved by a person before export" }, "DRAFT"));
-    const card = el("article", { class: "q" },
-      el("div", { class: "q-head" }, el("div", {}, el("span", { class: "q-id" }, q.id), el("span", { class: "q-text" }, q.question)), badges));
-    if (q.claims.length) {
-      const ul = el("ul", { class: "claims" });
-      for (const c of q.claims) {
-        const cites = el("div", { class: "cites" });
-        for (const id of c.evidence_ids) {
-          const r = results[id], ev = evidence[id];
-          const state = !r ? "pending" : r.ok ? "ok" : "bad";
-          cites.append(el("button", { class: "cite", title: "Show the evidence and its proof", onclick: () => openEvidence(id) },
-            el("span", { class: `mark ${state}`, "aria-label": state === "ok" ? "verified" : state === "bad" ? "failed" : "checking" },
-              state === "ok" ? "✓" : state === "bad" ? "✗" : "…"),
-            el("span", { class: "h" }, short(id)), el("span", { class: "t" }, ev ? ev.title : "not in this pack")));
-        }
-        ul.append(el("li", {}, c.text, cites));
-      }
-      card.append(ul);
-    } else {
-      card.append(el("div", { class: "empty" }, "No sealed evidence covers this question, so the agent did not answer it."));
+function copyButton(text, what) {
+  const label = el("span", {}, "Copy");
+  const b = el("button", { class: "copy", type: "button", "aria-label": `Copy the ${what}` }, icon("copy"), label);
+  b.addEventListener("click", async () => {
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (_) {
+      const t = el("textarea", { style: "position:fixed;opacity:0" }); t.value = text; document.body.append(t); t.select();
+      try { ok = document.execCommand("copy"); } catch (_) {}
+      t.remove();
     }
-    if ((q.missing || []).length) {
-      const ul = el("ul", { class: "missing" });
-      for (const m of q.missing) ul.append(el("li", {}, m));
-      card.append(el("div", { class: "note caveat" }, el("b", {}, "What would settle this:"), ul));
-    }
-    for (const f of q.flags) card.append(el("div", { class: "note flag" }, "Review: " + f));
-    if (q.caveats) card.append(el("div", { class: "note caveat" }, q.caveats));
-    if (q.reviewer_note) card.append(el("div", { class: "note caveat" }, "Reviewer: " + q.reviewer_note));
-    const ap = approvals[q.id];
-    if (ap) card.append(el("div", { class: `approval ${ap.ok ? "ok" : "bad"}` }, el("span", { class: `mark ${ap.ok ? "ok" : "bad"}` }, ap.ok ? "✓ " : "✗ "),
-      ap.ok ? `Approved by ${ap.by} on ${ap.at.slice(0, 10)}. The approval matches this exact answer.` : `Approval check failed: ${ap.why}.`));
-    qs.append(card);
-  }
+    if (ok) { b.classList.add("done"); label.textContent = "Copied"; setTimeout(() => { b.classList.remove("done"); label.textContent = "Copy"; }, 1500); }
+  });
+  return b;
 }
 
-function renderVerdict() {
-  const all = A.evidence.map((e) => results[e.evidence_id]);
-  const missing = A.questions.flatMap((q) => q.claims.flatMap((c) => c.evidence_ids)).filter((id) => !evidence[id]);
-  const bad = all.filter((r) => r && !r.ok).length + missing.length;
-  const badApprovals = Object.values(approvals).filter((a) => !a.ok).length;
+let view = { filter: "all", query: "" };
+let progress = { done: 0, total: A.evidence.length, running: true };
+let animateCards = !reduceMotion;
+let runId = 0;
+
+function summary() {
+  const rs = A.evidence.map((e) => results[e.evidence_id]).filter(Boolean);
+  const cited = A.questions.flatMap((q) => q.claims.flatMap((c) => c.evidence_ids || []));
+  const missing = cited.filter((id) => !evidence[id]).length;
+  const ap = Object.values(approvals);
+  const sigs = A.batches.map((b) => batchSig[b.batch_index]);
+  const signature = sigs.some((s) => s === false) ? false : sigs.some((s) => s === "unchecked") ? "unchecked"
+    : sigs.length && sigs.every((s) => s === true) ? true : sigs.some((s) => s === true) ? "partial" : "none";
+  const complete = rs.length === A.evidence.length;
+  const failedRecords = rs.filter((r) => !r.ok).length + missing, failedApprovals = ap.filter((a) => !a.ok).length;
+  return { verified: rs.filter((r) => r.ok).length, failedRecords, failedApprovals, approvals: ap.length, signature,
+           content: complete && rs.every((r) => r.contentOk), chain: complete && rs.every((r) => r.chainOk),
+           merkle: complete && rs.every((r) => r.inclusion), ok: !failedRecords && !failedApprovals };
+}
+const checkItems = (s) => [["Content hashes", s.content], ["Hash chain links", s.chain], ["Merkle proofs", s.merkle],
+  ["Signature", s.signature, "sig"], ["Approvals", s.approvals ? !s.failedApprovals : "none"]];
+
+// ---------------------------------------------------------------- seal, status and verdict
+const sealRefs = {};
+function buildSeal() {
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("viewBox", "0 0 132 132"); svg.setAttribute("class", "ring"); svg.setAttribute("aria-hidden", "true");
+  const circle = (cls) => { const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", "66"); c.setAttribute("cy", "66"); c.setAttribute("r", "56"); c.setAttribute("class", cls); return c; };
+  sealRefs.C = 2 * Math.PI * 56;
+  sealRefs.bar = circle("bar");
+  sealRefs.bar.setAttribute("stroke-dasharray", String(sealRefs.C));
+  sealRefs.bar.setAttribute("stroke-dashoffset", String(sealRefs.C));
+  svg.append(circle("track"), sealRefs.bar);
+  sealRefs.center = el("div", { class: "ring-center" });
+  sealRefs.list = el("ul", { class: "checks", "aria-label": "Checks run on this device" });
+  $("seal").replaceChildren(el("div", { class: "ring-wrap" }, svg, sealRefs.center), sealRefs.list);
+}
+function renderSeal(s) {
+  const running = progress.running, state = running ? "pending" : s.ok ? "ok" : "bad";
+  const n = running ? progress.done : s.verified, frac = progress.total ? n / progress.total : 1;
+  sealRefs.bar.setAttribute("class", `bar ${state}`);
+  sealRefs.bar.setAttribute("stroke-dashoffset", String(sealRefs.C * (1 - frac)));
+  const center = [el("strong", {}, `${n}/${progress.total}`), el("span", {}, running ? "records checked" : "records verified")];
+  if (!running) center.unshift(icon(s.ok ? "shieldCheck" : "alert", `seal-ic ${state}`));
+  sealRefs.center.replaceChildren(...center);
+  sealRefs.list.replaceChildren(...checkItems(s).map(([label, st, kind]) => {
+    const show = running ? "pending" : st;
+    return el("li", { class: `chk ${stateClass(show)}` }, stateIcon(show), el("span", {}, label), el("em", {}, stateWord(show, kind)));
+  }));
+}
+function renderStatus() {
+  const s = summary(), running = progress.running, state = running ? "pending" : s.ok ? "ok" : "bad";
+  const pill = $("status-pill");
+  pill.className = `status-pill ${state}`;
+  pill.replaceChildren(running ? spinner() : icon(s.ok ? "shieldCheck" : "alert"), el("span", {}, running ? "Verifying" : s.ok ? "Verified" : "Failed"));
+  renderSeal(s);
   const v = $("verdict");
-  v.className = "verdict " + (bad || badApprovals ? "bad" : "ok");
+  v.className = `verdict ${state}`;
+  v.setAttribute("aria-busy", String(running));
+  if (running) {
+    v.replaceChildren(spinner(), el("div", {}, el("strong", {}, "Verifying on your device…"),
+      el("span", { class: "sub" }, `${progress.done} of ${plural(progress.total, "evidence record")} checked`)));
+    return;
+  }
   const parts = [];
-  if (bad) parts.push(`${bad} citation${bad === 1 ? "" : "s"} FAILED verification`);
-  if (badApprovals) parts.push(`${badApprovals} approval${badApprovals === 1 ? "" : "s"} FAILED`);
-  const approved = Object.keys(approvals).length;
-  v.replaceChildren(el("span", {}, parts.length ? parts.join(" · ")
-    : `All ${A.evidence.length} cited evidence records and ${approved} approval${approved === 1 ? "" : "s"} verified in your browser`,
-    el("small", {}, parts.length ? "Do not rely on the answers marked with ✗." :
+  if (s.failedRecords) parts.push(`${s.failedRecords} citation${s.failedRecords === 1 ? "" : "s"} FAILED verification`);
+  if (s.failedApprovals) parts.push(`${s.failedApprovals} approval${s.failedApprovals === 1 ? "" : "s"} FAILED`);
+  v.replaceChildren(icon(s.ok ? "shieldCheck" : "alert"), el("div", {},
+    el("strong", {}, parts.length ? parts.join(" · ")
+      : `All ${A.evidence.length} cited evidence records and ${s.approvals} approval${s.approvals === 1 ? "" : "s"} verified in your browser`),
+    el("span", { class: "sub" }, parts.length ? "Do not rely on the answers marked with ✗." :
       "Each record's content hash, hash-chain link and Merkle proof to the sealed batch root checked out" +
       (A.batches.some((b) => b.signature) ? ", the root's signature too," : "") + " and each approval matches its answer exactly.")));
 }
 
-async function verifyAll() {
-  batchSig = {};
-  for (const b of A.batches) batchSig[b.batch_index] = await checkSignature(b);
-  results = {};
-  for (const ev of A.evidence) results[ev.evidence_id] = await checkRecord(ev);
-  approvals = {};
-  for (const q of A.questions) if (q.status === "approved") approvals[q.id] = await checkApproval(q);
-  render(); renderVerdict();
+// ---------------------------------------------------------------- stats and trust anchor
+function renderStats() {
+  const qs = A.questions, answered = qs.filter((q) => q.answer !== "Insufficient evidence").length;
+  const approvable = qs.filter((q) => q.status === "approved").length;
+  const apOk = Object.values(approvals).filter((a) => a.ok).length;
+  const s = summary(), done = !progress.running;
+  const tiles = [["Questions", qs.length, "doc", ""], ["Answered with evidence", answered, "check", "accent"], ["Insufficient evidence", qs.length - answered, "help", ""],
+                 ["Evidence records cited", A.evidence.length, "hash", done ? (s.failedRecords ? "bad" : "ok") : ""],
+                 ["Approvals verified", done ? `${apOk}/${approvable}` : "…", "user", done && approvable ? (apOk === approvable ? "ok" : "bad") : ""]];
+  $("stats").replaceChildren(...tiles.map(([label, n, ic, tone]) =>
+    el("div", { class: "card stat" }, el("span", { class: `stat-ic ${tone}` }, icon(ic)), el("div", {}, el("b", {}, n), el("span", { class: "l" }, label)))));
 }
-
-function observed(v) {
-  // Show observed values as "key: value" pairs rather than raw JSON.
-  const td = el("td", { class: "obs" });
-  if (v && typeof v === "object" && !Array.isArray(v)) {
-    for (const [k, x] of Object.entries(v)) td.append(el("span", {}, el("b", {}, k + ": "), typeof x === "object" ? JSON.stringify(x) : String(x)));
-  } else td.append(typeof v === "object" ? JSON.stringify(v) : String(v ?? ""));
-  return td;
-}
-
-function openEvidence(id) {
-  const ev = evidence[id], r = results[id], body = $("dlg-body");
-  body.replaceChildren();
-  const close = el("button", { class: "x", "aria-label": "Close", onclick: () => $("dlg").close() }, "×");
-  if (!ev || !r) { body.append(el("div", { class: "dlg-head" }, el("h2", {}, "Not in this pack"), close)); $("dlg").showModal(); return; }
-  const c = r.content || {}, rec = r.rec;
-  body.append(el("div", { class: "dlg-head" }, el("h2", {}, rec.title || ev.title), close));
-  const dl = el("dl", { class: "grid" });
-  const add = (k, v) => { if (v != null && v !== "") dl.append(el("dt", {}, k), el("dd", {}, v)); };
-  add("Evidence id", id); add("Source", rec.source_type); add("Collected", rec.collected_at);
-  add("Controls", (rec.control_ids || []).join(", "));
-  if (c.check) { add("Check", c.check.title); add("Expected", c.check.expected); }
-  const res = c.result && typeof c.result === "object" ? c.result.status : c.result;
-  add("Result", res);
-  body.append(dl);
-  if (Array.isArray(c.resources) && c.resources.length) {
-    const t = el("table", {}, el("tr", {}, el("th", {}, "Resource"), el("th", {}, "Status"), el("th", {}, "Observed")));
-    for (const x of c.resources.slice(0, 25)) {
-      t.append(el("tr", {}, el("td", {}, x.id ?? ""), el("td", {}, x.status ?? ""), observed(x.observed)));
-    }
-    body.append(el("h3", {}, "What was observed"), t);
-  } else if (r.content) {
-    const { documents, ...rest } = c;
-    body.append(el("h3", {}, "Record"), el("table", {}, ...Object.entries(rest).slice(0, 20).map(([k, v]) =>
-      el("tr", {}, el("th", {}, k), el("td", {}, typeof v === "object" ? JSON.stringify(v) : String(v))))));
+function renderAnchor() {
+  const states = A.batches.map((b) => batchSig[b.batch_index]);
+  const st = progress.running ? "pending" : states.some((s) => s === false) ? false : states.some((s) => s === "unchecked") ? "unchecked"
+    : states.length && states.every((s) => s === true) ? true : states.some((s) => s === true) ? "partial" : "none";
+  const fps = [...new Set(A.batches.filter((b) => b.signature && keys[b.signing_key_id]).map((b) => keys[b.signing_key_id].fingerprint_sha256))];
+  const TITLE = { pending: "Checking the signature…", true: "Sealed and signed", false: "Signature INVALID",
+                  unchecked: "Signed, but not checked in this browser", partial: "Partly signed", none: "Sealed, not signed" };
+  const NOTE = { pending: "Checking the signature on the sealed batch root…",
+    true: `Signed by the key with the fingerprint above. Signature verified in your browser.`,
+    false: "Signature INVALID: this batch's root was not signed by the key in this pack. Do not rely on its evidence.",
+    unchecked: "Signed, but this browser cannot check the signature: run verify_pack.py.",
+    partial: "Some batch roots are signed by the key above. Confirm the others with the company through a channel you trust.",
+    none: "Not signed: confirm the root below with the company through a channel you trust. Every proof leads to it." };
+  const card = $("anchor");
+  card.replaceChildren(el("div", { class: "anchor-head" }, el("span", { class: `anchor-ic ${stateClass(st)}` }, icon("key")),
+    el("div", {}, el("div", { class: "kicker" }, "Who sealed this evidence"), el("h2", {}, TITLE[String(st)]))));
+  for (const fp of fps) card.append(el("div", { class: "fp-row" },
+    el("div", {}, el("div", { class: "label" }, "Signing key fingerprint (SHA-256)"), el("code", { class: "fp" }, groups(fp))),
+    copyButton(fp, "fingerprint")));
+  card.append(el("p", { class: `anchor-note ${stateClass(st)}` }, stateIcon(st), el("span", {}, NOTE[String(st)])));
+  if (fps.length) card.append(el("p", { class: "muted small" },
+    `The page proves the signature matches this key. That the key is ${org}'s, you confirm by comparing the fingerprint with the one ${org} publishes.`));
+  for (const b of A.batches) {
+    const stmt = statements[b.batch_index] || {}, cited = A.evidence.filter((e) => e.batch_index === b.batch_index).length;
+    card.append(el("details", { class: "batch" },
+      el("summary", {}, `Batch ${b.batch_index} · sealed ${fmtDate(stmt.sealed_at)} · ${plural(stmt.leaf_count ?? 0, "record")}, ${cited} cited here`),
+      el("div", { class: "kv" }, el("div", { class: "label" }, "Merkle root: every proof leads here"), el("code", {}, roots[b.batch_index].hex))));
   }
-  const mark = (ok) => el("span", { class: `mark ${ok ? "ok" : "bad"}` }, ok ? "✓ " : "✗ ");
-  body.append(el("h3", {}, "How this page verified it"), el("ol", { class: "steps" },
-    el("li", {}, mark(r.contentOk), "Content hash: SHA-256 of the content ", r.contentOk ? "matches" : "does NOT match", " the sealed hash.",
-      el("br"), el("code", {}, "computed " + r.contentHash), el("br"), el("code", {}, "sealed   " + (rec.content_sha256 || ""))),
-    el("li", {}, mark(r.chainOk), "Hash chain: the record's link to the record before it ", r.chainOk ? "is intact." : "is BROKEN.",
-      el("br"), el("code", {}, "computed " + r.chainHash), el("br"), el("code", {}, "sealed   " + (rec.chain_hash || ""))),
-    el("li", {}, mark(r.inclusion), `Merkle proof: leaf ${ev.leaf_index} of ${r.batch ? r.batch.size : "?"} in batch ${ev.batch_index}, `,
-      `${(ev.audit_path || []).length} sibling hashes, `, r.inclusion ? "leads to the sealed root." : "does NOT lead to the sealed root.",
-      el("br"), el("code", {}, "leaf " + r.leafHex), el("br"), el("code", {}, "root " + (r.batch ? r.batch.hex : "missing"))),
-    el("li", {}, r.signature === null ? "– Batch signature: none (this batch is not signed)." :
-      r.signature === "unchecked" ? "– Batch signature: this browser cannot check it; run verify_pack.py." :
-      [mark(r.signature === true), r.signature === true ? "Batch signature: the root is signed by the key in this pack." :
-        "Batch signature: INVALID for this batch's root."].reduce((f, x) => (f.append(x), f), document.createDocumentFragment()))));
-  $("dlg").showModal();
+  const cmd = `python verify_pack.py <this zip or folder>${fps.length === 1 ? " --key " + fps[0] : ""}`;
+  card.append(el("div", { class: "cmd" }, el("div", { class: "label" }, "Check it without a browser: Python standard library only"),
+    el("div", { class: "cmd-row" }, el("code", {}, cmd), copyButton(cmd, "command"))));
 }
-$("dlg").addEventListener("click", (e) => { if (e.target === $("dlg")) $("dlg").close(); });
 
-// ---------------------------------------------------------------- tamper demonstration (in memory only)
+// ---------------------------------------------------------------- answers
+const ANS = { "Yes": ["yes", "check"], "No": ["no", "minus"], "Partially": ["part", "half"], "Insufficient evidence": ["none", "help"] };
+const FILTERS = [["all", "All"], ["Yes", "Yes"], ["Partially", "Partially"], ["No", "No"], ["Insufficient evidence", "Insufficient evidence"]];
+function buildToolbar() {
+  const seg = el("div", { class: "seg", role: "group", "aria-label": "Filter by answer" });
+  for (const [key, label] of FILTERS) seg.append(el("button", { type: "button", class: "seg-btn", "data-key": key,
+    onclick: () => { view.filter = key; updateToolbar(); renderQuestions(); } }, el("span", {}, label), el("span", { class: "count" }, "0")));
+  const input = el("input", { type: "search", id: "q-search", placeholder: "Search questions, claims and evidence", "aria-label": "Search the answers",
+    oninput: (e) => { view.query = e.target.value; renderQuestions(); } });
+  $("toolbar").replaceChildren(seg, el("label", { class: "search" }, icon("search"), input));
+}
+function updateToolbar() {
+  for (const b of document.querySelectorAll(".seg-btn")) {
+    const k = b.getAttribute("data-key");
+    const n = k === "all" ? A.questions.length : A.questions.filter((q) => q.answer === k).length;
+    b.setAttribute("aria-pressed", String(view.filter === k));
+    b.querySelector(".count").textContent = n;
+    b.hidden = k !== "all" && n === 0;
+  }
+}
+function matches(q) {
+  if (view.filter !== "all" && q.answer !== view.filter) return false;
+  const t = view.query.trim().toLowerCase();
+  if (!t) return true;
+  const hay = [q.id, q.question, q.answer, q.caveats, ...(q.missing || []), ...q.claims.map((c) => c.text),
+               ...q.claims.flatMap((c) => (c.evidence_ids || []).map((id) => `${id} ${(evidence[id] || {}).title || ""}`))].join(" ").toLowerCase();
+  return hay.includes(t);
+}
+function citeState(id) {
+  const r = results[id];
+  return !r ? (evidence[id] && progress.running ? "pending" : "bad") : r.ok ? "ok" : "bad";
+}
+function citeChip(id) {
+  const ev = evidence[id], st = citeState(id), title = ev ? ev.title : "not in this pack";
+  const word = st === "ok" ? "verified" : st === "bad" ? "FAILED verification" : "checking";
+  return el("button", { class: `cite ${st}`, type: "button", title: "Show this evidence record and its proof",
+    "aria-label": `Evidence ${short(id)}, ${title}: ${word}`, onclick: () => openEvidence(id) },
+    st === "pending" ? spinner() : icon(st === "ok" ? "check" : "x"), el("span", { class: "cid" }, short(id)), el("span", { class: "ct" }, title));
+}
+function approvalFoot(q) {
+  if (q.status !== "approved") return el("div", { class: "q-foot draft" }, icon("alert"), el("span", {}, "Draft: not approved by a person before export"));
+  const ap = approvals[q.id], e = q.approval, who = personName(e && e.actor) || "unknown", when = e && e.at ? fmtDate(e.at) : "";
+  const state = !ap ? "pending" : ap.ok ? "ok" : "bad";
+  const sub = state !== "bad" ? when : e ? `Recorded as approved by ${who}${when ? ", " + when : ""}` : "No approval record attached";
+  const person = el("div", { class: `who ${state}` }, el("span", { class: "avatar", "aria-hidden": "true" }, state === "bad" ? "!" : initials(who)),
+    el("div", {}, el("strong", {}, state === "bad" ? "This approval does not hold" : `Approved by ${who}`), el("span", {}, sub)));
+  const badge = state === "pending" ? el("span", { class: "badge pending" }, spinner(), "Checking the approval")
+    : state === "ok" ? el("span", { class: "badge ok" }, icon("check"), "Matches this exact answer")
+    : el("span", { class: "badge bad" }, icon("x"), `Approval check failed: ${ap.why}`);
+  return el("div", { class: "q-foot" }, person, badge);
+}
+function questionCard(q, i) {
+  const [cls, ic] = ANS[q.answer] || ["none", "help"];
+  const ids = q.claims.flatMap((c) => c.evidence_ids || []);
+  const bad = !progress.running && (ids.some((id) => citeState(id) === "bad") || (approvals[q.id] && !approvals[q.id].ok));
+  const card = el("article", { class: `card q${bad ? " q-bad" : ""}${animateCards ? " rise" : ""}`, id: "q-" + q.id, style: `--i:${i}` },
+    el("div", { class: "q-top" }, el("span", { class: "q-ref" }, q.id), el("h3", { class: "q-text" }, q.question),
+      el("span", { class: `answer ${cls}` }, icon(ic), q.answer)));
+  if (q.claims.length) {
+    card.append(el("ol", { class: "claims" }, ...q.claims.map((c) =>
+      el("li", { class: "claim" }, el("p", {}, c.text), el("div", { class: "cites" }, ...(c.evidence_ids || []).map(citeChip))))));
+  } else card.append(el("p", { class: "no-claims" }, "No sealed evidence covers this question, so the agent did not answer it."));
+  if ((q.missing || []).length) card.append(el("div", { class: "panel" },
+    el("div", { class: "panel-title" }, icon("doc"), "What would settle this"), el("ul", {}, ...q.missing.map((m) => el("li", {}, m)))));
+  for (const f of q.flags || []) card.append(el("div", { class: "panel flag" }, icon("alert"), el("span", {}, el("strong", {}, "Review: "), f)));
+  if (q.caveats) card.append(el("div", { class: "panel caveat" }, el("div", { class: "panel-title" }, "Caveats"), el("p", {}, q.caveats)));
+  if (q.reviewer_note) card.append(el("div", { class: "panel caveat" }, el("div", { class: "panel-title" }, "Reviewer's note"), el("p", {}, q.reviewer_note)));
+  card.append(approvalFoot(q));
+  return card;
+}
+function renderQuestions() {
+  const list = A.questions.filter(matches);
+  $("shown").textContent = list.length === A.questions.length ? plural(list.length, "question") : `${list.length} of ${A.questions.length} shown`;
+  const box = $("questions");
+  if (!list.length) { box.replaceChildren(el("div", { class: "card empty-state" }, icon("search"), el("p", {}, "No answers match."))); return; }
+  box.replaceChildren(...list.map(questionCard));
+}
+function showQuestion(qid) {
+  if (view.filter !== "all" || view.query) {
+    view = { filter: "all", query: "" }; $("q-search").value = ""; updateToolbar(); renderQuestions();
+  }
+  const card = document.getElementById("q-" + qid);
+  if (!card) return;
+  card.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+  card.classList.remove("flash", "rise"); void card.offsetWidth; card.classList.add("flash");
+}
+function render() { renderStats(); renderAnchor(); updateToolbar(); renderQuestions(); renderStatus(); animateCards = false; }
+
+// ---------------------------------------------------------------- the evidence drawer
+function kvs(v) {
+  const box = el("div", { class: "kvs" });
+  if (v && typeof v === "object" && !Array.isArray(v)) {
+    for (const [k, x] of Object.entries(v)) box.append(el("span", {}, el("b", {}, k + ": "), typeof x === "object" ? JSON.stringify(x) : String(x)));
+  } else box.append(el("span", {}, typeof v === "object" ? JSON.stringify(v) : String(v ?? "")));
+  return box;
+}
+function statusPill(s) {
+  const v = String(s ?? "—");
+  return el("span", { class: `status ${["PASS", "FAIL", "NEEDS_REVIEW", "WARN"].includes(v) ? v : "OTHER"}` }, v.replace(/_/g, " "));
+}
+function hashRows(state, rows) {
+  return el("div", { class: `hashes ${state}` }, ...rows.map(([label, value, diff]) =>
+    el("div", { class: "hrow" }, el("span", {}, label), el("code", { class: diff ? "diff" : "" }, value || "—"))));
+}
+function step(state, title, text, extra) {
+  const tag = state === "ok" ? "Passed" : state === "bad" ? "Failed" : "Not applicable";
+  return el("li", { class: `step ${state}` }, el("span", { class: "step-dot" }, icon(state === "ok" ? "check" : state === "bad" ? "x" : "minus")),
+    el("div", {}, el("div", { class: "step-title" }, title, el("span", { class: `tag ${state}` }, tag)), el("p", {}, text), extra || null));
+}
+const line = (...bits) => bits.filter(Boolean).join(" · ");
+function contentView(c, rec, r) {
+  const res = c.result && typeof c.result === "object" ? c.result.status : c.result;
+  if (c.check) return el("div", { class: "result" }, el("div", { class: "result-top" }, statusPill(res), el("h3", {}, c.check.title || "Automated check")),
+    c.check.expected ? el("p", {}, el("b", {}, "Expected: "), String(c.check.expected)) : null,
+    c.result && c.result.summary ? el("p", {}, c.result.summary) : null,
+    c.check.evaluation_logic ? el("p", { class: "faint" }, c.check.evaluation_logic) : null);
+  if (rec.source_type === "human_review" || c.reviewer) {
+    const meta = line(c.reviewer && `Reviewer: ${c.reviewer}`, c.valid_until && `valid until ${fmtDate(c.valid_until)}`);
+    return el("div", { class: "result" }, el("div", { class: "result-top" }, statusPill(res), el("h3", {}, "Reviewed by a person")),
+      c.notes ? el("p", {}, c.notes) : null, meta ? el("p", { class: "faint" }, meta) : null);
+  }
+  if (c.filename) {
+    const meta = line(c.uploaded_by && `Uploaded by ${c.uploaded_by}`, c.size_bytes != null && `${Math.max(1, Math.round(c.size_bytes / 1024))} KB`,
+                      c.version != null && `version ${c.version}`);
+    return el("div", { class: "result" }, el("div", { class: "result-top" }, statusPill(String(c.category || "document").toUpperCase()), el("h3", {}, c.filename)),
+      c.description ? el("p", {}, c.description) : null, meta ? el("p", { class: "faint" }, meta) : null,
+      c.sha256 ? el("p", { class: "faint" }, "Document SHA-256 ", el("code", {}, c.sha256)) : null);
+  }
+  if (!r.content) return el("div", { class: "result" }, el("div", { class: "result-top" }, statusPill("UNREADABLE"), el("h3", {}, "The content is not valid JSON")));
+  const { documents, ...rest } = c;
+  return el("table", { class: "tbl" }, ...Object.entries(rest).slice(0, 20).map(([k, v]) =>
+    el("tr", {}, el("th", {}, k), el("td", {}, typeof v === "object" ? JSON.stringify(v) : String(v)))));
+}
+function openEvidence(id) {
+  const ev = evidence[id], r = results[id], body = $("dlg-body"), dlg = $("dlg");
+  const close = el("button", { class: "icon-btn", type: "button", "aria-label": "Close", title: "Close (Esc)", onclick: () => dlg.close() }, icon("x"));
+  if (!ev || !r) {
+    body.replaceChildren(el("header", { class: "dr-head" }, el("div", {}, el("div", { class: "kicker" }, "Evidence"), el("h2", {}, ev ? "Still checking…" : "Not in this pack")), close),
+      el("p", { class: "muted" }, ev ? "This record is still being verified. Try again in a moment." : `The answer cites ${id}, but the pack does not contain it, so the citation fails.`));
+    dlg.showModal(); close.focus(); return;
+  }
+  const c = r.content || {}, rec = r.rec;
+  const kind = { provider_api: "Automated check", human_review: "Human review", human_upload: "Uploaded document" }[rec.source_type] || "Evidence record";
+  const parts = [el("header", { class: "dr-head" }, el("div", {}, el("div", { class: "kicker" }, kind), el("h2", {}, rec.title || ev.title)), close)];
+  parts.push(el("div", { class: `rec-verdict ${r.ok ? "ok" : "bad"}` }, icon(r.ok ? "shieldCheck" : "alert"),
+    el("span", {}, r.ok ? "This record verified in your browser" : "This record FAILED verification. Do not rely on it.")));
+  parts.push(el("div", { class: "dr-meta" },
+    el("span", { class: "chip" }, icon("hash"), el("code", {}, id)),
+    el("span", { class: "chip" }, icon("calendar"), `Collected ${fmtDate(rec.collected_at)}`),
+    ...(rec.control_ids || []).map((cid) => el("span", { class: "chip" }, icon("shield"), cid))));
+  parts.push(contentView(c, rec, r));
+  if (c.observations && c.observations.note) parts.push(el("div", { class: "panel caveat" }, el("p", {}, c.observations.note)));
+  if (Array.isArray(c.errors) && c.errors.length) parts.push(el("div", { class: "panel flag" }, icon("alert"),
+    el("span", {}, el("strong", {}, "Collection errors: "), c.errors.map((x) => typeof x === "object" ? JSON.stringify(x) : String(x)).join("; "))));
+  if (Array.isArray(c.resources) && c.resources.length) {
+    const t = el("table", { class: "tbl res" }, el("tr", {}, el("th", {}, "Resource"), el("th", {}, "Status"), el("th", {}, "Observed")));
+    for (const x of c.resources.slice(0, 25)) t.append(el("tr", {},
+      el("td", { class: "rid" }, x.id ?? "", x.reason ? el("span", {}, x.reason) : null), el("td", {}, statusPill(x.status)), el("td", {}, kvs(x.observed))));
+    parts.push(el("section", { class: "dr-section" }, el("h3", {}, `What was observed${c.resources.length > 25 ? " (first 25)" : ""}`), t));
+  }
+  const docs = Array.isArray(c.documents) ? c.documents : [];
+  if (docs.length) parts.push(el("section", { class: "dr-section" }, el("h3", {}, "Documents reviewed"),
+    el("div", { class: "docs" }, ...docs.map((d) => el("div", { class: "doc" }, icon("doc"), el("span", {}, d.filename || "document"),
+      d.sha256 ? el("code", { title: d.sha256 }, d.sha256.slice(0, 12) + "…") : null)))));
+  const path = ev.audit_path || [];
+  const mpath = el("div", { class: "mpath" },
+    el("div", { class: "mnode leaf" }, el("span", { class: "ml" }, `Leaf ${ev.leaf_index}`), el("code", { title: r.leafHex }, r.leafHex)),
+    ...path.map((h, i) => el("div", { class: "mnode" }, el("span", { class: "ml" }, `Sibling ${i + 1}`), el("code", { title: h }, h))),
+    el("div", { class: `mnode root ${r.inclusion ? "ok" : "bad"}` }, el("span", { class: "ml" }, "Sealed root"), el("code", {}, r.batch ? r.batch.hex : "missing")));
+  const b = A.batches.find((x) => x.batch_index === ev.batch_index) || {}, k = keys[b.signing_key_id];
+  const sigState = r.signature === true ? "ok" : r.signature === false ? "bad" : "na";
+  parts.push(el("section", { class: "dr-section" }, el("h3", {}, "How your browser verified it"), el("ol", { class: "steps" },
+    step(r.contentOk ? "ok" : "bad", "Content hash", r.contentOk ? "The SHA-256 of the record's content matches the hash sealed with it."
+      : "The SHA-256 of the record's content does NOT match the sealed hash: the content was changed.",
+      hashRows(r.contentOk ? "ok" : "bad", [["Computed", r.contentHash, !r.contentOk], ["Sealed", rec.content_sha256]])),
+    step(r.chainOk ? "ok" : "bad", "Hash chain link", r.chainOk ? "The record's link to the record sealed before it is intact."
+      : "The record's link to the record before it is BROKEN.",
+      hashRows(r.chainOk ? "ok" : "bad", [["Computed", r.chainHash, !r.chainOk], ["Sealed", rec.chain_hash]])),
+    step(r.inclusion ? "ok" : "bad", "Merkle proof", `Leaf ${ev.leaf_index} of ${r.batch ? r.batch.size : "?"} in batch ${ev.batch_index}: ${path.length} sibling hash${path.length === 1 ? "" : "es"} `
+      + (r.inclusion ? "lead from this record to the sealed root." : "do NOT lead to the sealed root."), mpath),
+    step(sigState, "Batch signature", r.signature === true ? `The sealed root is signed by the key ${k ? groups(k.fingerprint_sha256.slice(0, 16)) + "…" : "in this pack"}.`
+      : r.signature === false ? "The signature on this batch's root is INVALID."
+      : r.signature === "unchecked" ? "This browser cannot check the signature; run verify_pack.py."
+      : "This batch is not signed: confirm its root with the company."))));
+  body.replaceChildren(...parts);
+  dlg.showModal();
+  dlg.scrollTop = 0;
+  close.focus();
+}
+
+// ---------------------------------------------------------------- verification run
+async function verifyAll(pace = 0) {
+  const run = ++runId, stale = () => run !== runId;
+  progress = { done: 0, total: A.evidence.length, running: true };
+  batchSig = {}; results = {}; approvals = {};
+  renderStatus();
+  const sigs = {};
+  for (const b of A.batches) sigs[b.batch_index] = await checkSignature(b);
+  if (stale()) return false;
+  batchSig = sigs;
+  for (const ev of A.evidence) {
+    const r = await checkRecord(ev);
+    if (stale()) return false;
+    results[ev.evidence_id] = r;
+    progress.done++;
+    if (pace) { renderStatus(); await sleep(pace); if (stale()) return false; }
+  }
+  const aps = {};
+  for (const q of A.questions) if (q.status === "approved") aps[q.id] = await checkApproval(q);
+  if (stale()) return false;
+  approvals = aps;
+  progress.running = false;
+  render();
+  return true;
+}
+
+// ---------------------------------------------------------------- tamper lab (in memory only)
+function labResult(message, qid) {
+  const checks = el("div", { class: "lab-checks", "aria-label": "What the checks found" }, ...checkItems(summary()).map(([label, st, kind]) =>
+    el("span", { class: `lab-chk ${stateClass(st)}` }, stateIcon(st), `${label}: ${stateWord(st, kind)}`)));
+  const body = el("div", { class: "lab-body" }, el("p", {}, message), checks);
+  if (qid) body.append(el("button", { class: "ghost", type: "button", onclick: () => showQuestion(qid) }, icon("up"), `Show the affected answer (${qid})`));
+  $("tamper-msg").replaceChildren(icon("alert"), body);
+}
+const citing = (id) => (A.questions.find((q) => q.claims.some((c) => (c.evidence_ids || []).includes(id))) || {}).id;
 function tamperTarget() {
   // Prefer a record with a failing result: forging FAIL into PASS is the edit a dishonest vendor would make.
   for (const ev of A.evidence) {
@@ -440,14 +1065,14 @@ async function tamper(fixHashes) {
     rec.chain_hash = hex(await sha(utf8.encode(`${rec.prev_chain_hash || "GENESIS"}|${rec.content_sha256}|${rec.id}|${rec.collected_at}`)));
     bytes[id].record = utf8.encode(JSON.stringify(rec));
   }
-  await verifyAll();
-  const r = results[id];
-  $("tamper-msg").replaceChildren(el("div", { class: "note flag" },
-    `Simulated: changed ${t.from} to ${t.to} in evidence ${short(id)} (${t.ev.title})` +
+  if (!await verifyAll()) return;
+  const r = results[id], signed = roots[t.ev.batch_index] && roots[t.ev.batch_index].signed;
+  labResult(`Simulated: changed ${t.from} to ${t.to} in evidence ${short(id)} (${t.ev.title})` +
     (fixHashes ? ", then recomputed its content hash and chain hash to match. " : ". ") +
     (fixHashes ? `The record's own hashes now agree, but its Merkle proof no longer reaches the sealed root (${r.inclusion ? "unexpectedly passed" : "failed"}). ` +
-                 "Hiding that would need a different root, and the root is what you confirm with the company."
-               : `Its content hash no longer matches the sealed hash (${r.contentOk ? "unexpectedly passed" : "failed"}).`)));
+                 (signed ? "Hiding that would need a new root, and the root is signed with the key shown above."
+                         : "Hiding that would need a different root, and the root is what you confirm with the company.")
+               : `Its content hash no longer matches the sealed hash (${r.contentOk ? "unexpectedly passed" : "failed"}).`), citing(id));
 }
 $("t1").addEventListener("click", () => tamper(false));
 $("t2").addEventListener("click", () => tamper(true));
@@ -457,15 +1082,56 @@ $("t3").addEventListener("click", async () => {
   if (!q) return;
   const before = q.claims[0].text;
   q.claims[0].text = before.replace(/\.$/, "") + ", across every account and region.";
-  await verifyAll();
-  $("tamper-msg").replaceChildren(el("div", { class: "note flag" },
-    `Simulated: after approval, ${q.id}'s first claim was widened to "${q.claims[0].text}" The evidence still verifies, ` +
-    `but the approval no longer matches the answer (${approvals[q.id].ok ? "unexpectedly passed" : "failed"}), so nobody approved what you are reading.`));
+  if (!await verifyAll()) return;
+  labResult(`Simulated: after approval, ${q.id}'s first claim was widened to "${q.claims[0].text}" The evidence still verifies, ` +
+    `but the approval no longer matches the answer (${approvals[q.id].ok ? "unexpectedly passed" : "failed"}), so nobody approved what you are reading.`, q.id);
 });
-$("t0").addEventListener("click", async () => { bytes = structuredClone(original); A.questions = structuredClone(originalQuestions); await verifyAll(); $("tamper-msg").replaceChildren(); });
+$("t0").addEventListener("click", async () => {
+  bytes = structuredClone(original); A.questions = structuredClone(originalQuestions);
+  if (await verifyAll()) $("tamper-msg").replaceChildren();
+});
 
+// ---------------------------------------------------------------- start
+function currentTheme() {
+  return document.documentElement.getAttribute("data-theme") || (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+}
+function paintThemeButton() {
+  const dark = currentTheme() === "dark";
+  $("theme-btn").replaceChildren(icon(dark ? "sun" : "moon"));
+  $("theme-btn").setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+  $("theme-btn").setAttribute("title", dark ? "Light mode" : "Dark mode");
+}
+$("theme-btn").addEventListener("click", () => {
+  const next = currentTheme() === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  try { localStorage.setItem("vea-theme", next); } catch (_) {}
+  paintThemeButton();
+});
+$("print-btn").addEventListener("click", () => window.print());
+$("dlg").addEventListener("click", (e) => { if (e.target === $("dlg")) $("dlg").close(); });
+
+try { const t = localStorage.getItem("vea-theme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (_) {}
+for (const e of document.querySelectorAll("[data-icon]")) e.prepend(icon(e.getAttribute("data-icon")));
+paintThemeButton();
+document.title = `${org}: verified questionnaire answers`;
+$("brand-org").textContent = org;
+$("title").replaceChildren(el("span", { class: "org" }, org), /s$/i.test(org) ? "' answers, with proof" : "'s answers, with proof");
+$("lede").textContent = "Every answer below cites sealed evidence records. When this page opened, it re-checked every record, " +
+  "the signature that seals them and every approval, on your device. Nothing is sent anywhere.";
+$("meta").replaceChildren(
+  el("span", { class: "chip" }, icon("calendar"), `Evidence ${fmtDate(A.period && A.period.start)} – ${fmtDate(A.period && A.period.end)}`),
+  el("span", { class: "chip" }, icon("doc"), `Generated ${fmtDate(A.generated_at)}`),
+  el("span", { class: "chip" }, icon("shield"), A.generator || "Verifiable Evidence Agent"));
+$("foot-gen").textContent = [A.generator, A.format].filter(Boolean).join(" · ");
+buildSeal();
+buildToolbar();
 render();
-verifyAll().catch((e) => { $("verdict").className = "verdict bad"; $("verdict").textContent = "Verification could not run: " + e.message; });
+verifyAll(reduceMotion ? 0 : Math.min(70, 900 / Math.max(1, A.evidence.length))).catch((e) => {
+  progress.running = false;
+  $("verdict").className = "verdict bad";
+  $("verdict").setAttribute("aria-busy", "false");
+  $("verdict").replaceChildren(icon("alert"), el("div", {}, el("strong", {}, "Verification could not run"), el("span", { class: "sub" }, e.message)));
+});
 </script>
 </body>
 </html>
