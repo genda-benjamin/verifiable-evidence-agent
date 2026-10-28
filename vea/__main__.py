@@ -276,14 +276,20 @@ def cmd_eval(args) -> int:
     provider = llm.from_env(args.provider)
     verifier = llm.from_env(args.verifier) if args.verifier else None
     only = set(args.only.split(",")) if args.only else None
-    report = evaluate.run(package, doc, args.mode, provider, verifier, only, progress=print)
-    stamp = time.strftime("%Y%m%d-%H%M%S")
     who = args.provider + (f"+{args.verifier}-verifier" if args.verifier and args.verifier != args.provider else "")
-    out = Path(args.out_dir) / f"{stamp}-{who}-{args.mode}"
-    out.parent.mkdir(parents=True, exist_ok=True)
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    # Full runs save every answer as they go; running the same command again after an interruption resumes it.
+    checkpoint = None if only else out_dir / f".partial-{Path(args.evalset).stem}-{who}-{args.mode}.json"
+    if checkpoint is not None and args.fresh:
+        checkpoint.unlink(missing_ok=True)
+    report = evaluate.run(package, doc, args.mode, provider, verifier, only, progress=print, checkpoint=checkpoint)
+    out = out_dir / f"{time.strftime('%Y%m%d-%H%M%S')}-{who}-{args.mode}"
     out.with_suffix(".json").write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
     md = evaluate.markdown(report)
     out.with_suffix(".md").write_text(md, encoding="utf-8")
+    if checkpoint is not None:
+        checkpoint.unlink(missing_ok=True)
     print("\n" + md + f"\nwrote {out}.json and .md")
     return 0
 
@@ -346,6 +352,7 @@ def main(argv: list[str] | None = None) -> int:
     ev.add_argument("--verifier", choices=sorted(llm.PRESETS), help="a different provider for the verifier pass")
     ev.add_argument("--only", help="comma-separated item ids")
     ev.add_argument("--out-dir", default="evals/results")
+    ev.add_argument("--fresh", action="store_true", help="start over instead of resuming an interrupted run of the same command")
     ev.set_defaults(fn=cmd_eval)
     args = ap.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):  # evidence titles contain dashes and names a Windows console code page cannot show

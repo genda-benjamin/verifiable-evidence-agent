@@ -60,3 +60,32 @@ def test_bare_asks_with_no_evidence(monkeypatch, capsys):
     sent = provider.seen[0][0]["content"]
     assert "questionnaire for Sample Co" in sent and sent.endswith("Question: Are background checks performed?")
     assert "Yes, always." in capsys.readouterr().out
+
+
+def test_eval_resumes_after_a_crash_and_cleans_up(monkeypatch, tmp_path, capsys):
+    """A run that dies part way keeps its answers; the same command finishes it without asking those questions again."""
+    calls, dropped = [], []
+
+    def flaky(messages):  # the connection drops once, on the fourth question
+        calls.append(1)
+        if len(calls) == 4 and not dropped:
+            dropped.append(1)
+            raise RuntimeError("connection reset")
+        return json.dumps({"answer": "Insufficient evidence", "claims": []})
+
+    monkeypatch.setattr(llm, "from_env", lambda preset: ScriptedProvider(flaky))
+    args = ["eval", "--mode", "rag", "--out-dir", str(tmp_path)]
+    with pytest.raises(RuntimeError):
+        cli.main(args)
+    [partial] = tmp_path.glob(".partial-*.json")
+    assert len(json.loads(partial.read_text(encoding="utf-8"))["results"]) == 3
+
+    assert cli.main(args) == 0
+    assert "resuming: 3 answer(s) saved" in capsys.readouterr().out
+    [report] = tmp_path.glob("*-meta-rag.json")
+    doc = json.loads(report.read_text(encoding="utf-8"))
+    assert len(doc["results"]) == 32 and doc["usage"]["answering"]["calls"] == 3 + 29  # calls saved before the crash count
+    assert not list(tmp_path.glob(".partial-*"))  # finished, so nothing is left to resume
+
+    calls.clear()
+    assert cli.main(args + ["--fresh"]) == 0 and len(calls) == 32

@@ -16,6 +16,8 @@ data/private/
 # ...except the fictional sample package the demo and tests use
 !samples/*.zip
 out/
+# Answers an interrupted evaluation saved so far (python -m vea eval resumes from them)
+evals/results/.partial-*
 # Packaging
 build/
 dist/

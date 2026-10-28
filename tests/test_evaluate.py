@@ -100,6 +100,31 @@ def test_run_end_to_end_with_scripted_models(package, evalset, tmp_path):
     assert "| E28 | Insufficient evidence |" in md and "UNSAFE" not in md
 
 
+def test_an_interrupted_run_resumes_without_asking_the_model_again(package, evalset, tmp_path):
+    """Answers are saved after every question, so a crash or a sleeping computer costs one question, not the run."""
+    class Stop(Exception):
+        pass
+
+    checkpoint, ids, lines = tmp_path / "run.partial.json", {"E01", "E16", "E28"}, []
+    abstain = lambda m: json.dumps({"answer": "Insufficient evidence", "claims": []})  # noqa: E731
+
+    def stop_after_two(line):
+        lines.append(line)
+        if len(lines) == 2:
+            raise Stop
+
+    with pytest.raises(Stop):
+        evaluate.run(package, evalset, "rag", ScriptedProvider(abstain), only=ids, progress=stop_after_two, checkpoint=checkpoint)
+    assert len(json.loads(checkpoint.read_text(encoding="utf-8"))["results"]) == 2
+
+    again = ScriptedProvider(abstain)
+    report = evaluate.run(package, evalset, "rag", again, only=ids, checkpoint=checkpoint)
+    assert again.usage.calls == 1 and [r["id"] for r in report["results"]] == sorted(ids)
+    assert report["usage"]["answering"]["calls"] == 3  # the interrupted session's calls are still counted
+    with pytest.raises(ValueError, match="different run"):  # never mixes in answers from another mode or model
+        evaluate.run(package, evalset, "agent", ScriptedProvider(abstain), only=ids, checkpoint=checkpoint)
+
+
 def test_vsaq_questions_are_verbatim_and_attributed():
     doc = evaluate.load_items(ROOT / "evals" / "vsaq.json")
     assert doc["source"]["license"] == "Apache-2.0" and (ROOT / "third_party" / "vsaq" / "LICENSE").exists()

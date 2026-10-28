@@ -161,27 +161,49 @@ def rag_answer(package: EvidencePackage, provider: Provider, question: str, k: i
 
 
 def run(package: EvidencePackage, eval_doc: dict[str, Any], mode: str, provider: Provider, verifier: Provider | None = None,
-        only: set[str] | None = None, progress: Callable[[str], None] = lambda s: None) -> dict[str, Any]:
+        only: set[str] | None = None, progress: Callable[[str], None] = lambda s: None,
+        checkpoint: Path | None = None) -> dict[str, Any]:
+    """Answer and score every item. With a checkpoint, the answers so far are saved after each question, so a run that
+    stops part way (a crash, a dropped connection, the computer sleeping) resumes from there instead of starting over."""
     if mode not in ("agent", "no-verify", "rag"):
         raise ValueError(f"unknown mode {mode}")
     agent = Agent(package, provider, verifier, verify=(mode == "agent"))
+    second = verifier if verifier is not None and verifier is not provider else None
+    run_id = {"mode": mode, "model": getattr(provider, "model", "?"), "verifier": getattr(second, "model", None)}
+    saved: dict[str, Any] = {"seconds": 0.0, "usage": {}, "results": []}
+    if checkpoint is not None and checkpoint.exists():
+        saved = json.loads(checkpoint.read_text(encoding="utf-8"))
+        if saved.get("run") != run_id:
+            raise ValueError(f"{checkpoint} was saved by a different run ({saved.get('run')}); delete it to start over")
+        progress(f"resuming: {len(saved['results'])} answer(s) saved in {checkpoint}")
+    pending = {r["id"]: r for r in saved["results"]}  # saved answers not reached yet in this pass
     scored, raw = [], []
     started = time.monotonic()
+
+    def usage() -> dict[str, Any]:  # this session's calls plus the saved ones (a call in flight when a run died is lost)
+        now = {"answering": vars(provider.usage), **({"verifier": vars(second.usage)} if second else {})}
+        return {role: {k: saved["usage"].get(role, {}).get(k, 0) + v for k, v in counts.items()} for role, counts in now.items()}
+
     for item in eval_doc["items"]:
         if only and item["id"] not in only:
             continue
-        result = rag_answer(package, provider, item["question"]) if mode == "rag" else agent.answer(item["question"]).to_dict()
+        resumed = pending.pop(item["id"], None)
+        if resumed is not None:
+            result = {k: v for k, v in resumed.items() if k != "id"}
+        else:
+            result = rag_answer(package, provider, item["question"]) if mode == "rag" else agent.answer(item["question"]).to_dict()
         s = score_item(package, item, result)
         scored.append(s)
         raw.append({"id": item["id"], **result})
+        if checkpoint is not None and resumed is None:
+            tmp = checkpoint.with_suffix(".tmp")  # write then rename, so a crash mid-write cannot corrupt the saved answers
+            tmp.write_text(json.dumps({"run": run_id, "seconds": saved["seconds"] + time.monotonic() - started, "usage": usage(),
+                                       "results": raw + list(pending.values())}, default=str), encoding="utf-8")
+            tmp.replace(checkpoint)
         progress(f"{item['id']} {'ok  ' if s['correct'] else 'MISS'}{' UNSAFE' if s['unsafe'] else ''}  {s['answer']}")
-    usage = {"answering": vars(provider.usage)}
-    if verifier is not None and verifier is not provider:
-        usage["verifier"] = vars(verifier.usage)
     return {"mode": mode, "provider": getattr(provider, "name", "?"), "model": getattr(provider, "model", "?"),
-            "verifier": getattr(verifier, "model", None) if verifier is not None and verifier is not provider else None,
-            "seconds": round(time.monotonic() - started, 1), "usage": usage,
-            "summary": summarize(scored), "scored": scored, "results": raw}
+            "verifier": getattr(second, "model", None), "seconds": round(saved["seconds"] + time.monotonic() - started, 1),
+            "usage": usage(), "summary": summarize(scored), "scored": scored, "results": raw}
 
 
 def markdown(report: dict[str, Any]) -> str:

@@ -18,6 +18,8 @@ python -m vea eval evals/vsaq.json --mode agent --provider meta   # the same on 
 ```
 
 Model runs write `evals/results/<time>-<provider>-<mode>.json` (every answer, claim and trace) and a `.md` summary.
+A full run saves each answer as it goes: if it stops part way (a crash, a dropped connection, the computer sleeping),
+run the same command again and it resumes from the saved answers. `--fresh` starts over.
 
 ## Questionnaire intake
 

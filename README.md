@@ -105,7 +105,7 @@ Python 3.11, standard library only (the tests need `pytest`). No key is needed t
 python -m vea verify samples/sample-co-evidence-package.zip      # 246 records, all verified
 python -m vea verify samples/sample-co-tampered.zip              # the forged package: 5 records fail
 python -m vea verify samples/sample-co-resealed.zip              # every hash checks out; the signature does not
-python -m pytest -q                                              # 52 tests
+python -m pytest -q                                              # 54 tests
 ```
 
 With a Meta Model API key in `.env` (`META_API_KEY=...`, never committed) or a Baseten key (`BASETEN_API_KEY=...`,
