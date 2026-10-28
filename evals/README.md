@@ -143,6 +143,26 @@ on Baseten), alone and as the verifier for Muse Spark:
   label at "Insufficient evidence" only: test checks on code changes do not show security patches tested before
   production. Those answers stay scored as wrong.
 
+**Self-hosted, 2026-10-29: the whole agent on Meta's Muse Glimmer** (`meta-models/Muse-Glimmer-30B`, 30B parameters,
+Apache 2.0), served with vLLM from one H100 GPU on Modal ([modal_glimmer.py](modal_glimmer.py)). Same prompts,
+temperature 0 and the model's default reasoning level, as for every other run:
+
+| Configuration | vsaq accuracy / grounded | Unsafe | Ran out of research steps | Forgeries believed (tampered) | Time per question |
+|---|---|---|---|---|---|
+| Glimmer, 8 research steps (the standard budget) | 48.3% / 48.3% | **0** | 22 of 29 | **0 of 5** (100% accurate) | ~33 s |
+| Glimmer, 16 research steps | 69.0% / 69.0% | **0** | 11 of 29 | not run | ~74 s |
+
+- **A model small enough for one GPU never misled a customer in these runs, and never got a forgery past the checks.**
+  On the tampered set its drafts relied on a forged record four times (T01, T02, T04, T05); each was withheld by
+  code and flagged "Possible tampering". The model was fooled; the system was not.
+- **It is much less useful than Muse Spark.** It keeps researching past the point where it should answer, ignoring the
+  prompt's "one step left: give the final answer now", so the agent refuses ("did not finish"). Every miss is caution:
+  refusing where evidence exists, plus one "Partially" where the label is "Yes" (V25). Doubling the step budget took
+  it from 48.3% to 69.0%, at more than twice the time.
+- The 16-step run is a separate configuration (`--max-steps 16`); every other saved run used the standard 8.
+- Cost: GPU time is billed by the hour, roughly $5 for these runs including start-up (an estimate from run times;
+  the Modal dashboard is authoritative), against about $1.40 per vsaq run for Muse Spark on Meta's API.
+
 Limits: one run per mode (a reasoning model's answers vary between runs); 29 and 8 questions; Meta's filter refused one
 VSAQ question in every mode (scored as wrong); the agent-without-verifier mode was not rerun after the fixes. The full
 agent costs about 5.5 times basic RAG (about $0.05 a question) and takes about 45 seconds a question.

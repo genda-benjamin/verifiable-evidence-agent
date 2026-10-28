@@ -1,0 +1,3713 @@
+{
+  "mode": "agent",
+  "provider": "custom",
+  "model": "muse-glimmer-30b",
+  "verifier": null,
+  "seconds": 970.3,
+  "usage": {
+    "answering": {
+      "calls": 231,
+      "prompt_tokens": 670684,
+      "completion_tokens": 25426,
+      "seconds": 967.2819999999774
+    }
+  },
+  "summary": {
+    "questions": 29,
+    "accuracy_pct": 48.3,
+    "grounded_accuracy_pct": 48.3,
+    "unsafe_answers": 0,
+    "unsafe_pct": 0.0,
+    "citation_recall_pct": 100.0,
+    "correct_abstention_pct": 100.0,
+    "false_abstention_pct": 95.7,
+    "pipeline_abstentions": 0,
+    "claims_kept": 2,
+    "claims_rejected": 0,
+    "rejection_reasons": {},
+    "answers_flagged": 0,
+    "provider_refusals": 0,
+    "abstentions_naming_missing_pct": 100.0,
+    "by_category": {
+      "fail": {
+        "n": 2,
+        "accuracy": 50.0,
+        "grounded": 50.0,
+        "unsafe": 0
+      },
+      "human-evidence": {
+        "n": 10,
+        "accuracy": 10.0,
+        "grounded": 10.0,
+        "unsafe": 0
+      },
+      "incomplete": {
+        "n": 6,
+        "accuracy": 100.0,
+        "grounded": 100.0,
+        "unsafe": 0
+      },
+      "no-evidence": {
+        "n": 6,
+        "accuracy": 100.0,
+        "grounded": 100.0,
+        "unsafe": 0
+      },
+      "pass": {
+        "n": 5,
+        "accuracy": 0.0,
+        "grounded": 0.0,
+        "unsafe": 0
+      }
+    }
+  },
+  "scored": [
+    {
+      "id": "V01",
+      "category": "pass",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V02",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V03",
+      "category": "pass",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V04",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V05",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V06",
+      "category": "pass",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V07",
+      "category": "pass",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V08",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V09",
+      "category": "pass",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V10",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence",
+        "Partially"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V11",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V12",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence",
+        "No"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V13",
+      "category": "fail",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Partially",
+        "No",
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V14",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V15",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V16",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V17",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V18",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Partially",
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V19",
+      "category": "incomplete",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Partially",
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V20",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V21",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Partially",
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V22",
+      "category": "human-evidence",
+      "answer": "Yes",
+      "accept": [
+        "Yes"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 1,
+      "citation_groups_covered": 1,
+      "should_abstain": false,
+      "abstained": false,
+      "pipeline_abstained": false,
+      "claims_kept": 2,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": false
+    },
+    {
+      "id": "V23",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V24",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes",
+        "Partially"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V25",
+      "category": "human-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Yes"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V26",
+      "category": "fail",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Partially",
+        "No"
+      ],
+      "correct": false,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": false,
+      "citation_groups": 1,
+      "citation_groups_covered": 0,
+      "should_abstain": false,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V27",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V28",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    },
+    {
+      "id": "V29",
+      "category": "no-evidence",
+      "answer": "Insufficient evidence",
+      "accept": [
+        "Insufficient evidence"
+      ],
+      "correct": true,
+      "provider_refused": false,
+      "unsafe": false,
+      "grounded": true,
+      "citation_groups": 0,
+      "citation_groups_covered": 0,
+      "should_abstain": true,
+      "abstained": true,
+      "pipeline_abstained": false,
+      "claims_kept": 0,
+      "claims_rejected": 0,
+      "rejection_reasons": [],
+      "flags": 0,
+      "names_missing": true
+    }
+  ],
+  "results": [
+    {
+      "id": "V01",
+      "question": "Firewalls are a basic network security control. Does your company use firewalls to restrict traffic into and out of your network at strategic points?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "firewall restrict traffic into out network strategic points",
+            "limit": 8
+          },
+          "why": "Find evidence about firewall usage for inbound/outbound traffic restriction at strategic points.",
+          "result_preview": "[{\"evidence_id\": \"07ccfb32-1eff-494e-beac-767897f7a8e9\", \"title\": \"Default security groups restrict all traffic \u2014 123456789012\", \"controls\": [\"TE-NW-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 12.59}]"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "firewall",
+            "limit": 8
+          },
+          "why": "Find firewall evidence records.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "network firewall",
+            "limit": 8
+          },
+          "why": "Find network firewall evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-NW-01"
+          },
+          "why": "Get control details and evidence IDs for network firewall control.",
+          "result_preview": "{\"control_id\": \"TE-NW-01\", \"name\": \"Network boundary protection\", \"objective\": \"Administrative ports and databases are not exposed to the internet.\", \"status\": \"FAIL\", \"applicable\": true, \"criteria\": [\"CC6.6\"], \"open_findings\": 1, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"aws.ec2.no_open_admin_ports\", \"status\": \"PASS\", \"expected\": \"No such rule exists.\", \"evidence_id\": \""
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "list_controls",
+          "args": {},
+          "why": "List all controls to find firewall-related controls.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "network ACL",
+            "limit": 8
+          },
+          "why": "Find network ACL evidence for traffic restriction.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "restrict traffic",
+            "limit": 8
+          },
+          "why": "Find evidence about restricting traffic.",
+          "result_preview": "[{\"evidence_id\": \"07ccfb32-1eff-494e-beac-767897f7a8e9\", \"title\": \"Default security groups restrict all traffic \u2014 123456789012\", \"controls\": [\"TE-NW-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 12.59}]"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "07ccfb32-1eff-494e-beac-767897f7a8e9"
+          },
+          "why": "Open evidence to confirm firewall/security group restriction details.",
+          "result_preview": "{\"evidence_id\": \"07ccfb32-1eff-494e-beac-767897f7a8e9\", \"title\": \"Default security groups restrict all traffic \u2014 123456789012\", \"source\": \"provider_api\", \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"controls\": [\"TE-NW-01\"], \"content_sha256\": \"619113cbbe97a257fc7b1302b265b775eadd4c6c08653acfd687d1f269f5a212\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\","
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V02",
+      "question": "Is encryption and integrity protection in place for all internal network traffic that potentially carries sensitive information (including passwords, emails, files, source code, management traffic, etc.)?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "encryption integrity protection internal network traffic sensitive information passwords emails files source code management",
+            "limit": 8
+          },
+          "why": "Find evidence about encryption and integrity for internal network traffic carrying sensitive data.",
+          "result_preview": "[{\"evidence_id\": \"52390ab8-eff8-4568-b281-5b3e87bb3bc7\", \"title\": \"Manual review: Management oversight of security\", \"controls\": [\"TE-GV-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.3}, {\"evidence_id\": \"42fa74a4-849d-44b1-a5c4-67ea64871b8d\", \"title\": \"Manual review: Encryption of data in transit\", \"controls\": [\"TE-DP-02\"], \"collected_at\": \"2026-"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "internal network traffic encryption TLS mTLS VPN integrity",
+            "limit": 8
+          },
+          "why": "Find evidence about internal network encryption and integrity protection.",
+          "result_preview": "[{\"evidence_id\": \"07ccfb32-1eff-494e-beac-767897f7a8e9\", \"title\": \"Default security groups restrict all traffic \u2014 123456789012\", \"controls\": [\"TE-NW-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 6.3}, {\"evidence_id\": \"a546b142-9589-4845-a786-7ace2b9db5fa\", \"title\": \"Buckets deny non-TLS access \u2014 123456789012\", \"controls\": [\"TE-DP-02\"], \"collected_a"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "42fa74a4-849d-44b1-a5c4-67ea64871b8d"
+          },
+          "why": "Open manual review of encryption of data in transit to see scope and findings.",
+          "result_preview": "{\"evidence_id\": \"42fa74a4-849d-44b1-a5c4-67ea64871b8d\", \"title\": \"Manual review: Encryption of data in transit\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-DP-02\"], \"content_sha256\": \"d6c1f80e24ab47b17b9537c071fde1b1deee33a89d611336c6dd30739b1be943\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"c"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "east-west encryption internal traffic TLS mTLS service mesh",
+            "limit": 8
+          },
+          "why": "Find evidence about east-west/internal traffic encryption.",
+          "result_preview": "[{\"evidence_id\": \"4047a3da-539a-4761-aad9-ece063c814f5\", \"title\": \"EBS encryption by default \u2014 123456789012\", \"controls\": [\"TE-DP-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 10.06}, {\"evidence_id\": \"8b6eb547-b697-4e93-a135-0a7e6e151c5e\", \"title\": \"Manual review: Physical security of data centres (sub-service)\", \"controls\": [\"TE-PH-01\"], \"collecte"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "search_evidence",
+          "args": {
+            "query": "internal network",
+            "limit": 8
+          },
+          "why": "Find evidence specifically about internal network traffic protection.",
+          "result_preview": "[{\"evidence_id\": \"f4554945-4b4f-4050-8bdd-f3abd3b9b5d1\", \"title\": \"Public repositories are intentional \u2014 sample-co\", \"controls\": [\"TE-DP-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 4.47}]"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "management traffic encryption",
+            "limit": 8
+          },
+          "why": "Find evidence about management traffic encryption.",
+          "result_preview": "[{\"evidence_id\": \"42fa74a4-849d-44b1-a5c4-67ea64871b8d\", \"title\": \"Manual review: Encryption of data in transit\", \"controls\": [\"TE-DP-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 6.74}, {\"evidence_id\": \"07ccfb32-1eff-494e-beac-767897f7a8e9\", \"title\": \"Default security groups restrict all traffic \u2014 123456789012\", \"controls\": [\"TE-NW-01\"], \"collecte"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify controls related to encryption in transit and network.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-DP-02"
+          },
+          "why": "Get evidence IDs behind encryption in transit control to assess coverage.",
+          "result_preview": "{\"control_id\": \"TE-DP-02\", \"name\": \"Encryption of data in transit\", \"objective\": \"Data in transit is protected with TLS; storage denies plaintext access.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC6.7\"], \"open_findings\": 0, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"aws.s3.bucket_tls_only\", \"status\": \"PASS\", \"expected\": \"Bucket policy denies insecure transpor"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V03",
+      "question": "Do you monitor your network for security events?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "network monitoring security events",
+            "limit": 8
+          },
+          "why": "Find evidence about network security monitoring.",
+          "result_preview": "[{\"evidence_id\": \"1007bcc9-209d-4aac-a942-137d4cf38707\", \"title\": \"Manual review: Control monitoring and deficiency tracking\", \"controls\": [\"TE-MO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 8.76}, {\"evidence_id\": \"896b4365-a7f1-449e-ac1d-73e41ceaec4b\", \"title\": \"Drafted policy: Sample_Co_Logging_and_Monitoring_Policy.docx\", \"controls\": [\"TE-LM-0"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "network security monitoring SIEM IDS IPS",
+            "limit": 8
+          },
+          "why": "Find specific network security monitoring evidence.",
+          "result_preview": "[{\"evidence_id\": \"1007bcc9-209d-4aac-a942-137d4cf38707\", \"title\": \"Manual review: Control monitoring and deficiency tracking\", \"controls\": [\"TE-MO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 8.76}, {\"evidence_id\": \"896b4365-a7f1-449e-ac1d-73e41ceaec4b\", \"title\": \"Drafted policy: Sample_Co_Logging_and_Monitoring_Policy.docx\", \"controls\": [\"TE-LM-0"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "1007bcc9-209d-4aac-a942-137d4cf38707"
+          },
+          "why": "Open manual review of control monitoring to see if network security events are covered.",
+          "result_preview": "{\"evidence_id\": \"1007bcc9-209d-4aac-a942-137d4cf38707\", \"title\": \"Manual review: Control monitoring and deficiency tracking\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-MO-01\"], \"content_sha256\": \"11e42158ec996e1ba1c944f4a820de81cbd66e7ff426938af0425fb08917a99e\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \""
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "SIEM",
+            "limit": 8
+          },
+          "why": "Find SIEM monitoring evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "search_evidence",
+          "args": {
+            "query": "network traffic monitoring",
+            "limit": 8
+          },
+          "why": "Find network traffic monitoring evidence.",
+          "result_preview": "[{\"evidence_id\": \"896b4365-a7f1-449e-ac1d-73e41ceaec4b\", \"title\": \"Drafted policy: Sample_Co_Logging_and_Monitoring_Policy.docx\", \"controls\": [\"TE-LM-01\", \"TE-LM-02\", \"TE-LM-03\", \"TE-TD-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 7.09}, {\"evidence_id\": \"07ccfb32-1eff-494e-beac-767897f7a8e9\", \"title\": \"Default security groups restrict all traffic \u2014 "
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "896b4365-a7f1-449e-ac1d-73e41ceaec4b"
+          },
+          "why": "Open logging and monitoring policy to see what monitoring is intended.",
+          "result_preview": "{\"evidence_id\": \"896b4365-a7f1-449e-ac1d-73e41ceaec4b\", \"title\": \"Drafted policy: Sample_Co_Logging_and_Monitoring_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-LM-01\", \"TE-LM-02\", \"TE-LM-03\", \"TE-TD-01\"], \"content_sha256\": \"0aa9fc77ec227fc3b64d860a7ceab04946ee025a7556016c57bf79cb291fe0b2\", \"verification\": \"verified (content hash, hash chain,"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "network",
+            "limit": 8
+          },
+          "why": "Find any network-related monitoring evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Check which controls exist for network monitoring.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V04",
+      "question": "Do you retain logs produced by networking devices (such as firewalls, routers, DNS servers, DHCP servers, etc.) for at least six months, and do you monitor them regularly?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "networking devices logs retention six months firewall router DNS DHCP",
+            "limit": 8
+          },
+          "why": "Find evidence about log retention period for networking devices and monitoring.",
+          "result_preview": "[{\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 8.43}, {\"evidence_id\": \"244a248d-62da-4451-bd3b-1d1e15696403\", \"title\": \"Drafted policy: Sample_Co_Data_Retention_and_Disposal_Policy.docx\", \"controls\": [\"TE-PR-03\", \"TE-DS-01\", "
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "firewall logs retention",
+            "limit": 8
+          },
+          "why": "Find evidence about firewall log retention period.",
+          "result_preview": "[{\"evidence_id\": \"244a248d-62da-4451-bd3b-1d1e15696403\", \"title\": \"Drafted policy: Sample_Co_Data_Retention_and_Disposal_Policy.docx\", \"controls\": [\"TE-PR-03\", \"TE-DS-01\", \"TE-CF-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 6.68}, {\"evidence_id\": \"2ecb121c-5778-4f76-bf57-2cd334140088\", \"title\": \"Manual review: Collection, use and retention limitatio"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "log retention six months",
+            "limit": 8
+          },
+          "why": "Find evidence about log retention duration.",
+          "result_preview": "[{\"evidence_id\": \"244a248d-62da-4451-bd3b-1d1e15696403\", \"title\": \"Drafted policy: Sample_Co_Data_Retention_and_Disposal_Policy.docx\", \"controls\": [\"TE-PR-03\", \"TE-DS-01\", \"TE-CF-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 6.68}, {\"evidence_id\": \"2ecb121c-5778-4f76-bf57-2cd334140088\", \"title\": \"Manual review: Collection, use and retention limitatio"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "dd7e0ac9-f485-46cd-a727-7682955b7cdf"
+          },
+          "why": "Check retention period for audit logs.",
+          "result_preview": "{\"evidence_id\": \"dd7e0ac9-f485-46cd-a727-7682955b7cdf\", \"title\": \"Organisation audit log is retained and accessible \u2014 sample-co\", \"source\": \"provider_api\", \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"controls\": [\"TE-LM-01\"], \"content_sha256\": \"bae0d714b32b021d0dbf9dcfdaaa533e8a0bee0bbd660f43229da86c0d5390e2\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "search_evidence",
+          "args": {
+            "query": "network logs monitoring regularly",
+            "limit": 8
+          },
+          "why": "Find evidence of regular monitoring of network device logs.",
+          "result_preview": "[{\"evidence_id\": \"896b4365-a7f1-449e-ac1d-73e41ceaec4b\", \"title\": \"Drafted policy: Sample_Co_Logging_and_Monitoring_Policy.docx\", \"controls\": [\"TE-LM-01\", \"TE-LM-02\", \"TE-LM-03\", \"TE-TD-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 7.09}, {\"evidence_id\": \"d7584c31-4c9d-4768-af2a-80a9a37e3ceb\", \"title\": \"Manual review: Capacity and availability monito"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "896b4365-a7f1-449e-ac1d-73e41ceaec4b"
+          },
+          "why": "Check policy for log retention and monitoring requirements.",
+          "result_preview": "{\"evidence_id\": \"896b4365-a7f1-449e-ac1d-73e41ceaec4b\", \"title\": \"Drafted policy: Sample_Co_Logging_and_Monitoring_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-LM-01\", \"TE-LM-02\", \"TE-LM-03\", \"TE-TD-01\"], \"content_sha256\": \"0aa9fc77ec227fc3b64d860a7ceab04946ee025a7556016c57bf79cb291fe0b2\", \"verification\": \"verified (content hash, hash chain,"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "DNS logs retention",
+            "limit": 8
+          },
+          "why": "Find DNS log retention evidence.",
+          "result_preview": "[{\"evidence_id\": \"244a248d-62da-4451-bd3b-1d1e15696403\", \"title\": \"Drafted policy: Sample_Co_Data_Retention_and_Disposal_Policy.docx\", \"controls\": [\"TE-PR-03\", \"TE-DS-01\", \"TE-CF-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 6.68}, {\"evidence_id\": \"2ecb121c-5778-4f76-bf57-2cd334140088\", \"title\": \"Manual review: Collection, use and retention limitatio"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "search_evidence",
+          "args": {
+            "query": "retention period months logs",
+            "limit": 8
+          },
+          "why": "Find any evidence specifying log retention duration.",
+          "result_preview": "[{\"evidence_id\": \"244a248d-62da-4451-bd3b-1d1e15696403\", \"title\": \"Drafted policy: Sample_Co_Data_Retention_and_Disposal_Policy.docx\", \"controls\": [\"TE-PR-03\", \"TE-DS-01\", \"TE-CF-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 6.68}, {\"evidence_id\": \"2ecb121c-5778-4f76-bf57-2cd334140088\", \"title\": \"Manual review: Collection, use and retention limitatio"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V05",
+      "question": "Do you have operating system hardening in place, or build standards for server systems?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "operating system hardening server build standards",
+            "limit": 8
+          },
+          "why": "Find evidence about OS hardening and server build standards.",
+          "result_preview": "[{\"evidence_id\": \"864fc7cf-3bec-4cdb-a2e1-368bdf2f832b\", \"title\": \"Manual review: System description and asset inventory\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 9.78}, {\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": "
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "OS hardening CIS benchmark server",
+            "limit": 8
+          },
+          "why": "Search for OS hardening evidence.",
+          "result_preview": "[{\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 5.53}]"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "hardening",
+            "limit": 8
+          },
+          "why": "Find any hardening evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "build standard server",
+            "limit": 8
+          },
+          "why": "Find server build standards evidence.",
+          "result_preview": "[{\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 5.53}]"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify controls related to OS hardening or build standards.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "server",
+            "limit": 8
+          },
+          "why": "Find evidence mentioning server systems.",
+          "result_preview": "[{\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 5.53}]"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "baseline",
+            "limit": 8
+          },
+          "why": "Find baseline configuration evidence.",
+          "result_preview": "[{\"evidence_id\": \"6af801ee-6dcc-4f89-9227-82c23f83e4e2\", \"title\": \"IAM password policy meets baseline \u2014 123456789012\", \"controls\": [\"TE-AC-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.0}]"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V06",
+      "question": "Do you have processes in place for managing the configuration of your servers and services?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "configuration management servers services",
+            "limit": 8
+          },
+          "why": "Find evidence about processes for managing server and service configuration.",
+          "result_preview": "[{\"evidence_id\": \"8b6eb547-b697-4e93-a135-0a7e6e151c5e\", \"title\": \"Manual review: Physical security of data centres (sub-service)\", \"controls\": [\"TE-PH-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 9.98}, {\"evidence_id\": \"67c5c144-6a09-4ae1-9a9c-acbb8b3abbfe\", \"title\": \"Code scanning enabled \u2014 sample-co\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \""
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "configuration management",
+            "limit": 8
+          },
+          "why": "Find evidence specifically about configuration management processes.",
+          "result_preview": "[{\"evidence_id\": \"67c5c144-6a09-4ae1-9a9c-acbb8b3abbfe\", \"title\": \"Code scanning enabled \u2014 sample-co\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 5.6}, {\"evidence_id\": \"64db528e-0bae-4ab1-ae2d-6f7958eaeec2\", \"title\": \"Secrets Manager rotation configured \u2014 123456789012\", \"controls\": [\"TE-SM-01\"], \"collected_at\": \"2026-10-26T14"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "server configuration",
+            "limit": 8
+          },
+          "why": "Find evidence about server configuration management.",
+          "result_preview": "[{\"evidence_id\": \"67c5c144-6a09-4ae1-9a9c-acbb8b3abbfe\", \"title\": \"Code scanning enabled \u2014 sample-co\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 5.6}, {\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": \"2026-10-26T14:25:55+"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify controls related to configuration management of servers and services.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-CM-01"
+          },
+          "why": "Get evidence IDs for peer review before production changes control.",
+          "result_preview": "{\"control_id\": \"TE-CM-01\", \"name\": \"Peer review before production changes\", \"objective\": \"Changes to the default branch require an approved pull request and passing checks.\", \"status\": \"FAIL\", \"applicable\": true, \"criteria\": [\"CC8.1\"], \"open_findings\": 1, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"github.repo.branch_protection\", \"status\": \"PASS\", \"expected\": \"Protection o"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-CM-03"
+          },
+          "why": "Get evidence for change management procedure.",
+          "result_preview": "{\"control_id\": \"TE-CM-03\", \"name\": \"Change management procedure\", \"objective\": \"A documented procedure covers change authorisation, testing, emergency changes and rollback.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC8.1\", \"CC3.4\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"PASS\", \"evidence_id\": \"42c78e0f-8750-4b65-8fbc-7ef35fec4e20\", \"reviewed_at\": \"2026-10-06T16:2"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-LM-02"
+          },
+          "why": "Get evidence for configuration change monitoring.",
+          "result_preview": "{\"control_id\": \"TE-LM-02\", \"name\": \"Configuration change monitoring\", \"objective\": \"Configuration of cloud resources is recorded so changes can be detected and reviewed.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC7.1\", \"CC3.4\"], \"open_findings\": 0, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"aws.config.recorder_enabled\", \"status\": \"PASS\", \"expected\": \"A record"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-CM-02"
+          },
+          "why": "Get evidence for CI/CD pipeline security control.",
+          "result_preview": "{\"control_id\": \"TE-CM-02\", \"name\": \"CI/CD pipeline security\", \"objective\": \"CI workflows run with least privilege and without known injection patterns.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC8.1\", \"CC6.8\"], \"open_findings\": 0, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"github.org.actions_allowed\", \"status\": \"PASS\", \"expected\": \"allowed_actions is local_on"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V07",
+      "question": "Do you have a process for installing operating system and application updates and security patches on servers?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "operating system updates security patches servers installation process",
+            "limit": 8
+          },
+          "why": "Find evidence about OS and application update patching process for servers.",
+          "result_preview": "[{\"evidence_id\": \"17382535-c5fb-4cb6-b9a1-aac8be0f8fc1\", \"title\": \"Manual review: Processing specifications and input/output controls\", \"controls\": [\"TE-PI-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 12.18}, {\"evidence_id\": \"722306fb-d642-4aa4-9bab-8672725fe125\", \"title\": \"Dependabot security updates enabled \u2014 sample-co\", \"controls\": [\"TE-VM-01\"]"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "patch management servers operating system updates",
+            "limit": 8
+          },
+          "why": "Find specific evidence about server patching process.",
+          "result_preview": "[{\"evidence_id\": \"864fc7cf-3bec-4cdb-a2e1-368bdf2f832b\", \"title\": \"Manual review: System description and asset inventory\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 12.6}, {\"evidence_id\": \"41c6129d-84df-4a33-b2bb-bb60df4d8a97\", \"title\": \"Drafted policy: Sample_Co_Vulnerability_and_Patch_Management_Policy.docx\", \"controls\": ["
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_ids": [
+              "6552df3d-108f-4921-a6ef-72d23fcded63",
+              "722306fb-d642-4aa4-9bab-8672725fe125",
+              "41c6129d-84df-4a33-b2bb-bb60df4d8a97",
+              "42c78e0f-8750-4b65-8fbc-7ef35fec4e20"
+            ]
+          },
+          "why": "Open records to see details of patch compliance, Dependabot, policy draft, and change management.",
+          "result_preview": "[{\"evidence_id\": \"6552df3d-108f-4921-a6ef-72d23fcded63\", \"title\": \"Managed instances are patch compliant \u2014 123456789012\", \"source\": \"provider_api\", \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"controls\": [\"TE-VM-01\"], \"content_sha256\": \"8fa2b0ca71e4958e46ae7dce5dbeb531b77fcaa4ba973d9f36c1d58de509d77e\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"chec"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "patch management procedure servers",
+            "limit": 8
+          },
+          "why": "Find evidence describing patch management process for servers.",
+          "result_preview": "[{\"evidence_id\": \"42c78e0f-8750-4b65-8fbc-7ef35fec4e20\", \"title\": \"Manual review: Change management procedure\", \"controls\": [\"TE-CM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 11.03}, {\"evidence_id\": \"41c6129d-84df-4a33-b2bb-bb60df4d8a97\", \"title\": \"Drafted policy: Sample_Co_Vulnerability_and_Patch_Management_Policy.docx\", \"controls\": [\"TE-VM-01\""
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-VM-01"
+          },
+          "why": "Check control status and evidence behind vulnerability management.",
+          "result_preview": "{\"control_id\": \"TE-VM-01\", \"name\": \"Vulnerability identification and remediation\", \"objective\": \"Dependencies, code and images are scanned; critical and high issues are fixed within SLA.\", \"status\": \"FAIL\", \"applicable\": true, \"criteria\": [\"CC7.1\", \"CC6.8\"], \"open_findings\": 3, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"github.repo.dependabot_alerts_enabled\", \"status\": \"P"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "servers patching process operating system updates",
+            "limit": 8
+          },
+          "why": "Search for evidence of server OS patching process.",
+          "result_preview": "[{\"evidence_id\": \"864fc7cf-3bec-4cdb-a2e1-368bdf2f832b\", \"title\": \"Manual review: System description and asset inventory\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 9.78}, {\"evidence_id\": \"17382535-c5fb-4cb6-b9a1-aac8be0f8fc1\", \"title\": \"Manual review: Processing specifications and input/output controls\", \"controls\": [\"TE-PI"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "application updates servers patch",
+            "limit": 8
+          },
+          "why": "Find evidence about application updates on servers.",
+          "result_preview": "[{\"evidence_id\": \"722306fb-d642-4aa4-9bab-8672725fe125\", \"title\": \"Dependabot security updates enabled \u2014 sample-co\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.5}, {\"evidence_id\": \"6552df3d-108f-4921-a6ef-72d23fcded63\", \"title\": \"Managed instances are patch compliant \u2014 123456789012\", \"controls\": [\"TE-VM-01\"], \"collected_at\""
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "list_findings",
+          "args": {
+            "status": "open"
+          },
+          "why": "Check open findings related to vulnerability management.",
+          "result_preview": "[{\"title\": \"Buckets block public access: sample-co-audit-logs\", \"severity\": \"high\", \"status\": \"in_progress\", \"controls\": [\"TE-DP-03\"], \"resource\": \"arn:aws:s3:::sample-co-audit-logs\", \"due_date\": \"2026-11-02\", \"evidence_id\": \"a471f2a4-0742-419b-91b5-a0081786b201\"}, {\"title\": \"IAM console users have MFA: ben.okafor\", \"severity\": \"high\", \"status\": \"open\", \"controls\": [\"TE-AC-01\"], \"resource\": \"arn:a"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "TE-VM-03 Penetration testing: needs review (Sample data: this year's penetration test is booked for next month; last year's report is attached for reference)"
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V08",
+      "question": "Do you test security patches before you deploy them to your production systems?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "security patches test before deploy production",
+            "limit": 8
+          },
+          "why": "Find evidence about testing security patches prior to production deployment.",
+          "result_preview": "[{\"evidence_id\": \"714878ce-6027-4b9f-b500-0cfbf2a9a8fc\", \"title\": \"Status checks required before merge \u2014 sample-co\", \"controls\": [\"TE-CM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 12.18}, {\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "patch testing staging pre-production",
+            "limit": 8
+          },
+          "why": "Find evidence of patch testing in non-production before production.",
+          "result_preview": "[{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 9.62}, {\"evidence_id\": \"6552df3d-108f-4921-a6ef-72d23fcded63\", \"title\": \"Managed instances are patch compliant \u2014 123456789012\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "patch management testing",
+            "limit": 8
+          },
+          "why": "Find evidence about patch management testing process.",
+          "result_preview": "[{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 12.43}, {\"evidence_id\": \"41c6129d-84df-4a33-b2bb-bb60df4d8a97\", \"title\": \"Drafted policy: Sample_Co_Vulnerability_and_Patch_Management_Policy.docx\", \"controls\": [\"TE-VM-01\""
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "41c6129d-84df-4a33-b2bb-bb60df4d8a97"
+          },
+          "why": "Open vulnerability and patch management policy to see if testing before production is required.",
+          "result_preview": "{\"evidence_id\": \"41c6129d-84df-4a33-b2bb-bb60df4d8a97\", \"title\": \"Drafted policy: Sample_Co_Vulnerability_and_Patch_Management_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-VM-01\", \"TE-VM-02\", \"TE-VM-03\"], \"content_sha256\": \"a685446bef3bec0132e023f42875908ca07293066af457f9788c50c2f9c87194\", \"verification\": \"verified (content hash, hash chain,"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "search_evidence",
+          "args": {
+            "query": "staging test patch",
+            "limit": 8
+          },
+          "why": "Find evidence of staging testing for patches.",
+          "result_preview": "[{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 9.62}, {\"evidence_id\": \"6552df3d-108f-4921-a6ef-72d23fcded63\", \"title\": \"Managed instances are patch compliant \u2014 123456789012\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-VM-01"
+          },
+          "why": "Check control details and evidence for patch management.",
+          "result_preview": "{\"control_id\": \"TE-VM-01\", \"name\": \"Vulnerability identification and remediation\", \"objective\": \"Dependencies, code and images are scanned; critical and high issues are fixed within SLA.\", \"status\": \"FAIL\", \"applicable\": true, \"criteria\": [\"CC7.1\", \"CC6.8\"], \"open_findings\": 3, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"github.repo.dependabot_alerts_enabled\", \"status\": \"P"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "TE-VM-03 Penetration testing: needs review (Sample data: this year's penetration test is booked for next month; last year's report is attached for reference)"
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V09",
+      "question": "Are your systems configured to log security-relevant events, such as authentication, data access, etc.?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "security-relevant events logging authentication data access",
+            "limit": 8
+          },
+          "why": "Find evidence about logging of security events like authentication and data access.",
+          "result_preview": "[{\"evidence_id\": \"f9aa8f78-3342-4375-93ba-b6fbe901324a\", \"title\": \"Multi-region CloudTrail is logging management events \u2014 123456789012\", \"controls\": [\"TE-LM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 12.8}, {\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"c"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "authentication logging",
+            "limit": 8
+          },
+          "why": "Find evidence specifically about authentication event logging.",
+          "result_preview": "[{\"evidence_id\": \"896b4365-a7f1-449e-ac1d-73e41ceaec4b\", \"title\": \"Drafted policy: Sample_Co_Logging_and_Monitoring_Policy.docx\", \"controls\": [\"TE-LM-01\", \"TE-LM-02\", \"TE-LM-03\", \"TE-TD-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 5.82}, {\"evidence_id\": \"f9aa8f78-3342-4375-93ba-b6fbe901324a\", \"title\": \"Multi-region CloudTrail is logging management e"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "data access logging",
+            "limit": 8
+          },
+          "why": "Find evidence about data access event logging.",
+          "result_preview": "[{\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 7.93}, {\"evidence_id\": \"008f8135-e48c-4eb2-88f1-9261340aee2f\", \"title\": \"Manual review: Periodic user access reviews\", \"controls\": [\"TE-AC-05\"], \"collected_at\": \"2026-10-2"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "security-relevant events log",
+            "limit": 8
+          },
+          "why": "Find evidence about logging security-relevant events generally.",
+          "result_preview": "[{\"evidence_id\": \"f9aa8f78-3342-4375-93ba-b6fbe901324a\", \"title\": \"Multi-region CloudTrail is logging management events \u2014 123456789012\", \"controls\": [\"TE-LM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.03}, {\"evidence_id\": \"dd7e0ac9-f485-46cd-a727-7682955b7cdf\", \"title\": \"Organisation audit log is retained and accessible \u2014 sample-co\", \"controls\""
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "f9aa8f78-3342-4375-93ba-b6fbe901324a"
+          },
+          "why": "Open CloudTrail management events logging record for details.",
+          "result_preview": "{\"evidence_id\": \"f9aa8f78-3342-4375-93ba-b6fbe901324a\", \"title\": \"Multi-region CloudTrail is logging management events \u2014 123456789012\", \"source\": \"provider_api\", \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"controls\": [\"TE-LM-01\"], \"content_sha256\": \"cc327eef3008b86ca7b3fec408535f0c8ac140b875c0cfcc0c4b536601b37325\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch sign"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "dd7e0ac9-f485-46cd-a727-7682955b7cdf"
+          },
+          "why": "Open organisation audit log retention record.",
+          "result_preview": "{\"evidence_id\": \"dd7e0ac9-f485-46cd-a727-7682955b7cdf\", \"title\": \"Organisation audit log is retained and accessible \u2014 sample-co\", \"source\": \"provider_api\", \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"controls\": [\"TE-LM-01\"], \"content_sha256\": \"bae0d714b32b021d0dbf9dcfdaaa533e8a0bee0bbd660f43229da86c0d5390e2\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "92899c1e-9dfa-4c9d-9da9-fc222d91d82c"
+          },
+          "why": "Open bucket server access logging failure details.",
+          "result_preview": "{\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"source\": \"provider_api\", \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"controls\": [\"TE-LM-03\"], \"content_sha256\": \"f9c51dccb14e502ce7b3dfcb547a15bfc6646c3242b9ba24332d7955eccd64bb\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"check\": {\"titl"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-LM-01"
+          },
+          "why": "Check control scope for logging security-relevant events.",
+          "result_preview": "{\"control_id\": \"TE-LM-01\", \"name\": \"Audit logging is enabled and protected\", \"objective\": \"API activity is logged in every region, logs are integrity-protected and encrypted.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC7.2\", \"CC4.1\"], \"open_findings\": 0, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"aws.cloudtrail.multi_region\", \"status\": \"PASS\", \"expected\": \"At "
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V10",
+      "question": "Do you retain security event logs for at least six months, and do you monitor them regularly?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "security event logs retention six months",
+            "limit": 8
+          },
+          "why": "Find evidence about log retention period for security event logs.",
+          "result_preview": "[{\"evidence_id\": \"f9aa8f78-3342-4375-93ba-b6fbe901324a\", \"title\": \"Multi-region CloudTrail is logging management events \u2014 123456789012\", \"controls\": [\"TE-LM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 9.57}, {\"evidence_id\": \"244a248d-62da-4451-bd3b-1d1e15696403\", \"title\": \"Drafted policy: Sample_Co_Data_Retention_and_Disposal_Policy.docx\", \"contr"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "log retention 180 days 6 months",
+            "limit": 8
+          },
+          "why": "Find evidence of log retention duration.",
+          "result_preview": "[{\"evidence_id\": \"5adbfed7-deee-4b6d-a4b7-a48f243454c0\", \"title\": \"AWS Backup plans exist \u2014 123456789012\", \"controls\": [\"TE-BC-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.89}, {\"evidence_id\": \"244a248d-62da-4451-bd3b-1d1e15696403\", \"title\": \"Drafted policy: Sample_Co_Data_Retention_and_Disposal_Policy.docx\", \"controls\": [\"TE-PR-03\", \"TE-DS-01\","
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "dd7e0ac9-f485-46cd-a727-7682955b7cdf"
+          },
+          "why": "Open audit log retention evidence to see retention period.",
+          "result_preview": "{\"evidence_id\": \"dd7e0ac9-f485-46cd-a727-7682955b7cdf\", \"title\": \"Organisation audit log is retained and accessible \u2014 sample-co\", \"source\": \"provider_api\", \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"controls\": [\"TE-LM-01\"], \"content_sha256\": \"bae0d714b32b021d0dbf9dcfdaaa533e8a0bee0bbd660f43229da86c0d5390e2\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "f9aa8f78-3342-4375-93ba-b6fbe901324a"
+          },
+          "why": "Open CloudTrail logging evidence.",
+          "result_preview": "{\"evidence_id\": \"f9aa8f78-3342-4375-93ba-b6fbe901324a\", \"title\": \"Multi-region CloudTrail is logging management events \u2014 123456789012\", \"source\": \"provider_api\", \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"controls\": [\"TE-LM-01\"], \"content_sha256\": \"cc327eef3008b86ca7b3fec408535f0c8ac140b875c0cfcc0c4b536601b37325\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch sign"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "retention 90 days 180 days 6 months logs",
+            "limit": 8
+          },
+          "why": "Find specific retention duration evidence.",
+          "result_preview": "[{\"evidence_id\": \"f0270407-b453-459e-8219-da615f7d5fd3\", \"title\": \"Access keys rotated within 90 days \u2014 123456789012\", \"controls\": [\"TE-AC-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 14.11}, {\"evidence_id\": \"5ba1df6a-6587-4438-a5d2-8706085cef8c\", \"title\": \"Unused credentials are removed \u2014 123456789012\", \"controls\": [\"TE-AC-03\", \"TE-AC-05\"], \"coll"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V11",
+      "question": "Do you have procedures in place for regularly auditing administrative access to your servers?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "administrative access servers audit regularly",
+            "limit": 8
+          },
+          "why": "Find evidence about procedures for auditing admin access to servers.",
+          "result_preview": "[{\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 12.41}, {\"evidence_id\": \"a471f2a4-0742-419b-91b5-a0081786b201\", \"title\": \"Buckets block public access \u2014 123456789012\", \"controls\": [\"TE-DP-03\"], \"collected_at\": \"2026-10-2"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "administrative access audit servers",
+            "limit": 8
+          },
+          "why": "Find evidence specifically about auditing admin access to servers.",
+          "result_preview": "[{\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 12.41}, {\"evidence_id\": \"a471f2a4-0742-419b-91b5-a0081786b201\", \"title\": \"Buckets block public access \u2014 123456789012\", \"controls\": [\"TE-DP-03\"], \"collected_at\": \"2026-10-2"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "server administrative access review audit",
+            "limit": 8
+          },
+          "why": "Search for server admin access audit procedures.",
+          "result_preview": "[{\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 12.41}, {\"evidence_id\": \"008f8135-e48c-4eb2-88f1-9261340aee2f\", \"title\": \"Manual review: Periodic user access reviews\", \"controls\": [\"TE-AC-05\"], \"collected_at\": \"2026-10-"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "008f8135-e48c-4eb2-88f1-9261340aee2f"
+          },
+          "why": "Open periodic user access reviews to see if it covers server admin access.",
+          "result_preview": "{\"evidence_id\": \"008f8135-e48c-4eb2-88f1-9261340aee2f\", \"title\": \"Manual review: Periodic user access reviews\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-AC-05\"], \"content_sha256\": \"c4ebb5d688ecd26c068ec0aa0e9182e73c097ff9c3fd80ec8feee63295feb8a2\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"ca"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "2cfefa31-187e-4446-95ed-be8b69e54423"
+          },
+          "why": "Check policy content for admin access audit procedures.",
+          "result_preview": "{\"evidence_id\": \"2cfefa31-187e-4446-95ed-be8b69e54423\", \"title\": \"Drafted policy: Sample_Co_Access_Control_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-AC-01\", \"TE-AC-02\", \"TE-AC-03\", \"TE-AC-04\", \"TE-AC-05\", \"TE-AC-06\"], \"content_sha256\": \"4a9ca6a963a27ca364fef989983f4955b25cae44342abdf25912aadd9a62bdfb\", \"verification\": \"verified (content h"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "administrative access",
+            "limit": 8
+          },
+          "why": "Find evidence about administrative access auditing.",
+          "result_preview": "[{\"evidence_id\": \"008f8135-e48c-4eb2-88f1-9261340aee2f\", \"title\": \"Manual review: Periodic user access reviews\", \"controls\": [\"TE-AC-05\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 3.41}, {\"evidence_id\": \"2cfefa31-187e-4446-95ed-be8b69e54423\", \"title\": \"Drafted policy: Sample_Co_Access_Control_Policy.docx\", \"controls\": [\"TE-AC-01\", \"TE-AC-02\", \"TE-AC"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "list_controls",
+          "args": {},
+          "why": "See which controls relate to admin access auditing.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "search_evidence",
+          "args": {
+            "query": "server",
+            "limit": 8
+          },
+          "why": "Find any evidence mentioning servers.",
+          "result_preview": "[{\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 5.53}]"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V12",
+      "question": "Do you regularly test your backups?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "Control TE-BC-03 Backup restoration and DR testing is NOT_TESTED with no checks recorded; no restore test evidence is present in the evidence package.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "backup test restore",
+            "limit": 8
+          },
+          "why": "Find evidence about regular backup testing.",
+          "result_preview": "[{\"evidence_id\": \"714878ce-6027-4b9f-b500-0cfbf2a9a8fc\", \"title\": \"Status checks required before merge \u2014 sample-co\", \"controls\": [\"TE-CM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 6.39}, {\"evidence_id\": \"5adbfed7-deee-4b6d-a4b7-a48f243454c0\", \"title\": \"AWS Backup plans exist \u2014 123456789012\", \"controls\": [\"TE-BC-01\"], \"collected_at\": \"2026-10-26T"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "backup restore test",
+            "limit": 8
+          },
+          "why": "Find evidence of backup restore testing.",
+          "result_preview": "[{\"evidence_id\": \"714878ce-6027-4b9f-b500-0cfbf2a9a8fc\", \"title\": \"Status checks required before merge \u2014 sample-co\", \"controls\": [\"TE-CM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 6.39}, {\"evidence_id\": \"5adbfed7-deee-4b6d-a4b7-a48f243454c0\", \"title\": \"AWS Backup plans exist \u2014 123456789012\", \"controls\": [\"TE-BC-01\"], \"collected_at\": \"2026-10-26T"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "restore",
+            "limit": 8
+          },
+          "why": "Find any restore testing evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-BC-03"
+          },
+          "why": "Check what evidence backs backup testing control.",
+          "result_preview": "{\"control_id\": \"TE-BC-03\", \"name\": \"Backup restoration and DR testing\", \"objective\": \"Restores and disaster recovery are tested at least annually against RTO/RPO.\", \"status\": \"NOT_TESTED\", \"applicable\": true, \"criteria\": [\"A1.3\", \"CC7.5\"], \"open_findings\": 0, \"checks\": []}"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-BC-01"
+          },
+          "why": "Check backup existence control evidence.",
+          "result_preview": "{\"control_id\": \"TE-BC-01\", \"name\": \"Backups are configured and retained\", \"objective\": \"Production data stores have automated backups with adequate retention and deletion protection.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"A1.2\", \"CC9.1\"], \"open_findings\": 0, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"aws.rds.backup_retention\", \"status\": \"PASS\", \"expected\": "
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "list_gaps",
+          "args": {},
+          "why": "Identify controls lacking evidence, especially backup testing.",
+          "result_preview": "[{\"control_id\": \"TE-VM-03\", \"name\": \"Penetration testing\", \"status\": \"NEEDS_REVIEW\", \"why\": \"Sample data: this year's penetration test is booked for next month; last year's report is attached for reference.\"}, {\"control_id\": \"TE-BC-03\", \"name\": \"Backup restoration and DR testing\", \"status\": \"NOT_TESTED\", \"why\": \"No human review recorded yet.\"}]"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "073d158c-3b39-45ce-ad56-db85a6150e8b"
+          },
+          "why": "Check policy content for testing requirements.",
+          "result_preview": "{\"evidence_id\": \"073d158c-3b39-45ce-ad56-db85a6150e8b\", \"title\": \"Drafted policy: Sample_Co_Backup_and_Recovery_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-BC-01\", \"TE-BC-03\"], \"content_sha256\": \"2e2afdd51b2b2cc2d71824fe84b5f73cf6402a719c4a663e00592a7aa7b03f35\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch si"
+        },
+        {
+          "stage": "draft",
+          "answer": "Insufficient evidence",
+          "claims": 0
+        },
+        {
+          "stage": "citation_check",
+          "passed": 0,
+          "failed": 0,
+          "problems": []
+        },
+        {
+          "stage": "verifier",
+          "supported": 0,
+          "unsupported": 0
+        },
+        {
+          "stage": "decision",
+          "answer": "Insufficient evidence",
+          "kept": 0,
+          "dropped": 0,
+          "flags": 0
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "A record of a backup restoration test execution and results",
+        "Evidence of disaster recovery testing performed at least annually against RTO/RPO",
+        "Test logs or reports showing regular backup validation",
+        "TE-BC-03 Backup restoration and DR testing: not tested (No human review recorded yet)"
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V13",
+      "question": "Do you sync data to a different site in near real time?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "sync data different site near real time replication",
+            "limit": 8
+          },
+          "why": "Find evidence about data synchronization to another site and real-time replication.",
+          "result_preview": "[{\"evidence_id\": \"c0aa48c4-dc30-4db9-bbe4-4fa7f4172293\", \"title\": \"Manual review: Data subject access and correction\", \"controls\": [\"TE-PR-04\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 9.08}, {\"evidence_id\": \"9a005643-b7ff-4421-bc0d-9dd8ae2e33e8\", \"title\": \"Manual review: Secure disposal of data and media\", \"controls\": [\"TE-DS-01\"], \"collec"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "data replication site sync near real time",
+            "limit": 8
+          },
+          "why": "Search for replication or sync to another site.",
+          "result_preview": "[{\"evidence_id\": \"c0aa48c4-dc30-4db9-bbe4-4fa7f4172293\", \"title\": \"Manual review: Data subject access and correction\", \"controls\": [\"TE-PR-04\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 9.08}, {\"evidence_id\": \"9a005643-b7ff-4421-bc0d-9dd8ae2e33e8\", \"title\": \"Manual review: Secure disposal of data and media\", \"controls\": [\"TE-DS-01\"], \"collec"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "replication secondary site disaster recovery",
+            "limit": 8
+          },
+          "why": "Find evidence about secondary site replication or disaster recovery.",
+          "result_preview": "[{\"evidence_id\": \"d34b3dda-f3f2-4dd5-8af8-cc481b3a9ddf\", \"title\": \"Drafted policy: Sample_Co_Business_Continuity_and_Disaster_Recovery_Plan.docx\", \"controls\": [\"TE-RA-03\", \"TE-BC-02\", \"TE-BC-03\", \"TE-AV-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 13.62}, {\"evidence_id\": \"d7584c31-4c9d-4768-af2a-80a9a37e3ceb\", \"title\": \"Manual review: Capacity and a"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "d34b3dda-f3f2-4dd5-8af8-cc481b3a9ddf"
+          },
+          "why": "Open BC/DR policy to see if it mentions near real-time sync to another site.",
+          "result_preview": "{\"evidence_id\": \"d34b3dda-f3f2-4dd5-8af8-cc481b3a9ddf\", \"title\": \"Drafted policy: Sample_Co_Business_Continuity_and_Disaster_Recovery_Plan.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-RA-03\", \"TE-BC-02\", \"TE-BC-03\", \"TE-AV-01\"], \"content_sha256\": \"afbc3061620844f5e8d50e29ff5273d0cec180e468e4eb0d7dea2055fe6486da\", \"verification\": \"verified (content "
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "search_evidence",
+          "args": {
+            "query": "backup replication",
+            "limit": 8
+          },
+          "why": "Find backup or replication evidence.",
+          "result_preview": "[{\"evidence_id\": \"5adbfed7-deee-4b6d-a4b7-a48f243454c0\", \"title\": \"AWS Backup plans exist \u2014 123456789012\", \"controls\": [\"TE-BC-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 5.96}, {\"evidence_id\": \"073d158c-3b39-45ce-ad56-db85a6150e8b\", \"title\": \"Drafted policy: Sample_Co_Backup_and_Recovery_Policy.docx\", \"controls\": [\"TE-BC-01\", \"TE-BC-03\"], \"colle"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "5adbfed7-deee-4b6d-a4b7-a48f243454c0"
+          },
+          "why": "Open AWS Backup plans evidence to see replication details.",
+          "result_preview": "{\"evidence_id\": \"5adbfed7-deee-4b6d-a4b7-a48f243454c0\", \"title\": \"AWS Backup plans exist \u2014 123456789012\", \"source\": \"provider_api\", \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"controls\": [\"TE-BC-01\"], \"content_sha256\": \"a1b8c0bfa887063d5f98974aa7364f515f07a4c2e2ca462ba01eb5ee7fb08b8f\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"check\": {\"title\": \"A"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "TE-BC-03 Backup restoration and DR testing: not tested (No human review recorded yet)"
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V14",
+      "question": "Do you have controls in place to protect client systems from malware?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "malware protection client systems antivirus endpoint",
+            "limit": 8
+          },
+          "why": "Find evidence of malware controls for client systems.",
+          "result_preview": "[{\"evidence_id\": \"d0985ae1-912e-4f06-998b-6e6143815a0d\", \"title\": \"Manual review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 10.44}, {\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:0"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "client systems malware protection",
+            "limit": 8
+          },
+          "why": "Narrow to client systems specifically.",
+          "result_preview": "[{\"evidence_id\": \"864fc7cf-3bec-4cdb-a2e1-368bdf2f832b\", \"title\": \"Manual review: System description and asset inventory\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.53}, {\"evidence_id\": \"08480737-35e8-4771-b48d-b3037f7ea056\", \"title\": \"Default branch is protected \u2014 sample-co\", \"controls\": [\"TE-CM-01\"], \"collected_at\": \"202"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "d0985ae1-912e-4f06-998b-6e6143815a0d"
+          },
+          "why": "Open manual review to see scope and findings.",
+          "result_preview": "{\"evidence_id\": \"d0985ae1-912e-4f06-998b-6e6143815a0d\", \"title\": \"Manual review: Endpoint protection\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-VM-02\"], \"content_sha256\": \"bd3ae6a2dfadb47ecde2236e60e6a21d723bf6ce6a67a85d8e5138608281d7d1\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"catalog_ver"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "66eb8e2b-017a-4095-aef7-0003131f6a23"
+          },
+          "why": "Open register review for endpoint protection details.",
+          "result_preview": "{\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-VM-02\"], \"content_sha256\": \"2eca6f76c568f95c6dea06c7d837b8fd33768ab2814c0cdaf08918e35072e5ec\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"catalog_v"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "search_evidence",
+          "args": {
+            "query": "client",
+            "limit": 8
+          },
+          "why": "Find evidence specifically about client systems.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "customer systems malware",
+            "limit": 8
+          },
+          "why": "Check for customer/client system protection evidence.",
+          "result_preview": "[{\"evidence_id\": \"864fc7cf-3bec-4cdb-a2e1-368bdf2f832b\", \"title\": \"Manual review: System description and asset inventory\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.53}, {\"evidence_id\": \"8ad467e3-3768-4511-8ea5-dc6dae35e1e9\", \"title\": \"No customer-managed policy grants *:* \u2014 123456789012\", \"controls\": [\"TE-AC-04\"], \"collec"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-VM-02"
+          },
+          "why": "Understand what TE-VM-02 covers.",
+          "result_preview": "{\"control_id\": \"TE-VM-02\", \"name\": \"Endpoint protection\", \"objective\": \"Company laptops have disk encryption, screen lock, OS updates and anti-malware.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC6.8\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"PASS\", \"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"reviewed_at\": \"2026-10-26T16:25:55.573361+00:00\", \"valid_unt"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "search_evidence",
+          "args": {
+            "query": "malware",
+            "limit": 8
+          },
+          "why": "Find any malware-related evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V15",
+      "question": "Do you fully encrypt the hard disks of laptops and other portable client devices?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "encrypt hard disks laptops portable client devices full disk encryption",
+            "limit": 8
+          },
+          "why": "Find evidence about encryption of laptops and portable client devices.",
+          "result_preview": "[{\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 14.26}, {\"evidence_id\": \"378e6eb3-3a76-4283-baf8-64bb6098ee34\", \"title\": \"EBS volumes encrypted \u2014 123456789012\", \"controls\": [\"TE-DP-01\"], \"collected_at\": \"2026-10-26T14:25:55+00"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "laptop full disk encryption BitLocker FileVault",
+            "limit": 8
+          },
+          "why": "Find evidence about laptop full disk encryption.",
+          "result_preview": "[{\"evidence_id\": \"8ad467e3-3768-4511-8ea5-dc6dae35e1e9\", \"title\": \"No customer-managed policy grants *:* \u2014 123456789012\", \"controls\": [\"TE-AC-04\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 5.22}, {\"evidence_id\": \"378e6eb3-3a76-4283-baf8-64bb6098ee34\", \"title\": \"EBS volumes encrypted \u2014 123456789012\", \"controls\": [\"TE-DP-01\"], \"collected_at\": \"2026-10"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "portable client devices encryption",
+            "limit": 8
+          },
+          "why": "Search for portable client device encryption evidence.",
+          "result_preview": "[{\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 11.34}, {\"evidence_id\": \"378e6eb3-3a76-4283-baf8-64bb6098ee34\", \"title\": \"EBS volumes encrypted \u2014 123456789012\", \"controls\": [\"TE-DP-01\"], \"collected_at\": \"2026-10-26T14:25:55+00"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "disk encryption",
+            "limit": 8
+          },
+          "why": "Find disk encryption evidence.",
+          "result_preview": "[{\"evidence_id\": \"378e6eb3-3a76-4283-baf8-64bb6098ee34\", \"title\": \"EBS volumes encrypted \u2014 123456789012\", \"controls\": [\"TE-DP-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 4.84}, {\"evidence_id\": \"4047a3da-539a-4761-aad9-ece063c814f5\", \"title\": \"EBS encryption by default \u2014 123456789012\", \"controls\": [\"TE-DP-01\"], \"collected_at\": \"2026-10-26T14:25:55"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify controls related to endpoint/laptop encryption.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-VM-02"
+          },
+          "why": "Check evidence behind endpoint protection control.",
+          "result_preview": "{\"control_id\": \"TE-VM-02\", \"name\": \"Endpoint protection\", \"objective\": \"Company laptops have disk encryption, screen lock, OS updates and anti-malware.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC6.8\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"PASS\", \"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"reviewed_at\": \"2026-10-26T16:25:55.573361+00:00\", \"valid_unt"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "66eb8e2b-017a-4095-aef7-0003131f6a23"
+          },
+          "why": "Open endpoint protection register review to confirm disk encryption claim.",
+          "result_preview": "{\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-VM-02\"], \"content_sha256\": \"2eca6f76c568f95c6dea06c7d837b8fd33768ab2814c0cdaf08918e35072e5ec\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"catalog_v"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "list_findings",
+          "args": {
+            "status": "open"
+          },
+          "why": "Check for open findings related to encryption.",
+          "result_preview": "[{\"title\": \"Buckets block public access: sample-co-audit-logs\", \"severity\": \"high\", \"status\": \"in_progress\", \"controls\": [\"TE-DP-03\"], \"resource\": \"arn:aws:s3:::sample-co-audit-logs\", \"due_date\": \"2026-11-02\", \"evidence_id\": \"a471f2a4-0742-419b-91b5-a0081786b201\"}, {\"title\": \"IAM console users have MFA: ben.okafor\", \"severity\": \"high\", \"status\": \"open\", \"controls\": [\"TE-AC-01\"], \"resource\": \"arn:a"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V16",
+      "question": "Do you have a process for installing operating system and application updates and security patches on client systems?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "operating system updates security patches client systems installation process",
+            "limit": 8
+          },
+          "why": "Find evidence about OS and application update process for client systems.",
+          "result_preview": "[{\"evidence_id\": \"864fc7cf-3bec-4cdb-a2e1-368bdf2f832b\", \"title\": \"Manual review: System description and asset inventory\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 17.31}, {\"evidence_id\": \"17382535-c5fb-4cb6-b9a1-aac8be0f8fc1\", \"title\": \"Manual review: Processing specifications and input/output controls\", \"controls\": [\"TE-P"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "client systems patch management updates",
+            "limit": 8
+          },
+          "why": "Find evidence specific to client systems update process.",
+          "result_preview": "[{\"evidence_id\": \"864fc7cf-3bec-4cdb-a2e1-368bdf2f832b\", \"title\": \"Manual review: System description and asset inventory\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 10.35}, {\"evidence_id\": \"41c6129d-84df-4a33-b2bb-bb60df4d8a97\", \"title\": \"Drafted policy: Sample_Co_Vulnerability_and_Patch_Management_Policy.docx\", \"controls\": "
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "workstation endpoint patch update client",
+            "limit": 8
+          },
+          "why": "Search for endpoint/workstation patching evidence.",
+          "result_preview": "[{\"evidence_id\": \"d0985ae1-912e-4f06-998b-6e6143815a0d\", \"title\": \"Manual review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 10.62}, {\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:0"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "41c6129d-84df-4a33-b2bb-bb60df4d8a97"
+          },
+          "why": "Open vulnerability and patch management policy to see if it covers client systems.",
+          "result_preview": "{\"evidence_id\": \"41c6129d-84df-4a33-b2bb-bb60df4d8a97\", \"title\": \"Drafted policy: Sample_Co_Vulnerability_and_Patch_Management_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-VM-01\", \"TE-VM-02\", \"TE-VM-03\"], \"content_sha256\": \"a685446bef3bec0132e023f42875908ca07293066af457f9788c50c2f9c87194\", \"verification\": \"verified (content hash, hash chain,"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "search_evidence",
+          "args": {
+            "query": "client",
+            "limit": 8
+          },
+          "why": "Find any evidence mentioning client systems.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "OS updates",
+            "limit": 8
+          },
+          "why": "Find OS update process evidence.",
+          "result_preview": "[{\"evidence_id\": \"722306fb-d642-4aa4-9bab-8672725fe125\", \"title\": \"Dependabot security updates enabled \u2014 sample-co\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.5}, {\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "tool",
+          "args": {
+            "name": "list_controls"
+          },
+          "why": "List controls to find patch management controls.",
+          "result_preview": "{\"error\": \"unknown tool tool; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "TE-VM-03 Penetration testing: needs review (Sample data: this year's penetration test is booked for next month; last year's report is attached for reference)"
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V17",
+      "question": "Do you allow access to confidential information (e.g., email) from unencrypted mobile devices such as phones and tablets?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "confidential information access unencrypted mobile devices phones tablets email encryption",
+            "limit": 8
+          },
+          "why": "Find evidence about mobile device encryption policy and access to confidential data.",
+          "result_preview": "[{\"evidence_id\": \"226cc3e7-d4e7-4015-abc3-b2cc5bd742e1\", \"title\": \"Manual review: Confidential information disposal\", \"controls\": [\"TE-CF-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 11.46}, {\"evidence_id\": \"09d87b76-d67c-4a89-980f-c9b0eb968377\", \"title\": \"Manual review: Confidential information classification and handling\", \"controls\": [\"TE-CF-01"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "mobile device encryption phone tablet BYOD",
+            "limit": 8
+          },
+          "why": "Find evidence about mobile device encryption requirements.",
+          "result_preview": "[{\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 11.34}, {\"evidence_id\": \"378e6eb3-3a76-4283-baf8-64bb6098ee34\", \"title\": \"EBS volumes encrypted \u2014 123456789012\", \"controls\": [\"TE-DP-01\"], \"collected_at\": \"2026-10-26T14:25:55+00"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "mobile",
+            "limit": 8
+          },
+          "why": "Find any evidence mentioning mobile devices.",
+          "result_preview": "[{\"evidence_id\": \"51da4ef2-33fb-4989-9775-e08b391be58d\", \"title\": \"Secret scanning enabled \u2014 sample-co\", \"controls\": [\"TE-SM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 1.79}, {\"evidence_id\": \"e8a8876b-acd4-402e-989c-e93d8c061453\", \"title\": \"Repository admins are limited \u2014 sample-co\", \"controls\": [\"TE-AC-04\"], \"collected_at\": \"2026-10-26T14:25:55"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "device",
+            "limit": 8
+          },
+          "why": "Find evidence about device encryption or mobile device policy.",
+          "result_preview": "[{\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"controls\": [\"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 8.43}]"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "66eb8e2b-017a-4095-aef7-0003131f6a23"
+          },
+          "why": "Open endpoint protection register review to see if mobile devices covered.",
+          "result_preview": "{\"evidence_id\": \"66eb8e2b-017a-4095-aef7-0003131f6a23\", \"title\": \"Register review: Endpoint protection\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-VM-02\"], \"content_sha256\": \"2eca6f76c568f95c6dea06c7d837b8fd33768ab2814c0cdaf08918e35072e5ec\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"catalog_v"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "BYOD",
+            "limit": 8
+          },
+          "why": "Find BYOD policy evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "phone",
+            "limit": 8
+          },
+          "why": "Find evidence mentioning phones.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "9e5ddb28-5ba6-4b1b-9e97-0b2a00751ed4"
+          },
+          "why": "Open information security policy to see mobile device requirements.",
+          "result_preview": "{\"evidence_id\": \"9e5ddb28-5ba6-4b1b-9e97-0b2a00751ed4\", \"title\": \"Drafted policy: Sample_Co_Information_Security_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-GV-01\", \"TE-GV-03\", \"TE-GV-04\"], \"content_sha256\": \"4fe25defa24fb7f7cc89de0b9b86138e64c8c251ee51443c7c4423716db77be1\", \"verification\": \"verified (content hash, hash chain, Merkle inclus"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V18",
+      "question": "Does an independent third party regularly perform penetration tests on all systems used to provide services to customers?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "independent third party penetration test",
+            "limit": 8
+          },
+          "why": "Find evidence about third-party penetration testing frequency and scope.",
+          "result_preview": "[{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 13.11}, {\"evidence_id\": \"714878ce-6027-4b9f-b500-0cfbf2a9a8fc\", \"title\": \"Status checks required before merge \u2014 sample-co\", \"controls\": [\"TE-CM-01\"], \"collected_at\": \"2026-"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "penetration test third party independent",
+            "limit": 8
+          },
+          "why": "Broaden search for third-party pen test evidence.",
+          "result_preview": "[{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 13.11}, {\"evidence_id\": \"714878ce-6027-4b9f-b500-0cfbf2a9a8fc\", \"title\": \"Status checks required before merge \u2014 sample-co\", \"controls\": [\"TE-CM-01\"], \"collected_at\": \"2026-"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "penetration testing",
+            "limit": 8
+          },
+          "why": "Find all penetration testing evidence records.",
+          "result_preview": "[{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 13.11}, {\"evidence_id\": \"714878ce-6027-4b9f-b500-0cfbf2a9a8fc\", \"title\": \"Status checks required before merge \u2014 sample-co\", \"controls\": [\"TE-CM-01\"], \"collected_at\": \"2026-"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify controls related to penetration testing.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "d98c20e4-c7b5-455a-b9ae-75cd8bcf690a"
+          },
+          "why": "Open penetration testing manual review to see details.",
+          "result_preview": "{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-VM-03\"], \"content_sha256\": \"2e178a9144e0f0617e9c1c9600cec7a10c8939006dab0fedd38f6827862f4e2b\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"catalog_ver"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "penetration test report",
+            "limit": 8
+          },
+          "why": "Find actual penetration test report evidence.",
+          "result_preview": "[{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 17.54}, {\"evidence_id\": \"714878ce-6027-4b9f-b500-0cfbf2a9a8fc\", \"title\": \"Status checks required before merge \u2014 sample-co\", \"controls\": [\"TE-CM-01\"], \"collected_at\": \"2026-"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "third party penetration",
+            "limit": 8
+          },
+          "why": "Find evidence of third-party pen tester.",
+          "result_preview": "[{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 7.51}]"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-VM-03"
+          },
+          "why": "Get control status and evidence IDs for penetration testing.",
+          "result_preview": "{\"control_id\": \"TE-VM-03\", \"name\": \"Penetration testing\", \"objective\": \"An independent penetration test is performed at least annually and findings tracked to closure.\", \"status\": \"NEEDS_REVIEW\", \"applicable\": true, \"criteria\": [\"CC4.1\", \"CC7.1\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"NEEDS_REVIEW\", \"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"reviewed_at\": \"2026"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "TE-VM-03 Penetration testing: needs review (Sample data: this year's penetration test is booked for next month; last year's report is attached for reference)"
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V19",
+      "question": "Are all of the systems used in this project scanned for host-level vulnerabilities? ( Note : This question does not refer to anti-malware scans. Instead, it refers to scans that look for known vulnerabilities and misconfiguration of the software running on servers.)",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "host-level vulnerability scan",
+            "limit": 8
+          },
+          "why": "Find evidence about host-level vulnerability scanning for systems.",
+          "result_preview": "[{\"evidence_id\": \"6552df3d-108f-4921-a6ef-72d23fcded63\", \"title\": \"Managed instances are patch compliant \u2014 123456789012\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 6.65}, {\"evidence_id\": \"b106db6d-411e-4709-8bbc-9b5cd4c88b2c\", \"title\": \"Account-level S3 Block Public Access \u2014 123456789012\", \"controls\": [\"TE-DP-03\"], \"collecte"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "vulnerability scanning host",
+            "limit": 8
+          },
+          "why": "Find host vulnerability scanning evidence.",
+          "result_preview": "[{\"evidence_id\": \"8d902dd4-a3f9-411d-a995-15f191c05ef1\", \"title\": \"Dependabot alerts enabled \u2014 sample-co\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 6.38}, {\"evidence_id\": \"41c6129d-84df-4a33-b2bb-bb60df4d8a97\", \"title\": \"Drafted policy: Sample_Co_Vulnerability_and_Patch_Management_Policy.docx\", \"controls\": [\"TE-VM-01\", \"TE-"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "host vulnerability",
+            "limit": 8
+          },
+          "why": "Find host vulnerability scanning evidence.",
+          "result_preview": "[{\"evidence_id\": \"8d902dd4-a3f9-411d-a995-15f191c05ef1\", \"title\": \"Dependabot alerts enabled \u2014 sample-co\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 6.38}, {\"evidence_id\": \"41c6129d-84df-4a33-b2bb-bb60df4d8a97\", \"title\": \"Drafted policy: Sample_Co_Vulnerability_and_Patch_Management_Policy.docx\", \"controls\": [\"TE-VM-01\", \"TE-"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "scan",
+            "limit": 8
+          },
+          "why": "Find scanning evidence records.",
+          "result_preview": "[{\"evidence_id\": \"6552df3d-108f-4921-a6ef-72d23fcded63\", \"title\": \"Managed instances are patch compliant \u2014 123456789012\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 6.65}]"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify controls related to vulnerability scanning.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "project",
+            "limit": 8
+          },
+          "why": "Find project-specific scanning evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "host",
+            "limit": 8
+          },
+          "why": "Find host-level scanning evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-VM-01"
+          },
+          "why": "Get evidence IDs behind vulnerability identification control.",
+          "result_preview": "{\"control_id\": \"TE-VM-01\", \"name\": \"Vulnerability identification and remediation\", \"objective\": \"Dependencies, code and images are scanned; critical and high issues are fixed within SLA.\", \"status\": \"FAIL\", \"applicable\": true, \"criteria\": [\"CC7.1\", \"CC6.8\"], \"open_findings\": 3, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"github.repo.dependabot_alerts_enabled\", \"status\": \"P"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V20",
+      "question": "Has your company selected an individual or team to be responsible for managing the information security and privacy program?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "information security and privacy program responsible individual team manager",
+            "limit": 8
+          },
+          "why": "Find evidence of designated responsibility for security and privacy program.",
+          "result_preview": "[{\"evidence_id\": \"9e5ddb28-5ba6-4b1b-9e97-0b2a00751ed4\", \"title\": \"Drafted policy: Sample_Co_Information_Security_Policy.docx\", \"controls\": [\"TE-GV-01\", \"TE-GV-03\", \"TE-GV-04\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 9.04}, {\"evidence_id\": \"2cdc2700-1d9e-44ef-83bd-13eddb18dfcd\", \"title\": \"Manual review: Information security policy set approved\", \"co"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_ids": [
+              "6282d9c3-43ad-4b8b-a4ea-1c4e6a624f73",
+              "52390ab8-eff8-4568-b281-5b3e87bb3bc7",
+              "2cdc2700-1d9e-44ef-83bd-13eddb18dfcd"
+            ]
+          },
+          "why": "Open records to verify designation of responsible individual/team for security and privacy program.",
+          "result_preview": "[{\"evidence_id\": \"6282d9c3-43ad-4b8b-a4ea-1c4e6a624f73\", \"title\": \"Manual review: Organisational structure and security responsibilities\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-GV-04\"], \"content_sha256\": \"6270bc17870074fe885390206a387f72232d1f4a94affa8759e964970b31f8ed\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch s"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "9e5ddb28-5ba6-4b1b-9e97-0b2a00751ed4"
+          },
+          "why": "Check policy for designation of responsible individual/team.",
+          "result_preview": "{\"evidence_id\": \"9e5ddb28-5ba6-4b1b-9e97-0b2a00751ed4\", \"title\": \"Drafted policy: Sample_Co_Information_Security_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-GV-01\", \"TE-GV-03\", \"TE-GV-04\"], \"content_sha256\": \"4fe25defa24fb7f7cc89de0b9b86138e64c8c251ee51443c7c4423716db77be1\", \"verification\": \"verified (content hash, hash chain, Merkle inclus"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V21",
+      "question": "Is your change management process formally documented, and does it classify changes by impact and size?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "change management process formally documented",
+            "limit": 8
+          },
+          "why": "Find evidence about change management documentation and classification by impact and size.",
+          "result_preview": "[{\"evidence_id\": \"e1735b07-ff09-44da-89be-880868a8bc6b\", \"title\": \"Drafted policy: Sample_Co_Change_Management_Policy.docx\", \"controls\": [\"TE-CM-01\", \"TE-CM-02\", \"TE-CM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 13.44}, {\"evidence_id\": \"42c78e0f-8750-4b65-8fbc-7ef35fec4e20\", \"title\": \"Manual review: Change management procedure\", \"controls\": [\"TE-C"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "e1735b07-ff09-44da-89be-880868a8bc6b"
+          },
+          "why": "Open change management policy to verify formal documentation and classification criteria.",
+          "result_preview": "{\"evidence_id\": \"e1735b07-ff09-44da-89be-880868a8bc6b\", \"title\": \"Drafted policy: Sample_Co_Change_Management_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-CM-01\", \"TE-CM-02\", \"TE-CM-03\"], \"content_sha256\": \"887807d3f10ca834af2e033145f8dc7d0dde245ab69dfca35bfe77eaed9dbd86\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "change management impact size classification",
+            "limit": 8
+          },
+          "why": "Find evidence that change classification by impact and size is documented.",
+          "result_preview": "[{\"evidence_id\": \"e1735b07-ff09-44da-89be-880868a8bc6b\", \"title\": \"Drafted policy: Sample_Co_Change_Management_Policy.docx\", \"controls\": [\"TE-CM-01\", \"TE-CM-02\", \"TE-CM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 14.68}, {\"evidence_id\": \"42c78e0f-8750-4b65-8fbc-7ef35fec4e20\", \"title\": \"Manual review: Change management procedure\", \"controls\": [\"TE-C"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "42c78e0f-8750-4b65-8fbc-7ef35fec4e20"
+          },
+          "why": "Need full details of manual review to see if classification by impact and size is mentioned.",
+          "result_preview": "{\"evidence_id\": \"42c78e0f-8750-4b65-8fbc-7ef35fec4e20\", \"title\": \"Manual review: Change management procedure\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-CM-03\"], \"content_sha256\": \"aec759e3c41400e701d622ec12fdc9f6e087f10daa12520e9b73402adc91db41\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"cat"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-CM-01"
+          },
+          "why": "Check control description for formal documentation requirement.",
+          "result_preview": "{\"control_id\": \"TE-CM-01\", \"name\": \"Peer review before production changes\", \"objective\": \"Changes to the default branch require an approved pull request and passing checks.\", \"status\": \"FAIL\", \"applicable\": true, \"criteria\": [\"CC8.1\"], \"open_findings\": 1, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"github.repo.branch_protection\", \"status\": \"PASS\", \"expected\": \"Protection o"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-CM-02"
+          },
+          "why": "Need control details for classification.",
+          "result_preview": "{\"control_id\": \"TE-CM-02\", \"name\": \"CI/CD pipeline security\", \"objective\": \"CI workflows run with least privilege and without known injection patterns.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC8.1\", \"CC6.8\"], \"open_findings\": 0, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"github.org.actions_allowed\", \"status\": \"PASS\", \"expected\": \"allowed_actions is local_on"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-CM-03"
+          },
+          "why": "Check control description for change management documentation and classification.",
+          "result_preview": "{\"control_id\": \"TE-CM-03\", \"name\": \"Change management procedure\", \"objective\": \"A documented procedure covers change authorisation, testing, emergency changes and rollback.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC8.1\", \"CC3.4\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"PASS\", \"evidence_id\": \"42c78e0f-8750-4b65-8fbc-7ef35fec4e20\", \"reviewed_at\": \"2026-10-06T16:2"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "search_evidence",
+          "args": {
+            "query": "impact size change classification",
+            "limit": 8
+          },
+          "why": "Search for explicit evidence of impact and size classification in change management.",
+          "result_preview": "[{\"evidence_id\": \"ca683081-c37c-4845-9f9c-435d21beed20\", \"title\": \"Drafted policy: Sample_Co_Data_Classification_and_Handling_Policy.docx\", \"controls\": [\"TE-CF-01\", \"TE-DP-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 10.42}, {\"evidence_id\": \"e1735b07-ff09-44da-89be-880868a8bc6b\", \"title\": \"Drafted policy: Sample_Co_Change_Management_Policy.docx\", \"c"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V22",
+      "question": "Are incident response procedures documented?",
+      "answer": "Yes",
+      "status": "draft",
+      "claims": [
+        {
+          "text": "Sample_Co_Incident_Response_Plan.docx is present as a policy document for incident response.",
+          "evidence_ids": [
+            "4926f461-5d3b-45a6-8bd0-efb3557a7abf"
+          ],
+          "citation_ok": true,
+          "citation_problems": [],
+          "supported": true,
+          "verifier_reason": "The evidence lists Sample_Co_Incident_Response_Plan.docx with category policy and description Incident Response Plan."
+        },
+        {
+          "text": "Manual review of the incident response plan passed and notes it is operating as described against the approved policy and records.",
+          "evidence_ids": [
+            "c86ddd33-3ddb-4fb3-9a17-2278eaee94f6"
+          ],
+          "citation_ok": true,
+          "citation_problems": [],
+          "supported": true,
+          "verifier_reason": "The manual review record shows result PASS with notes stating the incident response plan was reviewed against the approved policy and records and is operating as described."
+        }
+      ],
+      "caveats": "The policy document is version 1 uploaded as a drafted policy; the manual review confirms the plan is reviewed and operating as described as of 2026-10-07 with validity until 2027-09-16.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "incident response procedures documented",
+            "limit": 8
+          },
+          "why": "Find evidence about incident response procedures documentation.",
+          "result_preview": "[{\"evidence_id\": \"4926f461-5d3b-45a6-8bd0-efb3557a7abf\", \"title\": \"Drafted policy: Sample_Co_Incident_Response_Plan.docx\", \"controls\": [\"TE-IR-01\", \"TE-IR-02\", \"TE-PR-05\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 14.92}, {\"evidence_id\": \"c86ddd33-3ddb-4fb3-9a17-2278eaee94f6\", \"title\": \"Manual review: Incident response plan\", \"controls\": [\"TE-IR-01\"],"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_ids": [
+              "4926f461-5d3b-45a6-8bd0-efb3557a7abf",
+              "c86ddd33-3ddb-4fb3-9a17-2278eaee94f6"
+            ]
+          },
+          "why": "Open incident response documentation evidence to verify procedures are documented.",
+          "result_preview": "[{\"evidence_id\": \"4926f461-5d3b-45a6-8bd0-efb3557a7abf\", \"title\": \"Drafted policy: Sample_Co_Incident_Response_Plan.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-IR-01\", \"TE-IR-02\", \"TE-PR-05\"], \"content_sha256\": \"d2205546073a280efffa33c2dbcfa3968ecd9158408fff06283ff864b8fbf8fc\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion,"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-IR-01"
+          },
+          "why": "Check control status and evidence behind incident response documentation.",
+          "result_preview": "{\"control_id\": \"TE-IR-01\", \"name\": \"Incident response plan\", \"objective\": \"A tested incident response plan defines roles, severity, communication and recovery.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC7.3\", \"CC7.4\", \"CC7.5\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"PASS\", \"evidence_id\": \"c86ddd33-3ddb-4fb3-9a17-2278eaee94f6\", \"reviewed_at\": \"2026-10-07T16:25:54"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "list_findings",
+          "args": {
+            "status": "open"
+          },
+          "why": "Check for open findings related to incident response.",
+          "result_preview": "[{\"title\": \"Buckets block public access: sample-co-audit-logs\", \"severity\": \"high\", \"status\": \"in_progress\", \"controls\": [\"TE-DP-03\"], \"resource\": \"arn:aws:s3:::sample-co-audit-logs\", \"due_date\": \"2026-11-02\", \"evidence_id\": \"a471f2a4-0742-419b-91b5-a0081786b201\"}, {\"title\": \"IAM console users have MFA: ben.okafor\", \"severity\": \"high\", \"status\": \"open\", \"controls\": [\"TE-AC-01\"], \"resource\": \"arn:a"
+        },
+        {
+          "stage": "draft",
+          "answer": "Yes",
+          "claims": 2
+        },
+        {
+          "stage": "citation_check",
+          "passed": 2,
+          "failed": 0,
+          "problems": []
+        },
+        {
+          "stage": "verifier",
+          "supported": 2,
+          "unsupported": 0
+        },
+        {
+          "stage": "decision",
+          "answer": "Yes",
+          "kept": 2,
+          "dropped": 0,
+          "flags": 0
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V23",
+      "question": "Do you inform affected customers about security incidents?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "inform affected customers security incidents breach notification",
+            "limit": 8
+          },
+          "why": "Find evidence about customer notification for security incidents.",
+          "result_preview": "[{\"evidence_id\": \"b95f3812-53a9-40f5-9235-c3ad6254eec1\", \"title\": \"Manual review: Disclosure, sub-processors and breach notification\", \"controls\": [\"TE-PR-05\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 18.87}, {\"evidence_id\": \"178cfabc-67b4-4e81-bcb2-66b1775f02c4\", \"title\": \"Manual review: External commitments and customer communication\", \"controls\""
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "b95f3812-53a9-40f5-9235-c3ad6254eec1"
+          },
+          "why": "Open breach notification manual review to see if customers are informed.",
+          "result_preview": "{\"evidence_id\": \"b95f3812-53a9-40f5-9235-c3ad6254eec1\", \"title\": \"Manual review: Disclosure, sub-processors and breach notification\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-PR-05\"], \"content_sha256\": \"029df88636b65a1a72e4ebd913bd1f53b584f3a2db93815c9d4ffec5bf749603\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signat"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "178cfabc-67b4-4e81-bcb2-66b1775f02c4"
+          },
+          "why": "Check external commitments and customer communication details.",
+          "result_preview": "{\"evidence_id\": \"178cfabc-67b4-4e81-bcb2-66b1775f02c4\", \"title\": \"Manual review: External commitments and customer communication\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-CO-02\"], \"content_sha256\": \"8208de8af196f63fcdbafb0b4b812c9663fa69884c86efb9f8c19050255631b7\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "4926f461-5d3b-45a6-8bd0-efb3557a7abf"
+          },
+          "why": "Open drafted incident response plan to see notification requirements.",
+          "result_preview": "{\"evidence_id\": \"4926f461-5d3b-45a6-8bd0-efb3557a7abf\", \"title\": \"Drafted policy: Sample_Co_Incident_Response_Plan.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-IR-01\", \"TE-IR-02\", \"TE-PR-05\"], \"content_sha256\": \"d2205546073a280efffa33c2dbcfa3968ecd9158408fff06283ff864b8fbf8fc\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, "
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "c86ddd33-3ddb-4fb3-9a17-2278eaee94f6"
+          },
+          "why": "Open manual review of incident response plan for notification details.",
+          "result_preview": "{\"evidence_id\": \"c86ddd33-3ddb-4fb3-9a17-2278eaee94f6\", \"title\": \"Manual review: Incident response plan\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-IR-01\"], \"content_sha256\": \"097e313a32330d0a4ea3afa3ed615eb2d63c3de4beb0bbef6397e12e2540d2a5\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"catalog_"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "customer notification security incident breach",
+            "limit": 8
+          },
+          "why": "Find specific evidence about notifying customers of incidents.",
+          "result_preview": "[{\"evidence_id\": \"b95f3812-53a9-40f5-9235-c3ad6254eec1\", \"title\": \"Manual review: Disclosure, sub-processors and breach notification\", \"controls\": [\"TE-PR-05\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 18.87}, {\"evidence_id\": \"4926f461-5d3b-45a6-8bd0-efb3557a7abf\", \"title\": \"Drafted policy: Sample_Co_Incident_Response_Plan.docx\", \"controls\": [\"TE-IR"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "95b00185-2fdb-42d4-97ec-7a767ce104f8"
+          },
+          "why": "Check incident records for evidence of customer notification.",
+          "result_preview": "{\"evidence_id\": \"95b00185-2fdb-42d4-97ec-7a767ce104f8\", \"title\": \"Manual review: Incident records and post-mortems\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-IR-02\"], \"content_sha256\": \"f84df19188c9f3e08b10eabcb49b2981227b445ed769ef82929f6c1cebc21ab7\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\":"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "search_evidence",
+          "args": {
+            "query": "notify customers incident",
+            "limit": 8
+          },
+          "why": "Search for explicit customer notification evidence.",
+          "result_preview": "[{\"evidence_id\": \"4926f461-5d3b-45a6-8bd0-efb3557a7abf\", \"title\": \"Drafted policy: Sample_Co_Incident_Response_Plan.docx\", \"controls\": [\"TE-IR-01\", \"TE-IR-02\", \"TE-PR-05\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 6.71}, {\"evidence_id\": \"c86ddd33-3ddb-4fb3-9a17-2278eaee94f6\", \"title\": \"Manual review: Incident response plan\", \"controls\": [\"TE-IR-01\"], "
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V24",
+      "question": "Do you have processes in place to make sure access (both physical and logical) is revoked when an employee, intern, vendor, contractor, or other associate leaves the company or a contract ends? Note that in many cases it is not sufficient to just disable the main LDAP or Active Directory account. Many employees have access to information that is governed by additional credentials, such as data in software-as-a-service applications.",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "access revocation termination offboarding employee intern vendor contractor",
+            "limit": 8
+          },
+          "why": "Find evidence of offboarding and access removal processes.",
+          "result_preview": "[{\"evidence_id\": \"1ec19249-4537-4f7e-87f6-13e92a754707\", \"title\": \"Manual review: Onboarding and offboarding\", \"controls\": [\"TE-AC-06\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 8.93}, {\"evidence_id\": \"55b15a54-6852-4338-bf4f-75a3c5dad6e0\", \"title\": \"Register review: Onboarding and offboarding\", \"controls\": [\"TE-AC-06\"], \"collected_at\": \"2026-10-26T"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "physical access revocation termination badge building",
+            "limit": 8
+          },
+          "why": "Find evidence of physical access removal on offboarding.",
+          "result_preview": "[{\"evidence_id\": \"854c4ea8-0834-4168-9874-e680ad627249\", \"title\": \"Drafted policy: Sample_Co_Physical_Security_Policy.docx\", \"controls\": [\"TE-PH-01\", \"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 7.18}, {\"evidence_id\": \"8b6eb547-b697-4e93-a135-0a7e6e151c5e\", \"title\": \"Manual review: Physical security of data centres (sub-service)\", \"controls\":"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "SaaS access revocation offboarding termination",
+            "limit": 8
+          },
+          "why": "Check if SaaS credentials are revoked on termination.",
+          "result_preview": "[{\"evidence_id\": \"1ec19249-4537-4f7e-87f6-13e92a754707\", \"title\": \"Manual review: Onboarding and offboarding\", \"controls\": [\"TE-AC-06\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 8.93}, {\"evidence_id\": \"55b15a54-6852-4338-bf4f-75a3c5dad6e0\", \"title\": \"Register review: Onboarding and offboarding\", \"controls\": [\"TE-AC-06\"], \"collected_at\": \"2026-10-26T"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "1ec19249-4537-4f7e-87f6-13e92a754707"
+          },
+          "why": "Open manual review to see what offboarding checks were performed.",
+          "result_preview": "{\"evidence_id\": \"1ec19249-4537-4f7e-87f6-13e92a754707\", \"title\": \"Manual review: Onboarding and offboarding\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-AC-06\"], \"content_sha256\": \"d3819db2a1955d6f838ec236d2ea14a2d8a79f4db63b6b38bec585073b34baaf\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"cata"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "55b15a54-6852-4338-bf4f-75a3c5dad6e0"
+          },
+          "why": "Open register review for onboarding/offboarding details.",
+          "result_preview": "{\"evidence_id\": \"55b15a54-6852-4338-bf4f-75a3c5dad6e0\", \"title\": \"Register review: Onboarding and offboarding\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-AC-06\"], \"content_sha256\": \"59e6b867efb2542cc4916222120254d8342d2d54beee35750adccef694a48ebc\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"ca"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "badge access termination physical security offboarding",
+            "limit": 8
+          },
+          "why": "Find evidence of physical access revocation on termination.",
+          "result_preview": "[{\"evidence_id\": \"1ec19249-4537-4f7e-87f6-13e92a754707\", \"title\": \"Manual review: Onboarding and offboarding\", \"controls\": [\"TE-AC-06\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 11.37}, {\"evidence_id\": \"854c4ea8-0834-4168-9874-e680ad627249\", \"title\": \"Drafted policy: Sample_Co_Physical_Security_Policy.docx\", \"controls\": [\"TE-PH-01\", \"TE-VM-02\"], \"co"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "physical access revoked termination badge",
+            "limit": 8
+          },
+          "why": "Find specific evidence of physical access revocation.",
+          "result_preview": "[{\"evidence_id\": \"854c4ea8-0834-4168-9874-e680ad627249\", \"title\": \"Drafted policy: Sample_Co_Physical_Security_Policy.docx\", \"controls\": [\"TE-PH-01\", \"TE-VM-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 7.18}, {\"evidence_id\": \"8b6eb547-b697-4e93-a135-0a7e6e151c5e\", \"title\": \"Manual review: Physical security of data centres (sub-service)\", \"controls\":"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-AC-06"
+          },
+          "why": "Understand what TE-AC-06 covers for offboarding.",
+          "result_preview": "{\"control_id\": \"TE-AC-06\", \"name\": \"Onboarding and offboarding\", \"objective\": \"Access is granted on approval and removed promptly (e.g. within 1 business day) at termination.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC6.2\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"PASS\", \"evidence_id\": \"55b15a54-6852-4338-bf4f-75a3c5dad6e0\", \"reviewed_at\": \"2026-10-26T16:25:55.55"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V25",
+      "question": "Do you perform background checks for personnel who are entrusted with sensitive information or granted access to sensitive systems?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "background checks personnel sensitive information access sensitive systems",
+            "limit": 8
+          },
+          "why": "Find evidence about background checks for personnel with sensitive access.",
+          "result_preview": "[{\"evidence_id\": \"64861a7f-125d-4ecd-aa7a-3c2ea9aa4bfd\", \"title\": \"Register review: Background checks\", \"controls\": [\"TE-HR-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.79}, {\"evidence_id\": \"864fc7cf-3bec-4cdb-a2e1-368bdf2f832b\", \"title\": \"Manual review: System description and asset inventory\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_ids": [
+              "64861a7f-125d-4ecd-aa7a-3c2ea9aa4bfd",
+              "9697777d-ca72-46ab-8c79-71370cd5f88a"
+            ]
+          },
+          "why": "Open background check evidence to verify scope covers personnel with sensitive information/systems.",
+          "result_preview": "[{\"evidence_id\": \"64861a7f-125d-4ecd-aa7a-3c2ea9aa4bfd\", \"title\": \"Register review: Background checks\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-HR-01\"], \"content_sha256\": \"7143b1c5c9e8868673e681e87c055fbebbf6e61bfa49707df40f60a0f2be4bba\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"catalog_ve"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-HR-01"
+          },
+          "why": "Check control definition to confirm it covers personnel with sensitive information/systems.",
+          "result_preview": "{\"control_id\": \"TE-HR-01\", \"name\": \"Background checks\", \"objective\": \"Personnel with access to customer data are screened before starting, where legally permitted.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC1.4\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"PASS\", \"evidence_id\": \"64861a7f-125d-4ecd-aa7a-3c2ea9aa4bfd\", \"reviewed_at\": \"2026-10-26T16:25:55.557698+00:00\""
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "sensitive systems background check personnel access",
+            "limit": 8
+          },
+          "why": "Check if background checks cover sensitive systems access beyond customer data.",
+          "result_preview": "[{\"evidence_id\": \"64861a7f-125d-4ecd-aa7a-3c2ea9aa4bfd\", \"title\": \"Register review: Background checks\", \"controls\": [\"TE-HR-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.79}, {\"evidence_id\": \"864fc7cf-3bec-4cdb-a2e1-368bdf2f832b\", \"title\": \"Manual review: System description and asset inventory\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "9697777d-ca72-46ab-8c79-71370cd5f88a"
+          },
+          "why": "Already opened but maybe need details.",
+          "result_preview": "{\"evidence_id\": \"9697777d-ca72-46ab-8c79-71370cd5f88a\", \"title\": \"Manual review: Background checks\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-HR-01\"], \"content_sha256\": \"5ad050864a81a2bcd3ce79526faa3967da0384d7796a2dcdedba226c8049fbc1\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"catalog_versi"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "list_findings",
+          "args": {
+            "status": "open"
+          },
+          "why": "Check for open findings related to background checks.",
+          "result_preview": "[{\"title\": \"Buckets block public access: sample-co-audit-logs\", \"severity\": \"high\", \"status\": \"in_progress\", \"controls\": [\"TE-DP-03\"], \"resource\": \"arn:aws:s3:::sample-co-audit-logs\", \"due_date\": \"2026-11-02\", \"evidence_id\": \"a471f2a4-0742-419b-91b5-a0081786b201\"}, {\"title\": \"IAM console users have MFA: ben.okafor\", \"severity\": \"high\", \"status\": \"open\", \"controls\": [\"TE-AC-01\"], \"resource\": \"arn:a"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "People Security Policy background checks sensitive",
+            "limit": 8
+          },
+          "why": "Find policy details on scope of background checks.",
+          "result_preview": "[{\"evidence_id\": \"9697777d-ca72-46ab-8c79-71370cd5f88a\", \"title\": \"Manual review: Background checks\", \"controls\": [\"TE-HR-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 15.45}, {\"evidence_id\": \"3031a291-ed1d-477c-99a4-796a3cb9d707\", \"title\": \"Drafted policy: Sample_Co_People_Security_Policy.docx\", \"controls\": [\"TE-HR-01\", \"TE-HR-02\", \"TE-HR-03\", \"TE"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "3031a291-ed1d-477c-99a4-796a3cb9d707"
+          },
+          "why": "Check policy scope for background checks.",
+          "result_preview": "{\"evidence_id\": \"3031a291-ed1d-477c-99a4-796a3cb9d707\", \"title\": \"Drafted policy: Sample_Co_People_Security_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-HR-01\", \"TE-HR-02\", \"TE-HR-03\", \"TE-AC-06\"], \"content_sha256\": \"3b7a3d2d777827b4fffe5b9dfb26542192a419370df2245e2031def5319a6249\", \"verification\": \"verified (content hash, hash chain, Merkle"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V26",
+      "question": "Do you have processes in place to ensure that access to data is granted solely on a \"need-to-know\" basis, in accordance with the job descriptions and responsibilities of users? Do these processes also revoke access when the need no longer exists?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "need-to-know access granted job description responsibilities",
+            "limit": 8
+          },
+          "why": "Find evidence about need-to-know access provisioning based on job roles.",
+          "result_preview": "[{\"evidence_id\": \"6282d9c3-43ad-4b8b-a4ea-1c4e6a624f73\", \"title\": \"Manual review: Organisational structure and security responsibilities\", \"controls\": [\"TE-GV-04\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.53}, {\"evidence_id\": \"64861a7f-125d-4ecd-aa7a-3c2ea9aa4bfd\", \"title\": \"Register review: Background checks\", \"controls\": [\"TE-HR-01\"], \"collecte"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "access provisioning job role need to know",
+            "limit": 8
+          },
+          "why": "Find evidence of provisioning based on job role.",
+          "result_preview": "[{\"evidence_id\": \"64861a7f-125d-4ecd-aa7a-3c2ea9aa4bfd\", \"title\": \"Register review: Background checks\", \"controls\": [\"TE-HR-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 7.04}, {\"evidence_id\": \"c0aa48c4-dc30-4db9-bbe4-4fa7f4172293\", \"title\": \"Manual review: Data subject access and correction\", \"controls\": [\"TE-PR-04\"], \"collected_at\": \"2026-10-26T1"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "008f8135-e48c-4eb2-88f1-9261340aee2f"
+          },
+          "why": "Open periodic user access reviews evidence to see if it covers need-to-know and revocation.",
+          "result_preview": "{\"evidence_id\": \"008f8135-e48c-4eb2-88f1-9261340aee2f\", \"title\": \"Manual review: Periodic user access reviews\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-AC-05\"], \"content_sha256\": \"c4ebb5d688ecd26c068ec0aa0e9182e73c097ff9c3fd80ec8feee63295feb8a2\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"ca"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "2cfefa31-187e-4446-95ed-be8b69e54423"
+          },
+          "why": "Open drafted access control policy to see need-to-know and revocation requirements.",
+          "result_preview": "{\"evidence_id\": \"2cfefa31-187e-4446-95ed-be8b69e54423\", \"title\": \"Drafted policy: Sample_Co_Access_Control_Policy.docx\", \"source\": \"human_upload\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-AC-01\", \"TE-AC-02\", \"TE-AC-03\", \"TE-AC-04\", \"TE-AC-05\", \"TE-AC-06\"], \"content_sha256\": \"4a9ca6a963a27ca364fef989983f4955b25cae44342abdf25912aadd9a62bdfb\", \"verification\": \"verified (content h"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "search_evidence",
+          "args": {
+            "query": "provisioning access request approval job description",
+            "limit": 8
+          },
+          "why": "Find evidence of access provisioning process tied to job descriptions.",
+          "result_preview": "[{\"evidence_id\": \"003d9672-934d-44a4-a15c-68b530032065\", \"title\": \"Pull requests require approval \u2014 sample-co\", \"controls\": [\"TE-CM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 10.44}, {\"evidence_id\": \"c0aa48c4-dc30-4db9-bbe4-4fa7f4172293\", \"title\": \"Manual review: Data subject access and correction\", \"controls\": [\"TE-PR-04\"], \"collected_at\": \"202"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify access control controls and their status.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-AC-06"
+          },
+          "why": "Get evidence IDs for onboarding/offboarding control.",
+          "result_preview": "{\"control_id\": \"TE-AC-06\", \"name\": \"Onboarding and offboarding\", \"objective\": \"Access is granted on approval and removed promptly (e.g. within 1 business day) at termination.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC6.2\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"PASS\", \"evidence_id\": \"55b15a54-6852-4338-bf4f-75a3c5dad6e0\", \"reviewed_at\": \"2026-10-26T16:25:55.55"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_evidence",
+          "args": {
+            "evidence_id": "55b15a54-6852-4338-bf4f-75a3c5dad6e0"
+          },
+          "why": "Open onboarding/offboarding evidence to confirm revocation process.",
+          "result_preview": "{\"evidence_id\": \"55b15a54-6852-4338-bf4f-75a3c5dad6e0\", \"title\": \"Register review: Onboarding and offboarding\", \"source\": \"human_review\", \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"controls\": [\"TE-AC-06\"], \"content_sha256\": \"59e6b867efb2542cc4916222120254d8342d2d54beee35750adccef694a48ebc\", \"verification\": \"verified (content hash, hash chain, Merkle inclusion, batch signature)\", \"details\": {\"ca"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V27",
+      "question": "Are you willing to share a management summary of the most recent audit reports?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "audit report management summary",
+            "limit": 8
+          },
+          "why": "Find recent audit reports and any management summaries.",
+          "result_preview": "[{\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"NEEDS_REVIEW\", \"verified\": true, \"score\": 7.23}, {\"evidence_id\": \"f9aa8f78-3342-4375-93ba-b6fbe901324a\", \"title\": \"Multi-region CloudTrail is logging management events \u2014 123456789012\", \"controls\": [\"TE-LM-01\"], \"co"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "audit report",
+            "limit": 8
+          },
+          "why": "Find audit reports and management summaries.",
+          "result_preview": "[{\"evidence_id\": \"29e36612-180a-40ce-adf8-88b895752fca\", \"title\": \"No open critical/high code scanning alerts \u2014 sample-co\", \"controls\": [\"TE-VM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 5.23}, {\"evidence_id\": \"d98c20e4-c7b5-455a-b9ae-75cd8bcf690a\", \"title\": \"Manual review: Penetration testing\", \"controls\": [\"TE-VM-03\"], \"collected_at\": \"2026-10"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "management summary",
+            "limit": 8
+          },
+          "why": "Find management summary documents.",
+          "result_preview": "[{\"evidence_id\": \"f6f7fd40-1a09-41fb-afe5-47d10cb0f0ea\", \"title\": \"Drafted policy: Sample_Co_Asset_Management_Policy.docx\", \"controls\": [\"TE-CO-01\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": null, \"verified\": true, \"score\": 4.31}, {\"evidence_id\": \"df113c88-1fdf-4741-b1ad-58fffe7c1f0c\", \"title\": \"Drafted policy: Sample_Co_Risk_Management_Policy.docx\", \"controls\": [\"TE-RA-01\", \"TE-RA-0"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "audit",
+            "limit": 8
+          },
+          "why": "Find any audit-related evidence.",
+          "result_preview": "[{\"evidence_id\": \"dd7e0ac9-f485-46cd-a727-7682955b7cdf\", \"title\": \"Organisation audit log is retained and accessible \u2014 sample-co\", \"controls\": [\"TE-LM-01\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 4.22}, {\"evidence_id\": \"92899c1e-9dfa-4c9d-9da9-fc222d91d82c\", \"title\": \"Bucket server access logging \u2014 123456789012\", \"controls\": [\"TE-LM-03\"], \"collect"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify controls related to audits and reporting.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "share",
+            "limit": 8
+          },
+          "why": "Find policies about sharing audit reports.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "confidential",
+            "limit": 8
+          },
+          "why": "Find confidentiality policies affecting sharing.",
+          "result_preview": "[{\"evidence_id\": \"226cc3e7-d4e7-4015-abc3-b2cc5bd742e1\", \"title\": \"Manual review: Confidential information disposal\", \"controls\": [\"TE-CF-02\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 6.79}, {\"evidence_id\": \"09d87b76-d67c-4a89-980f-c9b0eb968377\", \"title\": \"Manual review: Confidential information classification and handling\", \"controls\": [\"TE-CF-01\""
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-CO-02"
+          },
+          "why": "Check evidence behind external commitments and customer communication.",
+          "result_preview": "{\"control_id\": \"TE-CO-02\", \"name\": \"External commitments and customer communication\", \"objective\": \"Security commitments, terms and a way to report issues are communicated to customers.\", \"status\": \"PASS\", \"applicable\": true, \"criteria\": [\"CC2.3\"], \"open_findings\": 0, \"checks\": [], \"human_review\": {\"result\": \"PASS\", \"evidence_id\": \"178cfabc-67b4-4e81-bcb2-66b1775f02c4\", \"reviewed_at\": \"2026-10-10T"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V28",
+      "question": "Does your inbound email infrastructure support Transport Layer Security (TLS) 1.2 with cipher suites with forward secrecy (e.g. ECDHE)?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "inbound email TLS 1.2 cipher suites forward secrecy ECDHE",
+            "limit": 8
+          },
+          "why": "Find evidence about inbound email TLS support and cipher suites.",
+          "result_preview": "[{\"evidence_id\": \"a546b142-9589-4845-a786-7ace2b9db5fa\", \"title\": \"Buckets deny non-TLS access \u2014 123456789012\", \"controls\": [\"TE-DP-02\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 5.52}, {\"evidence_id\": \"07ccfb32-1eff-494e-beac-767897f7a8e9\", \"title\": \"Default security groups restrict all traffic \u2014 123456789012\", \"controls\": [\"TE-NW-01\"], \"collected_"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "email TLS inbound SMTP",
+            "limit": 8
+          },
+          "why": "Search for inbound email TLS configuration evidence.",
+          "result_preview": "[{\"evidence_id\": \"a546b142-9589-4845-a786-7ace2b9db5fa\", \"title\": \"Buckets deny non-TLS access \u2014 123456789012\", \"controls\": [\"TE-DP-02\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 5.52}, {\"evidence_id\": \"07ccfb32-1eff-494e-beac-767897f7a8e9\", \"title\": \"Default security groups restrict all traffic \u2014 123456789012\", \"controls\": [\"TE-NW-01\"], \"collected_"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "TLS 1.2",
+            "limit": 8
+          },
+          "why": "Find any TLS 1.2 evidence records.",
+          "result_preview": "[{\"evidence_id\": \"a546b142-9589-4845-a786-7ace2b9db5fa\", \"title\": \"Buckets deny non-TLS access \u2014 123456789012\", \"controls\": [\"TE-DP-02\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 5.52}]"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify controls related to email TLS.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "search_evidence",
+          "args": {
+            "query": "SMTP",
+            "limit": 8
+          },
+          "why": "Find SMTP related evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "search_evidence",
+          "args": {
+            "query": "email",
+            "limit": 8
+          },
+          "why": "Find email related evidence.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "TLS",
+            "limit": 8
+          },
+          "why": "Find TLS evidence records.",
+          "result_preview": "[{\"evidence_id\": \"a546b142-9589-4845-a786-7ace2b9db5fa\", \"title\": \"Buckets deny non-TLS access \u2014 123456789012\", \"controls\": [\"TE-DP-02\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 5.52}]"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "list_gaps",
+          "args": {},
+          "why": "Check for missing evidence on email TLS.",
+          "result_preview": "[{\"control_id\": \"TE-VM-03\", \"name\": \"Penetration testing\", \"status\": \"NEEDS_REVIEW\", \"why\": \"Sample data: this year's penetration test is booked for next month; last year's report is attached for reference.\"}, {\"control_id\": \"TE-BC-03\", \"name\": \"Backup restoration and DR testing\", \"status\": \"NOT_TESTED\", \"why\": \"No human review recorded yet.\"}]"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    },
+    {
+      "id": "V29",
+      "question": "Do you operate a VPN that allows remote access to your network?",
+      "answer": "Insufficient evidence",
+      "status": "abstained",
+      "claims": [],
+      "caveats": "The agent did not reach an answer.",
+      "trace": [
+        {
+          "stage": "research",
+          "step": 0,
+          "tool": "search_evidence",
+          "args": {
+            "query": "VPN remote access",
+            "limit": 8
+          },
+          "why": "Find evidence about VPN operation for remote network access.",
+          "result_preview": "[{\"evidence_id\": \"008f8135-e48c-4eb2-88f1-9261340aee2f\", \"title\": \"Manual review: Periodic user access reviews\", \"controls\": [\"TE-AC-05\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 3.41}, {\"evidence_id\": \"2cfefa31-187e-4446-95ed-be8b69e54423\", \"title\": \"Drafted policy: Sample_Co_Access_Control_Policy.docx\", \"controls\": [\"TE-AC-01\", \"TE-AC-02\", \"TE-AC"
+        },
+        {
+          "stage": "research",
+          "step": 1,
+          "tool": "search_evidence",
+          "args": {
+            "query": "VPN",
+            "limit": 8
+          },
+          "why": "Find any evidence records mentioning VPN.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 2,
+          "tool": "search_evidence",
+          "args": {
+            "query": "remote access",
+            "limit": 8
+          },
+          "why": "Find evidence about remote access mechanisms.",
+          "result_preview": "[{\"evidence_id\": \"008f8135-e48c-4eb2-88f1-9261340aee2f\", \"title\": \"Manual review: Periodic user access reviews\", \"controls\": [\"TE-AC-05\"], \"collected_at\": \"2026-10-26T16:25:55+00:00\", \"result\": \"PASS\", \"verified\": true, \"score\": 3.41}, {\"evidence_id\": \"2cfefa31-187e-4446-95ed-be8b69e54423\", \"title\": \"Drafted policy: Sample_Co_Access_Control_Policy.docx\", \"controls\": [\"TE-AC-01\", \"TE-AC-02\", \"TE-AC"
+        },
+        {
+          "stage": "research",
+          "step": 3,
+          "tool": "search_evidence",
+          "args": {
+            "query": "virtual private network",
+            "limit": 8
+          },
+          "why": "Alternative phrasing for VPN.",
+          "result_preview": "[{\"evidence_id\": \"f4554945-4b4f-4050-8bdd-f3abd3b9b5d1\", \"title\": \"Public repositories are intentional \u2014 sample-co\", \"controls\": [\"TE-DP-03\"], \"collected_at\": \"2026-10-26T14:25:55+00:00\", \"result\": \"FAIL\", \"verified\": true, \"score\": 7.35}]"
+        },
+        {
+          "stage": "research",
+          "step": 4,
+          "tool": "list_controls",
+          "args": {},
+          "why": "Identify controls related to remote access/VPN to see if any evidence exists.",
+          "result_preview": "[{\"control_id\": \"TE-AC-01\", \"name\": \"Multi-factor authentication for privileged and console access\", \"status\": \"FAIL\"}, {\"control_id\": \"TE-AC-02\", \"name\": \"Root and owner credentials are protected\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-03\", \"name\": \"Credential lifecycle and password policy\", \"status\": \"PASS\"}, {\"control_id\": \"TE-AC-04\", \"name\": \"Least privilege for cloud and source-code access"
+        },
+        {
+          "stage": "research",
+          "step": 5,
+          "tool": "get_control",
+          "args": {
+            "control_id": "TE-NW-01"
+          },
+          "why": "Check evidence behind network boundary protection control for VPN clues.",
+          "result_preview": "{\"control_id\": \"TE-NW-01\", \"name\": \"Network boundary protection\", \"objective\": \"Administrative ports and databases are not exposed to the internet.\", \"status\": \"FAIL\", \"applicable\": true, \"criteria\": [\"CC6.6\"], \"open_findings\": 1, \"last_tested\": \"2026-10-26T14:25:55+00:00\", \"checks\": [{\"check_id\": \"aws.ec2.no_open_admin_ports\", \"status\": \"PASS\", \"expected\": \"No such rule exists.\", \"evidence_id\": \""
+        },
+        {
+          "stage": "research",
+          "step": 6,
+          "tool": "search_evidence",
+          "args": {
+            "query": "remote",
+            "limit": 8
+          },
+          "why": "Find any evidence mentioning remote access.",
+          "result_preview": "[]"
+        },
+        {
+          "stage": "research",
+          "step": 7,
+          "tool": "",
+          "args": {},
+          "why": "",
+          "result_preview": "{\"error\": \"unknown tool ; available: search_evidence, get_evidence, get_control, list_controls, list_gaps, list_findings\"}"
+        },
+        {
+          "stage": "draft",
+          "error": "no answer within the step limit"
+        }
+      ],
+      "rejected_claims": [],
+      "flags": [],
+      "missing": [
+        "The agent did not finish its research; answer this one by hand."
+      ],
+      "reviewer_note": ""
+    }
+  ]
+}

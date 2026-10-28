@@ -125,6 +125,16 @@ def test_an_interrupted_run_resumes_without_asking_the_model_again(package, eval
         evaluate.run(package, evalset, "agent", ScriptedProvider(abstain), only=ids, checkpoint=checkpoint)
 
 
+def test_the_research_step_budget_is_enforced_and_recorded(package, evalset):
+    """A model that never stops researching is cut off at the budget, and the run says which budget it used."""
+    endless = ScriptedProvider(lambda m: json.dumps({"action": "tool", "tool": "search_evidence", "args": {"query": "mfa"},
+                                                     "why": "look again"}))
+    report = evaluate.run(package, evalset, "agent", endless, only={"E01"}, max_steps=3)
+    assert report["max_steps"] == 3 and endless.usage.calls == 3
+    assert report["results"][0]["answer"] == "Insufficient evidence" and "did not finish" in report["results"][0]["missing"][0]
+    assert "up to 3 research steps" in evaluate.markdown(report)
+
+
 def test_vsaq_questions_are_verbatim_and_attributed():
     doc = evaluate.load_items(ROOT / "evals" / "vsaq.json")
     assert doc["source"]["license"] == "Apache-2.0" and (ROOT / "third_party" / "vsaq" / "LICENSE").exists()

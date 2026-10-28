@@ -162,14 +162,15 @@ def rag_answer(package: EvidencePackage, provider: Provider, question: str, k: i
 
 def run(package: EvidencePackage, eval_doc: dict[str, Any], mode: str, provider: Provider, verifier: Provider | None = None,
         only: set[str] | None = None, progress: Callable[[str], None] = lambda s: None,
-        checkpoint: Path | None = None) -> dict[str, Any]:
+        checkpoint: Path | None = None, max_steps: int = 8) -> dict[str, Any]:
     """Answer and score every item. With a checkpoint, the answers so far are saved after each question, so a run that
     stops part way (a crash, a dropped connection, the computer sleeping) resumes from there instead of starting over."""
     if mode not in ("agent", "no-verify", "rag"):
         raise ValueError(f"unknown mode {mode}")
-    agent = Agent(package, provider, verifier, verify=(mode == "agent"))
+    agent = Agent(package, provider, verifier, max_steps=max_steps, verify=(mode == "agent"))
     second = verifier if verifier is not None and verifier is not provider else None
-    run_id = {"mode": mode, "model": getattr(provider, "model", "?"), "verifier": getattr(second, "model", None)}
+    run_id = {"mode": mode, "model": getattr(provider, "model", "?"), "verifier": getattr(second, "model", None),
+              "max_steps": max_steps}
     saved: dict[str, Any] = {"seconds": 0.0, "usage": {}, "results": []}
     if checkpoint is not None and checkpoint.exists():
         saved = json.loads(checkpoint.read_text(encoding="utf-8"))
@@ -202,7 +203,8 @@ def run(package: EvidencePackage, eval_doc: dict[str, Any], mode: str, provider:
             tmp.replace(checkpoint)
         progress(f"{item['id']} {'ok  ' if s['correct'] else 'MISS'}{' UNSAFE' if s['unsafe'] else ''}  {s['answer']}")
     return {"mode": mode, "provider": getattr(provider, "name", "?"), "model": getattr(provider, "model", "?"),
-            "verifier": getattr(second, "model", None), "seconds": round(saved["seconds"] + time.monotonic() - started, 1),
+            "verifier": getattr(second, "model", None), "max_steps": max_steps,
+            "seconds": round(saved["seconds"] + time.monotonic() - started, 1),
             "usage": usage(), "summary": summarize(scored), "scored": scored, "results": raw}
 
 
@@ -223,6 +225,7 @@ def markdown(report: dict[str, Any]) -> str:
     u = report["usage"]["answering"]
     lines = [f"# Evaluation: {report['mode']} on {report['model']}", "",
              f"Provider `{report['provider']}`" + (f", verifier `{report['verifier']}`" if report.get("verifier") else "") +
+             f", up to {report.get('max_steps', 8)} research steps" +
              f". {report['seconds']} s, {u['calls']} model calls, {u['prompt_tokens']} prompt / {u['completion_tokens']} completion tokens.", "",
              "| Metric | Value |", "|---|---|", *[f"| {k} | {v} |" for k, v in rows], "",
              "| Category | n | Accuracy | Grounded | Unsafe |", "|---|---|---|---|---|",

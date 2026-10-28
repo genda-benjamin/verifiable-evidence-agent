@@ -35,7 +35,10 @@ Same evidence, same questions, same model; details and every saved run in [evals
 | Forged evidence: forgeries believed (of 5) | **4** | **0** | **0** |
 
 One run per configuration on small question sets: strong signals, not statistical proof. The safety results hold on
-every model tested, because the guarantees that produce them are code, not model judgement.
+every model tested, because the guarantees that produce them are code, not model judgement. That includes Meta's
+30B **Muse Glimmer** self-hosted on one GPU: 0 misleading answers and 0 forgeries believed, even though its drafts
+relied on forged records four times, but only 48.3% accuracy (69.0% with twice the research steps), because it mostly
+refuses ([details](evals/README.md#results)).
 
 ## How it works
 
@@ -87,12 +90,14 @@ proof pack's anchor is the key, not the root.
 |---|---|
 | **Muse Spark** (`muse-spark-1.3`, Meta Model API, Standard mode) | the agent and the verifier |
 | **Muse Spark Open** (`meta-models/muse-spark-open-1026`, open weights, via Baseten) | the whole agent, or the verifier for Muse Spark |
-| **Vision** (either model) | reading questionnaires that arrive as PDFs and screenshots (`vea intake`) |
+| **Muse Glimmer** (`meta-models/Muse-Glimmer-30B`, 30B, Apache 2.0, self-hosted with vLLM on one GPU) | the whole agent, to test running entirely on hardware the operator controls ([evals/modal_glimmer.py](evals/modal_glimmer.py)) |
+| **Vision** (Muse Spark or Muse Spark Open) | reading questionnaires that arrive as PDFs and screenshots (`vea intake`) |
 
 On open weights the agent matched Muse Spark's accuracy and answered two ordinary questions the Meta Model API's
 content filter refused (host vulnerability scanning, background checks). Because it runs on open weights, a bank or
 regulator can host it inside its own infrastructure, and the evidence never leaves. That takes serious hardware:
-Meta's model card asks for at least 700 GB of GPU memory for the 4-bit checkpoint. The weights are under Meta's Muse
+Meta's model card asks for at least 700 GB of GPU memory for the 4-bit checkpoint. On one GPU, with the smaller Muse
+Glimmer, the safety held but the agent became too cautious to be useful on its own. The weights are under Meta's Muse
 Model License, which allows commercial use inside your own products and requires this attribution:
 
 **Built with Muse Spark Open.**
