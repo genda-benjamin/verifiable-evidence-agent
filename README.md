@@ -4,6 +4,8 @@
 can't.** Built for the [Meta Global AI Developer Hackathon](https://cerebralvalley.ai/e/meta-ai-developer-hackathon)
 (Startup track), 26 October – 4 November 2026, on Meta's **Muse Spark** and the open-weights **Muse Spark Open**.
 
+**Demo video (3 minutes):** https://youtu.be/98W0r-meZxk
+
 **Try it in your browser:** [Sample Co's proof pack](https://genda-benjamin.github.io/verifiable-evidence-agent/), the
 page a customer receives. Your browser re-checks every cited record, the signature and every approval, then you can
 press *Try to break it*. Sample Co is a fictional company.
